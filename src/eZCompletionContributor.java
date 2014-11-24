@@ -1,10 +1,13 @@
+import com.google.gson.JsonObject;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.openapi.project.Project;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
+import com.jetbrains.php.lang.psi.stubs.PhpConstantElementType;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -48,15 +51,29 @@ public class eZCompletionContributor extends CompletionContributor
 
                 String baseDir = project.getBaseDir().getCanonicalPath();
                 performLookup(result, baseDir, lookupType);
+
             }
         });
     }
+
+//    @Override
+//    public boolean invokeAutoPopup(@NotNull PsiElement position, char typeChar)
+//    {
+//        String type = position
+//                .getParent()
+//                .getFirstChild()
+//                .getNextSibling()
+//                .getNextSibling()
+//                .getText();
+//
+//        return completionTypes.containsKey(type);
+//    }
 
     protected void performLookup(CompletionResultSet result, String baseDir, String type)
     {
         if (!cache.containsKey(type)) {
             cache.put(type, new ArrayList<String>());
-            String command = baseDir + "/../kavli.com/ezpublish/console code:completion --type=" + type;
+            String command = baseDir + "/ezpublish/console ezcode:completion --type=" + type;
 
             Process process;
             try {
@@ -92,7 +109,7 @@ public class eZCompletionContributor extends CompletionContributor
                 .getParent()
                 .getParent()
                 .getParent()
-                .getChildren()[0]
+                .getFirstChild()
                 .getNextSibling()
                 .getNextSibling();
 
@@ -123,8 +140,11 @@ class eZCompletion extends LookupElement
     public String getLookupString() { return value; }
 
     @Override
-    public void renderElement(LookupElementPresentation presentation)
+    public void renderElement(LookupElementPresentation presentation) { presentation.setItemText(displayText); }
+
+    @Override
+    public void handleInsert(InsertionContext context)
     {
-        presentation.setItemText(displayText);
+        super.handleInsert(context);
     }
 }
