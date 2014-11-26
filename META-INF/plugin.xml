@@ -26,7 +26,7 @@
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <completion.contributor language="any" implementationClass="eZCompletionContributor" />
+    <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor" />
   </extensions>
 
   <application-components>
@@ -35,7 +35,7 @@
 
   <project-components>
     <component>
-      <implementation-class>CompletionPreloader</implementation-class>
+      <implementation-class>Framework.CompletionPreloader</implementation-class>
     </component>
   </project-components>
 

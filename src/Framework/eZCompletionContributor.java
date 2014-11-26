@@ -1,3 +1,5 @@
+package Framework;
+
 import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
@@ -46,9 +48,9 @@ public class eZCompletionContributor extends CompletionContributor
 //        return completionTypes.containsKey(type);
 //    }
 
-    protected static String getLookupType(PsiElement element)
+    public static String getLookupType(PsiElement element)
     {
-        // Completion without quotes.
+        // Completions.Completion without quotes.
         if (((LeafPsiElement) element).getElementType().toString().equals("identifier")) {
             return null;
         }

@@ -1,3 +1,5 @@
+package Framework;
+
 import com.google.gson.Gson;
 import com.intellij.openapi.project.Project;
 import java.io.BufferedReader;

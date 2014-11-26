@@ -22,8 +22,13 @@ Todo:
 * Implment psi-pattern-matcher for completion-contributor.
 * Add completions for search-critera.
 * Use PSR-4 for bundle-autoloading.
-* Extract method from extend in eZCompletionContributor-constructor.
+* Extract method from extend in Framework.eZCompletionContributor-constructor.
 
 Known bugs:
 ----------
 On first completion: Language with ID 'PHP' is already registered: class com.jetbrains.php.lang.PhpLanguage
+String-completions will always be in single quote.
+
+Tips:
+----
+Always request completions from within literals.
