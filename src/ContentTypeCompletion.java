@@ -31,28 +31,19 @@ class ContentTypeCompletion extends LookupElement
         }
 
         String lookupIdentifier = eZCompletionContributor.getLookupType(cursorElement);
-        PsiElement completion;
+        PsiElement completion = null;
         switch (lookupIdentifier) {
             case "loadContentTypeGroup":
             case "loadContentType":
                 completion = PhpPsiElementFactory.createFromText(context.getProject(), LeafPsiElement.class, id.toString());
-                replaceElement(context, cursorElement, completion);
             break;
             case "loadContentTypeByRemoteId":
                 completion = PhpPsiElementFactory.createFromText(context.getProject(), LeafPsiElement.class, "'" + remoteId + "'");
-                replaceElement(context, cursorElement, completion);
             break;
         }
-    }
 
-    protected void replaceElement(InsertionContext context, PsiElement replace, PsiElement completion)
-    {
-        if (completion == null) {
-            return;
+        if (completion != null) {
+            cursorElement.replace(completion);
         }
-
-        replace.getParent().add(completion);
-        context.getEditor().getCaretModel().getCurrentCaret().moveCaretRelatively(completion.getTextLength() + 1, 0, false, false);
-        replace.delete();
     }
 }

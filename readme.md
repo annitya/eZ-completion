@@ -26,7 +26,4 @@ Todo:
 
 Known bugs:
 ----------
-Haven't found the correct way of grabbing the currently active project yet.
-Consequence: One project at a time only.
-
 On first completion: Language with ID 'PHP' is already registered: class com.jetbrains.php.lang.PhpLanguage

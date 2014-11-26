@@ -9,7 +9,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      Duly noted.
+      No changelog just yet.
     ]]>
   </change-notes>
 
@@ -31,17 +31,16 @@
 
   <application-components>
     <!-- Add your application components here -->
-
   </application-components>
 
   <project-components>
-    <!-- Add your project components here -->
-
+    <component>
+      <implementation-class>CompletionPreloader</implementation-class>
+    </component>
   </project-components>
 
   <actions>
     <!-- Add your actions here -->
-
   </actions>
 
 </idea-plugin>

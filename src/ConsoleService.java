@@ -1,8 +1,5 @@
 import com.google.gson.Gson;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
-import com.sun.xml.internal.xsom.impl.Ref;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -12,7 +9,7 @@ public class ConsoleService implements Callable
 {
     protected static String getConsole() throws Exception
     {
-        Project project = ProjectManager.getInstance().getOpenProjects()[0];
+        Project project = CompletionPreloader.getCurrentProject();
         String path = project.getBaseDir().getCanonicalPath() + File.separator + "ezpublish/console";
         if (!new File(path).isFile()) {
             throw new Exception("Unable to locate console-executable");
