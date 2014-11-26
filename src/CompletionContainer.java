@@ -25,6 +25,7 @@ public class CompletionContainer
             case "loadContentType":
             case "loadContentTypeByIdentifier":
             case "loadContentTypeByRemoteId":
+            case "loadContentTypeDraft":
                 return contentClass;
 
             default:

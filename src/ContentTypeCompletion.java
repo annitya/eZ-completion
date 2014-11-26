@@ -35,6 +35,7 @@ class ContentTypeCompletion extends LookupElement
         switch (lookupIdentifier) {
             case "loadContentTypeGroup":
             case "loadContentType":
+            case "loadContentTypeDraft":
                 completion = PhpPsiElementFactory.createFromText(context.getProject(), LeafPsiElement.class, id.toString());
             break;
             case "loadContentTypeByRemoteId":
