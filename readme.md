@@ -6,9 +6,18 @@ Installation:
 1. Install PhpStorm plugin.
 2. Install this bundle: https://github.com/whitefire/ez-completion-bundle
 
+What does it do?
+----------------
+Provides completion for:
+    * ContentTypeService
+    * LanguageService
+    * FieldTypeService
+    * ObjectStateService
+
 Usage:
 ------
-Provides completion for the ContentTypeService
+
+Request completions from within literals.
 
 Todo:
 -----
@@ -23,12 +32,9 @@ Todo:
 * Add completions for search-critera.
 * Use PSR-4 for bundle-autoloading.
 * Extract method from extend in Framework.eZCompletionContributor-constructor.
+* I have a feeling that my "generic" method in CompletionContainer could be more elegant.
 
 Known bugs:
 ----------
 On first completion: Language with ID 'PHP' is already registered: class com.jetbrains.php.lang.PhpLanguage
 String-completions will always be in single quote.
-
-Tips:
-----
-Always request completions from within literals.
