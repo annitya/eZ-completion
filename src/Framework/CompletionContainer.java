@@ -1,9 +1,6 @@
 package Framework;
 
-import Completions.ContentTypeCompletion;
-import Completions.FieldTypeCompletion;
-import Completions.LanguageCompletion;
-import Completions.ObjectStateCompletion;
+import Completions.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ public class CompletionContainer
     protected ArrayList<FieldTypeCompletion> fieldTypes;
     protected ArrayList<ObjectStateCompletion> objectStates;
     protected ArrayList<ObjectStateCompletion> objectStateGroups;
+    protected ArrayList<RoleCompletion> roles;
 
     public ArrayList<LookupElement> getCompletions(String identifier)
     {
@@ -45,6 +43,10 @@ public class CompletionContainer
             break;
             case "loadObjectStateGroup":
                 completions.addAll(objectStateGroups);
+            break;
+            case "loadRole":
+            case "loadRoleByIdentifier":
+                completions.addAll(roles);
             break;
         }
 
