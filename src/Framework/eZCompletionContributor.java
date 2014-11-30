@@ -50,8 +50,12 @@ public class eZCompletionContributor extends CompletionContributor
 
     public static String getLookupType(PsiElement element)
     {
-        // Completions.Completion without quotes.
-        if (((LeafPsiElement) element).getElementType().toString().equals("identifier")) {
+        // Completions without quotes.
+        try {
+            if (((LeafPsiElement) element).getElementType().toString().equals("identifier")) {
+                return null;
+            }
+        } catch (Exception e) {
             return null;
         }
 

@@ -1,7 +1,5 @@
 package Completions;
 
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 public class LanguageCompletion extends Completion
@@ -17,13 +15,13 @@ public class LanguageCompletion extends Completion
         return name;
     }
 
-    protected PsiElement buildCompletion(InsertionContext context, String identifier)
+    protected String buildCompletion(String identifier)
     {
         switch (identifier) {
             case "loadLanguageById":
-                return buildElement(context, id);
+                return format(id);
             case "loadLanguage":
-                return buildElement(context, code);
+                return format(code);
             default:
                 return null;
         }

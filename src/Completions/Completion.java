@@ -6,11 +6,10 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
-import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
 
 abstract public class Completion extends LookupElement
 {
-    protected abstract PsiElement buildCompletion(InsertionContext context, String identifier);
+    protected abstract String buildCompletion(String identifier);
 
     @Override
     public void handleInsert(InsertionContext context)
@@ -21,27 +20,21 @@ abstract public class Completion extends LookupElement
         }
 
         String lookupIdentifier = eZCompletionContributor.getLookupType(cursorElement);
-        PsiElement completion = buildCompletion(context, lookupIdentifier);
+        String completion = buildCompletion(lookupIdentifier);
 
         if (completion != null) {
-            cursorElement.replace(completion);
+            ((LeafPsiElement)cursorElement).replaceWithText(completion);
         }
     }
 
-    protected PsiElement buildElement(InsertionContext context, Integer numeric)
+    protected String format(String value)
     {
-        return createElement(context, numeric.toString());
+        return "'" + value + "'";
     }
 
-    protected PsiElement buildElement(InsertionContext context, String value)
+    protected String format(Integer value)
     {
-        value = "'" + value + "'";
-        return createElement(context, value);
-    }
-
-    protected PsiElement createElement(InsertionContext context, String value)
-    {
-        return PhpPsiElementFactory.createFromText(context.getProject(), LeafPsiElement.class, value);
+        return value.toString();
     }
 }
 

@@ -1,7 +1,5 @@
 package Completions;
 
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 public class ContentTypeCompletion extends Completion
@@ -15,15 +13,15 @@ public class ContentTypeCompletion extends Completion
     public String getLookupString() { return identifier; }
 
     @Override
-    protected PsiElement buildCompletion(InsertionContext context, String identifier)
+    protected String buildCompletion(String identifier)
     {
         switch (identifier) {
             case "loadContentTypeGroup":
             case "loadContentType":
             case "loadContentTypeDraft":
-                return buildElement(context, id);
+                return format(id);
             case "loadContentTypeByRemoteId":
-                return buildElement(context, remoteId);
+                return format(remoteId);
             default:
                 return null;
         }

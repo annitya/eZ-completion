@@ -33,8 +33,8 @@ Todo:
 * Use PSR-4 for bundle-autoloading.
 * Extract method from extend in Framework.eZCompletionContributor-constructor.
 * I have a feeling that my "generic" method in CompletionContainer could be more elegant.
+* The logic for resolving completion-types is somewhat naive. Lets try to resolve the identifier.
 
 Known bugs:
 ----------
-On first completion: Language with ID 'PHP' is already registered: class com.jetbrains.php.lang.PhpLanguage
-String-completions will always be in single quote.
+String-completions will always be in single quotes.

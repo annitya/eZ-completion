@@ -1,7 +1,5 @@
 package Completions;
 
-import com.intellij.codeInsight.completion.InsertionContext;
-import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 public class FieldTypeCompletion extends Completion
@@ -9,9 +7,9 @@ public class FieldTypeCompletion extends Completion
     protected String identifier;
 
     @Override
-    protected PsiElement buildCompletion(InsertionContext context, String identifier)
+    protected String buildCompletion(String identifier)
     {
-        return buildElement(context, this.identifier);
+        return format(this.identifier);
     }
 
     @NotNull
