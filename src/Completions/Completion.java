@@ -1,15 +1,33 @@
 package Completions;
 
-import Framework.eZCompletionContributor;
+import com.google.gson.*;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
+import org.jetbrains.annotations.NotNull;
 
-abstract public class Completion extends LookupElement
+import java.lang.reflect.Type;
+
+public class Completion extends LookupElement implements JsonDeserializer<Completion>
 {
-    protected abstract String buildCompletion(String identifier);
+    protected String lookupValue;
+    protected String returnValue;
+    protected Boolean keepQuotes;
+
+    public Completion() {}
+
+    public Completion(String lookupValue, String returnValue, Boolean keepQuotes)
+    {
+        this.lookupValue = lookupValue;
+        this.returnValue = returnValue;
+        this.keepQuotes = keepQuotes;
+    }
+
+    @NotNull
+    @Override
+    public String getLookupString() { return lookupValue; }
 
     @Override
     public void handleInsert(InsertionContext context)
@@ -19,22 +37,30 @@ abstract public class Completion extends LookupElement
             return;
         }
 
-        String lookupIdentifier = eZCompletionContributor.getLookupType(cursorElement);
-        String completion = buildCompletion(lookupIdentifier);
+        String completion = keepQuotes ? "'" + returnValue + "'" : returnValue;
 
-        if (completion != null) {
-            ((LeafPsiElement)cursorElement).replaceWithText(completion);
+        ((LeafPsiElement)cursorElement).replaceWithText(completion);
+    }
+
+    @Override
+    public Completion deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException
+    {
+        final JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+        final JsonElement jsonLookupValue = jsonObject.get("lookupValue");
+        lookupValue = jsonLookupValue.getAsString();
+
+        final JsonElement jsonReturnValue = jsonObject.get("returnValue");
+        try {
+            final Integer intValue = jsonReturnValue.getAsInt();
+            returnValue = intValue.toString();
+            keepQuotes = false;
+        } catch (Exception e) {
+            returnValue = jsonReturnValue.getAsString();
+            keepQuotes = true;
         }
-    }
 
-    protected String format(String value)
-    {
-        return "'" + value + "'";
-    }
-
-    protected String format(Integer value)
-    {
-        return value.toString();
+        return new Completion(lookupValue, returnValue, keepQuotes);
     }
 }
 

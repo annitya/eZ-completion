@@ -1,6 +1,8 @@
 package Framework;
 
+import Completions.Completion;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.intellij.openapi.project.Project;
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,12 +31,10 @@ public class ConsoleService implements Callable
         process.waitFor();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String json = "", currentLine;
-        while ((currentLine = reader.readLine()) != null) {
-            json += currentLine;
-        }
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Completion.class, new Completion());
+        Gson gson = gsonBuilder.create();
 
-        Gson gson = new Gson();
-        return gson.fromJson(json, CompletionContainer.class);
+        return gson.fromJson(reader, CompletionContainer.class);
     }
 }
