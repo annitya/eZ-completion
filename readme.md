@@ -11,34 +11,36 @@ What does it do?
 ----------------
 Provides completion for:
     * ContentTypeService
-    // LanguageService
-    // FieldTypeService
-    // ObjectStateService
+    * LanguageService
+    * FieldTypeService
+    * ObjectStateService
+    * RoleService
 
 Usage:
 ------
-
 Request completions from within literals.
 
 Todo:
 -----
 * Validate location of console-executable (consoleProvider)
 * Support for remote consoleProviders using either deployment settings or selected server.
-* Button for refreshing cache-completion?
+* Create cusom toolbar with buttons.
 * Clear-cache button with support for remote servers.
 * Assetic-watch toggle with support for remote servers.
 * Add twig-completions for content/location
-* Implment psi-pattern-matcher for completion-contributor.
 * Add completions for search-critera.
 * Use PSR-4 for bundle-autoloading.
-* The logic for resolving completion-types is somewhat naive. Lets try to resolve the identifier.
-* Completions for a method is returned for all parameters, regardles of parameter-index.
+* The logic for resolving completion-types is somewhat naive. Lets try to resolve the identifier and match against FQN.
+* Perhaps documentation-lookups could be helpful?
+* Should I worry about environment for the console-executable?
+* Refresh-method is icky.
+* Read access is allowed from event dispatch thread or inside read-action only?
 
-Known bugs:
+Known issues:
 ----------
 String-completions will always be in single quotes.
 Identifiers which is parsable as integers will be returned without quotes.
-Only the ContentTypeService-completions are working right now.
+Completion for role-service is incomplete. Completions for the second-parameter will sometimes rely on the first.
 
 Troubleshooting:
 ----------------

@@ -8,14 +8,26 @@ public class CompletionContainer
 {
     protected ArrayList<ParameterCompletion> list;
 
-    public ArrayList<Completion> getCompletions(String identifier)
+    public ArrayList<ParameterCompletion> getList() { return list; }
+
+    public ArrayList<ParameterCompletion> refresh(ArrayList<ParameterCompletion> newList)
     {
-        for (ParameterCompletion completion : list) {
-            if (completion.accepts(identifier)) {
-                return completion.getCompletions();
+        for (ParameterCompletion p : list) {
+            p.getCompletions().clear();
+
+            if (newList.contains(p)) {
+                p.getCompletions().addAll(newList.get(newList.indexOf(p)).getCompletions());
             }
         }
 
-        return new ArrayList<>();
+        ArrayList<ParameterCompletion> newCompletions = new ArrayList<>();
+
+        for (ParameterCompletion p : newList) {
+            if (!list.contains(p)) {
+                newCompletions.add(p);
+            }
+        }
+
+        return newCompletions;
     }
 }

@@ -9,11 +9,22 @@ import java.util.concurrent.Future;
 public class CompletionPreloader implements ProjectComponent
 {
     protected Future consoleServicePromise;
-    protected static Project currentProject;
+    protected Project project;
+    protected eZCompletionContributor currentContributor;
+
+    public eZCompletionContributor getCurrentContributor()
+    {
+        return currentContributor;
+    }
+
+    public void setCurrentContributor(eZCompletionContributor currentContributor)
+    {
+        this.currentContributor = currentContributor;
+    }
 
     public CompletionPreloader(Project project)
     {
-        currentProject = project;
+        this.project = project;
     }
 
     public void initComponent() {}
@@ -29,22 +40,26 @@ public class CompletionPreloader implements ProjectComponent
     public void projectOpened()
     {
         try {
-            consoleServicePromise = ApplicationManager.getApplication().executeOnPooledThread(new ConsoleService());
+            createConsoleServicePromise();
         } catch (Exception ignored) {}
     }
 
-    public CompletionContainer getCompletions()
+    protected void createConsoleServicePromise()
+    {
+        consoleServicePromise = ApplicationManager.getApplication().executeOnPooledThread(new ConsoleService(project));
+    }
+
+    public CompletionContainer getCompletions(Boolean refresh)
     {
         try {
+            if (refresh) {
+                createConsoleServicePromise();
+            }
+
             return (CompletionContainer)consoleServicePromise.get();
         } catch (Exception e) {
             return null;
         }
-    }
-
-    public static Project getCurrentProject()
-    {
-        return currentProject;
     }
 
     public void projectClosed() {}

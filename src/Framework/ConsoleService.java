@@ -11,9 +11,15 @@ import java.util.concurrent.Callable;
 
 public class ConsoleService implements Callable
 {
-    protected static String getConsole() throws Exception
+    Project project;
+
+    public ConsoleService(Project project)
     {
-        Project project = CompletionPreloader.getCurrentProject();
+        this.project = project;
+    }
+
+    protected String getConsole() throws Exception
+    {
         String path = project.getBaseDir().getCanonicalPath() + File.separator + "ezpublish/console";
         if (!new File(path).isFile()) {
             throw new Exception("Unable to locate console-executable");
@@ -25,16 +31,18 @@ public class ConsoleService implements Callable
     @Override
     public CompletionContainer call() throws Exception
     {
-        String command = getConsole() + " ezcode:completion";
+        String command = getConsole() + " ezcode:completion --env=dev";
 
         Process process = Runtime.getRuntime().exec(command);
-        process.waitFor();
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Completion.class, new Completion());
         Gson gson = gsonBuilder.create();
 
-        return gson.fromJson(reader, CompletionContainer.class);
+        CompletionContainer completions = gson.fromJson(reader, CompletionContainer.class);
+        process.waitFor();
+
+        return completions;
     }
 }

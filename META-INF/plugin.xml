@@ -41,6 +41,10 @@
 
   <actions>
     <!-- Add your actions here -->
+    <action id="ezcode_completion_refresh" class="Toolbar.RefreshCompletions" text="eZRefresh"
+            description="Refreshes code-completions from eZ.">
+      <add-to-group group-id="ToolsBasicGroup" anchor="last"/>
+    </action>
   </actions>
 
 </idea-plugin>
