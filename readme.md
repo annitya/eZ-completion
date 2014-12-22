@@ -15,6 +15,7 @@ Provides completion for:
     * ObjectStateService
     * RoleService
     * SectionService
+    * UrlAliasService
 
 Usage:
 ------
