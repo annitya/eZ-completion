@@ -3,9 +3,8 @@ Provides code-completion for the eZ-API
 
 Installation:
 -------------
-1. Install the excellent Symfony2-plugin
-2. Install this plugin.
-3. Install this bundle: https://github.com/whitefire/ez-completion-bundle
+1. Install plugin.
+3. Install the bundle: https://github.com/whitefire/ez-completion-bundle
 
 What does it do?
 ----------------
@@ -15,6 +14,7 @@ Provides completion for:
     * FieldTypeService
     * ObjectStateService
     * RoleService
+    * SectionService
 
 Usage:
 ------
@@ -40,7 +40,6 @@ Known issues:
 ----------
 String-completions will always be in single quotes.
 Identifiers which is parsable as integers will be returned without quotes.
-Completion for role-service is incomplete. Completions for the second-parameter will sometimes rely on the first.
 
 Troubleshooting:
 ----------------
