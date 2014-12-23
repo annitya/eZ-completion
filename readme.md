@@ -20,6 +20,7 @@ Provides completion for:
 Usage:
 ------
 Request completions from within literals.
+Completion is case-sensitive.
 
 Todo:
 -----
@@ -31,11 +32,9 @@ Todo:
 * Add twig-completions for content/location
 * Add completions for search-critera.
 * Use PSR-4 for bundle-autoloading.
-* The logic for resolving completion-types is somewhat naive. Lets try to resolve the identifier and match against FQN.
 * Perhaps documentation-lookups could be helpful?
 * Should I worry about environment for the console-executable?
 * Refresh-method is icky.
-* Read access is allowed from event dispatch thread or inside read-action only?
 
 Known issues:
 ----------

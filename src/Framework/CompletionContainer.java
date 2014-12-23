@@ -8,7 +8,12 @@ public class CompletionContainer
 {
     protected ArrayList<ParameterCompletion> list;
 
-    public ArrayList<ParameterCompletion> getList() { return list; }
+    public CompletionContainer()
+    {
+        list = new ArrayList<>();
+    }
+
+    public ArrayList<ParameterCompletion> getList(){ return list; }
 
     public ArrayList<ParameterCompletion> refresh(ArrayList<ParameterCompletion> newList)
     {

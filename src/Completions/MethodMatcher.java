@@ -4,12 +4,16 @@ import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
 import org.jetbrains.annotations.NotNull;
 
 public class MethodMatcher extends PatternCondition<PsiElement>
 {
     protected int parameterIndex;
+    protected String fqn;
     protected String method;
     protected String dependence;
 
@@ -23,7 +27,12 @@ public class MethodMatcher extends PatternCondition<PsiElement>
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext context)
     {
-        return withinQuotes(psiElement) && dependenceMatches(psiElement) && methodMatches(psiElement) && parameterMatches(psiElement);
+        return
+                withinQuotes(psiElement) &&
+                fqnMatches(psiElement) &&
+                methodMatches(psiElement) &&
+                dependenceMatches(psiElement) &&
+                parameterMatches(psiElement);
     }
 
     protected Boolean withinQuotes(PsiElement psiElement)
@@ -34,6 +43,47 @@ public class MethodMatcher extends PatternCondition<PsiElement>
         } catch (Exception e) {
             return false;
         }
+    }
+
+    protected Boolean fqnMatches(PsiElement psiElement)
+    {
+        MethodReference reference = (MethodReference)psiElement.getParent().getParent().getParent();
+        if (reference == null) {
+            return false;
+        }
+
+        MethodImpl resolved = (MethodImpl) reference.resolve();
+        if (resolved == null) {
+            return false;
+        }
+
+        PhpClass phpClass = (PhpClass)resolved.getParent();
+        if (phpClass == null) {
+            return false;
+        }
+
+        String classFqn = phpClass.getFQN();
+        if (classFqn != null && classFqn.equals(fqn)) {
+            return true;
+        }
+
+        PhpClass[] implementedInterfaces = phpClass.getImplementedInterfaces();
+        if (implementedInterfaces.length == 0) {
+            return false;
+        }
+
+        for (PhpClass implementedInterface : implementedInterfaces) {
+            String interfaceFqn = implementedInterface.getFQN();
+            if (interfaceFqn == null) {
+                continue;
+            }
+
+            if (interfaceFqn.equals(fqn)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected Boolean methodMatches(PsiElement psiElement)
