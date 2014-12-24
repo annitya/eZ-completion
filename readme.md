@@ -20,7 +20,11 @@ services:
 
 criteria:
     * ContentTypeId
+    * ContentTypeIdentifier
     * ContentTypeGroupId
+    * LanguageCode
+    * ObjectStateId
+    * SectionId
 
 Usage:
 ------
@@ -44,7 +48,6 @@ Todo:
     - support for remote servers.
     - force environment for console-executable.
 * SearchService:
-    - autocompletions for criteria.
     - execute query and return data with information regarding query-performance.
 
 Troubleshooting:
