@@ -1,6 +1,5 @@
 package Framework;
 
-import Completions.Completion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.intellij.openapi.project.Project;
@@ -36,10 +35,7 @@ public class ConsoleService implements Callable
         Process process = Runtime.getRuntime().exec(command);
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Completion.class, new Completion());
-        Gson gson = gsonBuilder.create();
-
+        Gson gson = new GsonBuilder().create();
         CompletionContainer completions = gson.fromJson(reader, CompletionContainer.class);
         process.waitFor();
 

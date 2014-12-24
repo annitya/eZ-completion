@@ -8,7 +8,8 @@ Installation:
 
 What does it do?
 ----------------
-Provides completion for:
+Provides completion for
+services:
     * ContentTypeService
     * LanguageService
     * FieldTypeService
@@ -17,6 +18,10 @@ Provides completion for:
     * SectionService
     * UrlAliasService
 
+criteria:
+    * ContentTypeId
+    * ContentTypeGroupId
+
 Usage:
 ------
 Request completions from within literals.
@@ -24,22 +29,23 @@ Completion is case-sensitive.
 
 Todo:
 -----
-* Validate location of console-executable (consoleProvider)
-* Support for remote consoleProviders using either deployment settings or selected server.
+
 * Create cusom toolbar with buttons.
-* Clear-cache button with support for remote servers.
-* Assetic-watch toggle with support for remote servers.
+* Clear-cache button.
+* Assetic-watch toggle.
 * Add twig-completions for content/location
-* Add completions for search-critera.
 * Use PSR-4 for bundle-autoloading.
 * Perhaps documentation-lookups could be helpful?
-* Should I worry about environment for the console-executable?
 * Refresh-method is icky.
-
-Known issues:
-----------
-String-completions will always be in single quotes.
-Identifiers which is parsable as integers will be returned without quotes.
+* Automatic installation of required bundle.
+* Settings:
+    - language must be configurable. Use count max of contenobject-languages as default?
+    - validate console-executable.
+    - support for remote servers.
+    - force environment for console-executable.
+* SearchService:
+    - autocompletions for criteria.
+    - execute query and return data with information regarding query-performance.
 
 Troubleshooting:
 ----------------

@@ -2,12 +2,13 @@ package Completions;
 
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.impl.MethodImpl;
+import com.jetbrains.php.lang.psi.elements.impl.NewExpressionImpl;
 import org.jetbrains.annotations.NotNull;
 
 public class MethodMatcher extends PatternCondition<PsiElement>
@@ -29,7 +30,7 @@ public class MethodMatcher extends PatternCondition<PsiElement>
     {
         return
                 withinQuotes(psiElement) &&
-                fqnMatches(psiElement) &&
+                (fqnMatches(psiElement) || newFqnMatches(psiElement)) &&
                 methodMatches(psiElement) &&
                 dependenceMatches(psiElement) &&
                 parameterMatches(psiElement);
@@ -45,20 +46,49 @@ public class MethodMatcher extends PatternCondition<PsiElement>
         }
     }
 
+    protected Boolean newFqnMatches(PsiElement psiElement)
+    {
+        try {
+            PsiElement method = psiElement.getParent().getParent().getParent();
+            ClassReference classReference = ((NewExpressionImpl) method).getClassReference();
+            if (classReference == null) {
+                return false;
+            }
+
+            String classFqn = classReference.getFQN();
+            return classFqn != null && classFqn.equals(fqn);
+
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
     protected Boolean fqnMatches(PsiElement psiElement)
     {
-        MethodReference reference = (MethodReference)psiElement.getParent().getParent().getParent();
-        if (reference == null) {
-            return false;
-        }
+        PhpClass phpClass;
+        try {
+            PsiElement method = psiElement.getParent().getParent().getParent();
+            if (method == null) {
+                return false;
+            }
 
-        MethodImpl resolved = (MethodImpl) reference.resolve();
-        if (resolved == null) {
-            return false;
-        }
+            PsiReference reference = method.getReference();
+            if (reference == null) {
+                return false;
+            }
 
-        PhpClass phpClass = (PhpClass)resolved.getParent();
-        if (phpClass == null) {
+            PsiElement resolved = reference.resolve();
+            if (resolved == null) {
+                return false;
+            }
+
+            phpClass = (PhpClass)resolved.getParent();
+            if (phpClass == null) {
+                return false;
+            }
+
+        } catch (Exception e) {
             return false;
         }
 
@@ -88,6 +118,10 @@ public class MethodMatcher extends PatternCondition<PsiElement>
 
     protected Boolean methodMatches(PsiElement psiElement)
     {
+        if (method == null) {
+            return true;
+        }
+
         try {
             return psiElement
                     .getParent()
