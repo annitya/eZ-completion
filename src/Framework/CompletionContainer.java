@@ -15,7 +15,7 @@ public class CompletionContainer
 
     public ArrayList<ParameterCompletion> getList(){ return list; }
 
-    public ArrayList<ParameterCompletion> refresh(ArrayList<ParameterCompletion> newList)
+    public void refresh(ArrayList<ParameterCompletion> newList)
     {
         for (ParameterCompletion p : list) {
             p.getCompletions().clear();
@@ -24,15 +24,5 @@ public class CompletionContainer
                 p.getCompletions().addAll(newList.get(newList.indexOf(p)).getCompletions());
             }
         }
-
-        ArrayList<ParameterCompletion> newCompletions = new ArrayList<>();
-
-        for (ParameterCompletion p : newList) {
-            if (!list.contains(p)) {
-                newCompletions.add(p);
-            }
-        }
-
-        return newCompletions;
     }
 }

@@ -1,30 +1,24 @@
 package Framework;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import java.util.concurrent.Future;
 
 public class CompletionPreloader implements ProjectComponent
 {
-    protected Future consoleServicePromise;
     protected Project project;
     protected eZCompletionContributor currentContributor;
-
-    public eZCompletionContributor getCurrentContributor()
-    {
-        return currentContributor;
-    }
-
-    public void setCurrentContributor(eZCompletionContributor currentContributor)
-    {
-        this.currentContributor = currentContributor;
-    }
+    protected CompletionContainer completions;
 
     public CompletionPreloader(Project project)
     {
         this.project = project;
+    }
+
+    public static CompletionPreloader getInstance(Project project)
+    {
+        return project.getComponent(CompletionPreloader.class);
     }
 
     public void initComponent() {}
@@ -37,30 +31,42 @@ public class CompletionPreloader implements ProjectComponent
         return "Framework.CompletionPreloader";
     }
 
-    public void projectOpened()
+    public void attachContributor(eZCompletionContributor contributor)
     {
-        try {
-            createConsoleServicePromise();
-        } catch (Exception ignored) {}
-    }
-
-    protected void createConsoleServicePromise()
-    {
-        consoleServicePromise = ApplicationManager.getApplication().executeOnPooledThread(new ConsoleService(project));
-    }
-
-    public CompletionContainer getCompletions(Boolean refresh)
-    {
-        try {
-            if (refresh) {
-                createConsoleServicePromise();
-            }
-
-            return (CompletionContainer)consoleServicePromise.get();
-        } catch (Exception e) {
-            return null;
+        currentContributor = contributor;
+        // Completions are not yet registered, but they are available.
+        if (!currentContributor.hasCompletions() && completions != null) {
+            currentContributor.registerCompletions(completions);
         }
     }
 
+    public void projectOpened()
+    {
+        try {
+            fetchCompletions();
+        } catch (Exception ignored) {}
+    }
+
+    public void fetchCompletions()
+    {
+        ConsoleService consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
+        ProgressManager.getInstance().run(consoleService);
+    }
+
     public void projectClosed() {}
+
+    public void completionsFetched(CompletionContainer completionContainer)
+    {
+        // Contributor tried accessing completions, but they wheren't ready yet.
+        if (currentContributor != null) {
+            currentContributor.registerCompletions(completionContainer);
+        }
+        /**
+         * Contributor hasn't been requested yet, lets store completions for later use.
+         * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
+         */
+        else {
+            completions = completionContainer;
+        }
+    }
 }

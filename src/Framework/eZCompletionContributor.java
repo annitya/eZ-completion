@@ -8,41 +8,38 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import com.intellij.patterns.PlatformPatterns;
 
-import java.util.ArrayList;
-
 public class eZCompletionContributor extends CompletionContributor
 {
-    protected CompletionContainer completionContainer;
+    protected CompletionContainer completions;
 
     public eZCompletionContributor()
     {
-        completionContainer = getCurrentPreloader().getCompletions(false);
-        registerCompletions(completionContainer.getList());
-        getCurrentPreloader().setCurrentContributor(this);
+        DataContext context = DataManager.getInstance().getDataContextFromFocus().getResultSync();
+        Project project = CommonDataKeys.PROJECT.getData(context);
+        CompletionPreloader.getInstance(project).attachContributor(this);
     }
 
-    protected void registerCompletions(ArrayList<ParameterCompletion> completions)
+    public Boolean hasCompletions()
     {
-        for (ParameterCompletion completion : completions) {
+        return completions != null;
+    }
+
+    public void registerCompletions(CompletionContainer completionContainer)
+    {
+        // Refresh if we already have completions.
+        if (completions != null) {
+            refreshCompletions(completionContainer);
+            return;
+        }
+        completions = completionContainer;
+
+        for (ParameterCompletion completion : completions.getList()) {
             extend(CompletionType.BASIC, PlatformPatterns.psiElement().with(completion.getMatcher()), completion);
         }
     }
 
-    public void refreshCompletions()
+    public void refreshCompletions(CompletionContainer completionContainer)
     {
-        CompletionContainer newContainer = getCurrentPreloader().getCompletions(true);
-        ArrayList<ParameterCompletion> newCompletions = completionContainer.refresh(newContainer.getList());
-        registerCompletions(newCompletions);
-    }
-
-    protected CompletionPreloader getCurrentPreloader()
-    {
-        return getCurrentProject().getComponent(CompletionPreloader.class);
-    }
-
-    protected Project getCurrentProject()
-    {
-        DataContext context = DataManager.getInstance().getDataContextFromFocus().getResultSync();
-        return CommonDataKeys.PROJECT.getData(context);
+        completions.refresh(completionContainer.getList());
     }
 }

@@ -29,19 +29,15 @@ criteria:
 Usage:
 ------
 Request completions from within literals.
-Completion is case-sensitive.
+Completion is case-sensitive (for now).
 
 Todo:
 -----
 
-* Create cusom toolbar with buttons.
 * Clear-cache button.
 * Assetic-watch toggle.
 * Add twig-completions for content/location
-* Use PSR-4 for bundle-autoloading.
 * Perhaps documentation-lookups could be helpful?
-* Refresh
-    - lets do it in the background.
 * Automatic installation of required bundle.
 * Settings:
     - language must be configurable. Use count max of contenobject-languages as default?
@@ -50,6 +46,10 @@ Todo:
     - force environment for console-executable.
 * SearchService:
     - execute query and return data with information regarding query-performance.
+* Bundle:
+    - Use PSR-4 for bundle-autoloading.
+    - Proper separation of sources and completions.
+    - Automatic installation?
 
 Known issues:
 -------------
@@ -58,4 +58,4 @@ You might need to clear the cache before refreshing completions.
 Troubleshooting:
 ----------------
 Run the ezcode:completion-command and makes sure that PHP does not output anything else than valid JSON.
-Any erros in the console?
+Any errors in the console?

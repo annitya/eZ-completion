@@ -2,24 +2,27 @@ package Framework;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.intellij.openapi.progress.PerformInBackgroundOption;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.concurrent.Callable;
 
-public class ConsoleService implements Callable
+public class ConsoleService extends Task.Backgroundable implements PerformInBackgroundOption
 {
-    Project project;
+    protected CompletionContainer completions;
 
-    public ConsoleService(Project project)
+    public ConsoleService(Project project, @NotNull String title, boolean canBeCancelled)
     {
-        this.project = project;
+        super(project, title, canBeCancelled);
     }
 
     protected String getConsole() throws Exception
     {
-        String path = project.getBaseDir().getCanonicalPath() + File.separator + "ezpublish/console";
+        String path = myProject.getBaseDir().getCanonicalPath() + File.separator + "ezpublish/console";
         if (!new File(path).isFile()) {
             throw new Exception("Unable to locate console-executable");
         }
@@ -28,17 +31,28 @@ public class ConsoleService implements Callable
     }
 
     @Override
-    public CompletionContainer call() throws Exception
+    public void run(@NotNull ProgressIndicator indicator)
     {
-        String command = getConsole() + " ezcode:completion --env=dev";
+        try {
+            String command = getConsole() + " ezcode:completion --env=dev";
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-        Process process = Runtime.getRuntime().exec(command);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-        Gson gson = new GsonBuilder().create();
-        CompletionContainer completions = gson.fromJson(reader, CompletionContainer.class);
-        process.waitFor();
-
-        return completions;
+            Gson gson = new GsonBuilder().create();
+            completions = gson.fromJson(reader, CompletionContainer.class);
+            process.waitFor();
+        } catch (Exception ignored) {}
     }
+
+    @Override
+    public void onSuccess()
+    {
+        CompletionPreloader.getInstance(myProject).completionsFetched(completions);
+    }
+
+    @Override
+    public boolean shouldStartInBackground() { return true; }
+
+    @Override
+    public void processSentToBackground() {}
 }

@@ -1,7 +1,6 @@
 package Toolbar;
 
 import Framework.CompletionPreloader;
-import Framework.eZCompletionContributor;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
@@ -16,14 +15,6 @@ public class RefreshCompletions extends AnAction
             return;
         }
 
-        CompletionPreloader preloaderInstance = project.getComponent(CompletionPreloader.class);
-        eZCompletionContributor currentContributor = preloaderInstance.getCurrentContributor();
-
-        if (currentContributor != null) {
-            currentContributor.refreshCompletions();
-        }
-        else {
-            preloaderInstance.getCompletions(true);
-        }
+        CompletionPreloader.getInstance(project).fetchCompletions();
     }
 }
