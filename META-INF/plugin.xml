@@ -40,11 +40,20 @@
   </project-components>
 
   <actions>
-    <!-- Add your actions here -->
-    <action id="ezcode_completion_refresh" class="Toolbar.RefreshCompletions" text="eZRefresh"
-            description="Refreshes code-completions from eZ.">
-      <add-to-group group-id="ToolsBasicGroup" anchor="last"/>
-    </action>
+    <action
+            id="flageolett.ez.completion_refresh"
+            class="Toolbar.RefreshCompletions"
+            text="Refresh completions"
+            description="Refreshes code-completions from eZ."
+            icon="AllIcons.Actions.Refresh"
+    />
+
+    <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
+      <separator />
+      <reference ref="flageolett.ez.completion_refresh" />
+      <add-to-group group-id="ToolsBasicGroup" anchor="last" />
+      <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>
+    </group>
   </actions>
 
 </idea-plugin>

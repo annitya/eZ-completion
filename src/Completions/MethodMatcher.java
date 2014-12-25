@@ -173,4 +173,32 @@ public class MethodMatcher extends PatternCondition<PsiElement>
             return new PsiElement[0];
         }
     }
+
+    @SuppressWarnings("RedundantIfStatement")
+    @Override
+    public boolean equals(Object obj)
+    {
+        try {
+            MethodMatcher other = (MethodMatcher)obj;
+            if (!other.fqn.equals(fqn)) {
+                return false;
+            }
+
+            if (method != null && !other.method.equals(method)) {
+                return false;
+            }
+
+            if (other.parameterIndex != parameterIndex) {
+                return false;
+            }
+
+            if (dependence != null && !other.dependence.equals(dependence)) {
+                return false;
+            }
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

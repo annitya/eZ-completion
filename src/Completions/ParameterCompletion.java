@@ -32,6 +32,6 @@ public class ParameterCompletion extends CompletionProvider
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof ParameterCompletion && ((ParameterCompletion) obj).matcher.equals(matcher);
+        return obj instanceof ParameterCompletion && ((ParameterCompletion)obj).matcher.equals(matcher);
     }
 }

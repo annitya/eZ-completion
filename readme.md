@@ -40,7 +40,8 @@ Todo:
 * Add twig-completions for content/location
 * Use PSR-4 for bundle-autoloading.
 * Perhaps documentation-lookups could be helpful?
-* Refresh-method is icky.
+* Refresh
+    - lets do it in the background.
 * Automatic installation of required bundle.
 * Settings:
     - language must be configurable. Use count max of contenobject-languages as default?
@@ -49,6 +50,10 @@ Todo:
     - force environment for console-executable.
 * SearchService:
     - execute query and return data with information regarding query-performance.
+
+Known issues:
+-------------
+You might need to clear the cache before refreshing completions.
 
 Troubleshooting:
 ----------------
