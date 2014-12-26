@@ -34,7 +34,6 @@ Completion is case-sensitive (for now).
 Todo:
 -----
 
-* Clear-cache button.
 * Assetic-watch toggle.
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
@@ -42,7 +41,7 @@ Todo:
 * Settings:
     - language must be configurable. Use count max of contenobject-languages as default?
     - validate console-executable.
-    - support for remote servers.
+    - support for remote environments.
     - force environment for console-executable.
 * SearchService:
     - execute query and return data with information regarding query-performance.

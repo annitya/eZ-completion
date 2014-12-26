@@ -1,7 +1,6 @@
-package Framework;
+package Framework.Console;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import Framework.CompletionContainer;
 import com.intellij.openapi.progress.PerformInBackgroundOption;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
@@ -14,10 +13,17 @@ import java.io.InputStreamReader;
 public class ConsoleService extends Task.Backgroundable implements PerformInBackgroundOption
 {
     protected CompletionContainer completions;
+    protected Command eZCommand;
 
     public ConsoleService(Project project, @NotNull String title, boolean canBeCancelled)
     {
         super(project, title, canBeCancelled);
+    }
+
+    public void seteZCommand(Command command)
+    {
+        eZCommand = command;
+        eZCommand.setProject(myProject);
     }
 
     protected String getConsole() throws Exception
@@ -34,20 +40,23 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
     public void run(@NotNull ProgressIndicator indicator)
     {
         try {
-            String command = getConsole() + " ezcode:completion --env=dev";
+            String command = getConsole() + " " + eZCommand;
             Process process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-            Gson gson = new GsonBuilder().create();
-            completions = gson.fromJson(reader, CompletionContainer.class);
-            process.waitFor();
+            String line, result = "";
+            while ((line = reader.readLine()) != null) {
+                result += line;
+            }
+
+            eZCommand.setResult(result);
         } catch (Exception ignored) {}
     }
 
     @Override
     public void onSuccess()
     {
-        CompletionPreloader.getInstance(myProject).completionsFetched(completions);
+        eZCommand.success();
     }
 
     @Override

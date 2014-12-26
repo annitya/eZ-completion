@@ -1,5 +1,8 @@
 package Framework;
 
+import Framework.Console.Command;
+import Framework.Console.ConsoleService;
+import Framework.Console.RefreshCompletions;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
@@ -50,6 +53,9 @@ public class CompletionPreloader implements ProjectComponent
     public void fetchCompletions()
     {
         ConsoleService consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
+        Command command = new RefreshCompletions("ezcode:completion", "dev");
+        consoleService.seteZCommand(command);
+
         ProgressManager.getInstance().run(consoleService);
     }
 
