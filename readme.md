@@ -39,7 +39,6 @@ Todo:
 * Perhaps documentation-lookups could be helpful?
 * Automatic installation of required bundle.
 * Settings:
-    - language must be configurable. Use count max of contenobject-languages as default?
     - validate console-executable.
     - support for remote environments.
     - force environment for console-executable.
@@ -47,8 +46,8 @@ Todo:
     - execute query and return data with information regarding query-performance.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
-    - Proper separation of sources and completions.
     - Automatic installation?
+* Add MIT license.
 
 Known issues:
 -------------

@@ -2,10 +2,6 @@ package Framework;
 
 import Completions.ParameterCompletion;
 import com.intellij.codeInsight.completion.*;
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.project.Project;
 import com.intellij.patterns.PlatformPatterns;
 
 public class eZCompletionContributor extends CompletionContributor
@@ -14,9 +10,7 @@ public class eZCompletionContributor extends CompletionContributor
 
     public eZCompletionContributor()
     {
-        DataContext context = DataManager.getInstance().getDataContextFromFocus().getResultSync();
-        Project project = CommonDataKeys.PROJECT.getData(context);
-        CompletionPreloader.getInstance(project).attachContributor(this);
+        CompletionPreloader.getInstance(Util.currentProject()).attachContributor(this);
     }
 
     public Boolean hasCompletions()

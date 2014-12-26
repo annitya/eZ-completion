@@ -24,6 +24,8 @@ public class CompletionPreloader implements ProjectComponent
         return project.getComponent(CompletionPreloader.class);
     }
 
+    public CompletionContainer getCurrentCompletions() { return completions; }
+
     public void initComponent() {}
 
     public void disposeComponent() {}
@@ -71,8 +73,6 @@ public class CompletionPreloader implements ProjectComponent
          * Contributor hasn't been requested yet, lets store completions for later use.
          * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
          */
-        else {
-            completions = completionContainer;
-        }
+        completions = completionContainer;
     }
 }

@@ -1,68 +1,72 @@
 <idea-plugin version="2">
-  <id>com.flageolett.eZ.completion</id>
-  <name>eZ</name>
-  <version>1.0</version>
-  <vendor email="henning.kvinnesland@gmail.com" url="N/A">Flageolett</vendor>
+    <id>com.flageolett.eZ.completion</id>
+    <name>eZ</name>
+    <version>1.0</version>
+    <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       Provides completion for contentclasses and attributes in eZ.
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
       No changelog just yet.
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="131"/>
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="131"/>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
 
-  <depends>com.jetbrains.php</depends>
-  <depends>com.intellij.modules.platform</depends>
+    <depends>com.jetbrains.php</depends>
+    <depends>com.intellij.modules.platform</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor" />
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
+        <applicationConfigurable instance="Settings.eZPlugin" />
+    </extensions>
 
-  <application-components>
-    <!-- Add your application components here -->
-  </application-components>
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
 
-  <project-components>
-    <component>
-      <implementation-class>Framework.CompletionPreloader</implementation-class>
-    </component>
-  </project-components>
+    <project-components>
+        <component>
+            <implementation-class>Framework.CompletionPreloader</implementation-class>
+        </component>
+        <component>
+            <implementation-class>Settings.Service</implementation-class>
+        </component>
+    </project-components>
 
-  <actions>
-    <action
-            id="flageolett.ez.completion_refresh"
-            class="Toolbar.RefreshCompletions"
-            text="Refresh completions"
-            description="Refreshes code-completions from eZ."
-            icon="AllIcons.Actions.Refresh"
-    />
+    <actions>
+        <action
+                id="flageolett.ez.completion_refresh"
+                class="Toolbar.RefreshCompletions"
+                text="Refresh completions"
+                description="Refreshes code-completions from eZ."
+                icon="AllIcons.Actions.Refresh"
+                />
 
-    <action
-            id="flageolett.ez.clear_cache"
-            class="Toolbar.ClearCache"
-            text="Clear cache"
-            description="Clears cache"
-            icon="AllIcons.Actions.Cancel"
-     />
+        <action
+                id="flageolett.ez.clear_cache"
+                class="Toolbar.ClearCache"
+                text="Clear cache"
+                description="Clears cache"
+                icon="AllIcons.Actions.Cancel"
+                />
 
-    <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
-      <separator />
-      <reference ref="flageolett.ez.completion_refresh" />
-      <reference ref="flageolett.ez.clear_cache" />
-      <add-to-group group-id="ToolsBasicGroup" anchor="last" />
-      <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>
-    </group>
-  </actions>
+        <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
+            <separator/>
+            <reference ref="flageolett.ez.completion_refresh"/>
+            <reference ref="flageolett.ez.clear_cache"/>
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>
+        </group>
+    </actions>
 
 </idea-plugin>

@@ -7,13 +7,17 @@ import java.util.ArrayList;
 public class CompletionContainer
 {
     protected ArrayList<ParameterCompletion> list;
+    protected ArrayList<String> contentLanguages;
 
     public CompletionContainer()
     {
         list = new ArrayList<>();
+        contentLanguages = new ArrayList<>();
     }
 
     public ArrayList<ParameterCompletion> getList(){ return list; }
+
+    public ArrayList<String> getContentLanguages() { return contentLanguages; }
 
     public void refresh(ArrayList<ParameterCompletion> newList)
     {
