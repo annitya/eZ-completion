@@ -1,5 +1,6 @@
 package Framework.Console;
 
+import Settings.Service;
 import com.intellij.openapi.project.Project;
 
 abstract public class Command
@@ -24,6 +25,7 @@ abstract public class Command
     @Override
     public String toString()
     {
+        String environment = Service.getInstance(project).getEnvironment();
         return command + " --env=" + environment;
     }
 }

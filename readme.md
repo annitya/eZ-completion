@@ -48,6 +48,9 @@ Todo:
     - Use PSR-4 for bundle-autoloading.
     - Automatic installation?
 * Add MIT license.
+* Donut?
+* Better notifications if fetch of completions fails.
+* Refresh available languages on apply in preferences.
 
 Known issues:
 -------------

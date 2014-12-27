@@ -34,6 +34,9 @@ public class eZCompletionContributor extends CompletionContributor
 
     public void refreshCompletions(CompletionContainer completionContainer)
     {
+        if (completionContainer == null) {
+            return;
+        }
         completions.refresh(completionContainer.getList());
     }
 }

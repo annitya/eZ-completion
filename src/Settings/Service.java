@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Service implements ProjectComponent
 {
+    public static final String DEFAULT_ENV = "dev";
     Project project;
 
     public Service(Project project)
@@ -25,14 +26,29 @@ public class Service implements ProjectComponent
         CompletionPreloader.getInstance(project).fetchCompletions();
     }
 
+    public String getEnvironment()
+    {
+        String environment = getSetting("environment");
+        if (environment == null) {
+            return DEFAULT_ENV;
+        }
+
+        return environment;
+    }
+
+    public void setEnvironment(String environment)
+    {
+        setSetting("environment", environment);
+    }
+
     public String getLanguage()
     {
         return getSetting("language");
     }
 
-    public void setLanguage(String value)
+    public void setLanguage(String language)
     {
-        setSetting("language", value);
+        setSetting("language", language);
     }
 
     protected void setSetting(String name, String value)

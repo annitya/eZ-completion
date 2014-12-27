@@ -13,8 +13,10 @@ public class eZPlugin implements Configurable
 {
     protected JComponent component;
     protected JPanel panel;
-    protected JLabel label;
+    protected JLabel languageLabel;
     protected JComboBox<String> language;
+    protected JLabel environmentLabel;
+    protected JTextField environment;
     protected Service settings;
 
     @Nullable
@@ -25,28 +27,25 @@ public class eZPlugin implements Configurable
 
         DefaultComboBoxModel<String> model = createLanguageModel();
         if (model == null || model.getSize() == 0) {
-            return notAvailableYet();
-        }
+            model = new DefaultComboBoxModel<>();
+            model.addElement("N/A");
+            languageLabel.setEnabled(false);
+            language.setEditable(false);
+            language.setToolTipText("Completions are not ready. Try to refresh, and then open preferences again.");
 
-        String selectedLanguage = settings.getLanguage();
-        if (selectedLanguage != null) {
-            model.setSelectedItem(selectedLanguage);
+        }
+        else {
+            String selectedLanguage = settings.getLanguage();
+            if (selectedLanguage != null) {
+                model.setSelectedItem(selectedLanguage);
+            }
+
         }
 
         language.setModel(model);
+        environment.setText(settings.getEnvironment());
 
         component = panel;
-        return component;
-    }
-
-    protected JComponent notAvailableYet()
-    {
-        JPanel unavailablePanel = new JPanel();
-        JLabel unavailable = new JLabel();
-        unavailable.setText("Completions are not ready. Try to refresh, and then open preferences again.");
-        unavailablePanel.add(unavailable);
-
-        component = unavailablePanel;
         return component;
     }
 
@@ -70,10 +69,20 @@ public class eZPlugin implements Configurable
     @Override
     public boolean isModified()
     {
-        String selectedLanguage = language.getSelectedItem().toString();
-        String storedLanguage = settings.getLanguage();
+        Object selectedLanguageItem = language.getSelectedItem();
+        if (selectedLanguageItem != null) {
+            String selectedLanguage = selectedLanguageItem.toString();
+            String storedLanguage = settings.getLanguage();
 
-        return storedLanguage == null || !selectedLanguage.equals(storedLanguage);
+            if (storedLanguage == null || !selectedLanguage.equals(storedLanguage)) {
+                return true;
+            }
+        }
+
+        String selectedEnvironment = environment.getText();
+        String storedEnvironment = settings.getEnvironment();
+
+        return !storedEnvironment.equals(selectedEnvironment);
     }
 
     @Override
@@ -81,6 +90,10 @@ public class eZPlugin implements Configurable
     {
         String selectedLanguage = language.getSelectedItem().toString();
         settings.setLanguage(selectedLanguage);
+
+        String selectedEnvironment = environment.getText();
+        settings.setEnvironment(selectedEnvironment);
+
         settings.refreshCompletions();
     }
 
