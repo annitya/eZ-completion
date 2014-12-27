@@ -8,7 +8,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
-public class ParameterCompletion extends CompletionProvider
+public class ParameterCompletion extends CompletionProvider<CompletionParameters>
 {
     protected ArrayList<Completion> completions;
     protected MethodMatcher matcher;

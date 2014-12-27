@@ -41,7 +41,6 @@ Todo:
 * Settings:
     - validate console-executable.
     - support for remote environments.
-    - force environment for console-executable.
 * SearchService:
     - execute query and return data with information regarding query-performance.
 * Bundle:
@@ -49,7 +48,7 @@ Todo:
     - Automatic installation?
 * Add MIT license.
 * Donut?
-* Better notifications if fetch of completions fails.
+* Better notifications if console-processes fails.
 * Refresh available languages on apply in preferences.
 
 Known issues:

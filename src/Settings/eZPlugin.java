@@ -58,7 +58,7 @@ public class eZPlugin implements Configurable
             return null;
         }
 
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (String contentLanguage : completionContainer.getContentLanguages()) {
             model.addElement(contentLanguage);
         }
