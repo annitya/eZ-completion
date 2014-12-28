@@ -8,23 +8,24 @@ Installation:
 
 What does it do?
 ----------------
-Provides completion for
-services:
-    * ContentTypeService
-    * LanguageService
-    * FieldTypeService
-    * ObjectStateService
-    * RoleService
-    * SectionService
-    * UrlAliasService
+Provides completion for:
 
-criteria:
-    * ContentTypeId
-    * ContentTypeIdentifier
-    * ContentTypeGroupId
-    * LanguageCode
-    * ObjectStateId
-    * SectionId
+* services:
+ - ContentTypeService
+ - LanguageService
+ - FieldTypeService
+ - ObjectStateService
+ - RoleService
+ - SectionService
+ - UrlAliasService
+
+* criteria:
+ - ContentTypeId
+ - ContentTypeIdentifier
+ - ContentTypeGroupId
+ - LanguageCode
+ - ObjectStateId
+ - SectionId
 
 Usage:
 ------
@@ -33,7 +34,6 @@ Completion is case-sensitive (for now).
 
 Todo:
 -----
-
 * Assetic-watch toggle.
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
@@ -46,7 +46,6 @@ Todo:
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Automatic installation?
-* Add MIT license.
 * Donut?
 * Better notifications if console-processes fails.
 * Refresh available languages on apply in preferences.
