@@ -1,9 +1,13 @@
 package Framework.Console;
 
 import Settings.Service;
+import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.project.Project;
+import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 import com.jetbrains.php.config.commandLine.PhpCommandSettingsBuilder;
+import com.jetbrains.php.remote.PhpRemoteProcessUtil;
+import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 
 import java.io.*;
 
@@ -14,13 +18,9 @@ abstract public class Command
     protected Process process;
     protected Project project;
 
-    public Command(String command)
+    public Command(String command, Project project)
     {
         this.command = command;
-    }
-
-    public void setProject(Project project)
-    {
         this.project = project;
     }
 
@@ -51,8 +51,10 @@ abstract public class Command
     protected PhpCommandSettings createCommandSettings() throws Exception
     {
         PhpCommandSettings commandSettings = PhpCommandSettingsBuilder.create(project);
+
         commandSettings.setScript(getConsole());
         commandSettings.addArgument(command);
+        commandSettings.addArgument("--no-ansi");
         commandSettings.addArgument("--env=" + getEnvironment());
 
         return commandSettings;
@@ -64,7 +66,7 @@ abstract public class Command
 
         String line, result = "";
         while ((line = reader.readLine()) != null) {
-            result += line;
+            result += line.trim();
         }
 
         return result;
@@ -72,7 +74,20 @@ abstract public class Command
 
     public void execute() throws Exception
     {
-        process = createCommandSettings().createGeneralCommandLine().createProcess();
+        PhpCommandSettings commandSettings = createCommandSettings();
+        GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
+        if (commandSettings.isRemote()) {
+            PhpRemoteSdkAdditionalData remoteSdkAdditionalData = (PhpRemoteSdkAdditionalData)commandSettings.getAdditionalData();
+            if (remoteSdkAdditionalData == null) {
+                throw new Exception("Unable to fetch remote sdk-data!");
+            }
+            RemoteSdkCredentials remoteSdkCredentials = remoteSdkAdditionalData.getRemoteSdkCredentials(false);
+            process = PhpRemoteProcessUtil.createRemoteProcess(project, remoteSdkCredentials, generalCommandLine, true);
+        }
+        else {
+            process = generalCommandLine.createProcess();
+
+        }
 
         result = readAll(process.getInputStream());
         process.waitFor();

@@ -5,12 +5,13 @@ import Framework.CompletionPreloader;
 import Settings.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.intellij.openapi.project.Project;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 
 public class RefreshCompletions extends Command
 {
     protected CompletionContainer completions;
-    public RefreshCompletions(String command) { super(command); }
+    public RefreshCompletions(String command, Project project) { super(command, project); }
 
     @Override
     public void success()

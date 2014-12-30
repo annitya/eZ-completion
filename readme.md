@@ -36,7 +36,7 @@ Provides completion for:
 
 Usage:
 ------
-Configure a PHP-interpreter.
+Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
 Completion is case-sensitive (for now).
 
@@ -46,8 +46,6 @@ Todo:
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
 * Automatic installation of required bundle.
-* Settings:
-    - support for remote environments.
 * SearchService:
     - execute query and return data with information regarding query-performance.
 * Bundle:

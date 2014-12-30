@@ -21,7 +21,6 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
     public void seteZCommand(Command command)
     {
         eZCommand = command;
-        eZCommand.setProject(myProject);
     }
 
     @Override
