@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull;
 public class Service implements ProjectComponent
 {
     public static final String DEFAULT_ENV = "dev";
+    public static final String DEFAULT_EXECUTABLE = "ezpublish/console";
+    public static final String LANGUAGE_UNAVAILABLE = "N/A";
+
     Project project;
 
     public Service(Project project)
@@ -28,17 +31,22 @@ public class Service implements ProjectComponent
 
     public String getEnvironment()
     {
-        String environment = getSetting("environment");
-        if (environment == null) {
-            return DEFAULT_ENV;
-        }
-
-        return environment;
+        return getSetting("environment", DEFAULT_ENV);
     }
 
     public void setEnvironment(String environment)
     {
         setSetting("environment", environment);
+    }
+
+    public void setExecutable(String executable)
+    {
+        setSetting("executable", executable);
+    }
+
+    public String getExecutable()
+    {
+        return getSetting("executable", DEFAULT_EXECUTABLE);
     }
 
     public String getLanguage()
@@ -48,6 +56,10 @@ public class Service implements ProjectComponent
 
     public void setLanguage(String language)
     {
+        if (language.equals(LANGUAGE_UNAVAILABLE)) {
+            return;
+        }
+
         setSetting("language", language);
     }
 
@@ -59,6 +71,13 @@ public class Service implements ProjectComponent
     protected String getSetting(String name)
     {
         return getStorage().getValue(uniqueName(name));
+    }
+
+    protected String getSetting(String name, String fallback)
+    {
+        String value = getSetting(name);
+        return value != null ? value : fallback;
+
     }
 
     protected String uniqueName(String name)

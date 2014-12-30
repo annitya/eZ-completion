@@ -5,30 +5,35 @@ import Framework.CompletionPreloader;
 import Settings.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 
 public class RefreshCompletions extends Command
 {
-    public RefreshCompletions(String command, String environment)
-    {
-        super(command, environment);
-    }
+    protected CompletionContainer completions;
+    public RefreshCompletions(String command) { super(command); }
 
     @Override
     public void success()
     {
-        Gson gson = new GsonBuilder().create();
-        CompletionContainer completions = gson.fromJson(result, CompletionContainer.class);
         CompletionPreloader.getInstance(project).completionsFetched(completions);
     }
 
     @Override
-    public String toString()
+    public PhpCommandSettings createCommandSettings() throws Exception
     {
+        PhpCommandSettings commandSettings = super.createCommandSettings();
         String selectedLanguage = Service.getInstance(project).getLanguage();
-        if (selectedLanguage == null) {
-            return super.toString();
-        }
+        commandSettings.addArgument("--language=" + selectedLanguage);
 
-        return super.toString() + " --language=" + selectedLanguage;
+        return commandSettings;
+    }
+
+    @Override
+    public void execute() throws Exception
+    {
+        super.execute();
+
+        Gson gson = new GsonBuilder().create();
+        completions = gson.fromJson(result, CompletionContainer.class);
     }
 }

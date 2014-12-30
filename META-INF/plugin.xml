@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
@@ -9,7 +9,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      No changelog just yet.
+        <h2>1.0.1</h2>
+        <ul>
+            <li>Added support for PHP-interpreters.</li>
+            <li>Added error-notifications</li>
+        </ul>
     ]]>
     </change-notes>
 
@@ -24,6 +28,7 @@
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>

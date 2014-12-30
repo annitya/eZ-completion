@@ -4,7 +4,12 @@ Provides code-completion for the eZ-API
 Installation:
 -------------
 1. Install plugin.
-3. Install the bundle: https://github.com/whitefire/ez-completion-bundle
+2. Install the bundle:
+
+Requirements:
+-------------
+PhpStorm 8.0.2 or IntelliJ IDEA equivalent.
+Bundle: https://github.com/whitefire/ez-completion-bundle
 
 What does it do?
 ----------------
@@ -27,8 +32,11 @@ Provides completion for:
  - ObjectStateId
  - SectionId
 
+* Clear cache from IDE.
+
 Usage:
 ------
+Configure a PHP-interpreter.
 Request completions from within literals.
 Completion is case-sensitive (for now).
 
@@ -39,7 +47,6 @@ Todo:
 * Perhaps documentation-lookups could be helpful?
 * Automatic installation of required bundle.
 * Settings:
-    - validate console-executable.
     - support for remote environments.
 * SearchService:
     - execute query and return data with information regarding query-performance.
@@ -47,8 +54,6 @@ Todo:
     - Use PSR-4 for bundle-autoloading.
     - Automatic installation?
 * Donut?
-* Better notifications if console-processes fails.
-* Refresh available languages on apply in preferences.
 
 Known issues:
 -------------
