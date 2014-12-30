@@ -49,7 +49,6 @@ Todo:
 -----
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
-* Automatic installation of required bundle.
 * SearchService:
     - execute query and return data with information regarding query-performance.
 * Bundle:
