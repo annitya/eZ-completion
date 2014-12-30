@@ -2,6 +2,7 @@ package Framework.Console;
 
 import Settings.Service;
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
@@ -80,10 +81,11 @@ abstract public class Command
         return result;
     }
 
-    public void execute() throws Exception
+    public void execute(ProgressIndicator indicator, String title) throws Exception
     {
         PhpCommandSettings commandSettings = createCommandSettings();
         GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
+
         if (commandSettings.isRemote()) {
             PhpRemoteSdkAdditionalData remoteSdkAdditionalData = (PhpRemoteSdkAdditionalData)commandSettings.getAdditionalData();
             if (remoteSdkAdditionalData == null) {
@@ -92,6 +94,7 @@ abstract public class Command
 
             RemoteSdkCredentials remoteSdkCredentials = remoteSdkAdditionalData.getRemoteSdkCredentials(false);
             process = PhpRemoteProcessUtil.createRemoteProcess(project, remoteSdkCredentials, generalCommandLine, true);
+            indicator.setText(title);
         }
         else {
             process = generalCommandLine.createProcess();

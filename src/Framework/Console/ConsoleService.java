@@ -27,7 +27,7 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
     public void run(@NotNull ProgressIndicator indicator)
     {
         try {
-            eZCommand.execute();
+            eZCommand.execute(indicator, myTitle);
         } catch (Exception e){
             notifyFailure(e.getMessage());
         }

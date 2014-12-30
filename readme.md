@@ -62,7 +62,6 @@ Todo:
 Known issues:
 -------------
 You might need to clear the cache before refreshing completions.
-When using a remote interpreter, the statusbar will display: "connecting to..." instead of actual status-text.
 
 Troubleshooting:
 ----------------
