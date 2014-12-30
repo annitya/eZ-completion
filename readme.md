@@ -37,6 +37,7 @@ Provides completion for:
  - SectionId
 
 * Clear cache from IDE.
+* Toggle assetic-watch
 
 Usage:
 ------
@@ -46,7 +47,6 @@ Completion is case-sensitive (for now).
 
 Todo:
 -----
-* Assetic-watch toggle.
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
 * Automatic installation of required bundle.
@@ -55,12 +55,14 @@ Todo:
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Automatic installation?
+    - Add to packagist.
 * Remote logs?
 * Donut?
 
 Known issues:
 -------------
 You might need to clear the cache before refreshing completions.
+When using a remote interpreter, the statusbar will display: "connecting to..." instead of actual status-text.
 
 Troubleshooting:
 ----------------
