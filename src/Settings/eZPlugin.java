@@ -3,11 +3,19 @@ package Settings;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import Framework.Util;
+import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class eZPlugin implements Configurable
 {
@@ -17,6 +25,9 @@ public class eZPlugin implements Configurable
     protected JComboBox<String> language;
     protected JLabel environmentLabel;
     protected JTextField environment;
+    protected JLabel executableLabel;
+    protected TextFieldWithBrowseButton executable;
+
     protected Service settings;
 
     @Nullable
@@ -24,11 +35,11 @@ public class eZPlugin implements Configurable
     public JComponent createComponent()
     {
         settings = Service.getInstance(Util.currentProject());
-
         DefaultComboBoxModel<String> model = createLanguageModel();
         if (model == null || model.getSize() == 0) {
             model = new DefaultComboBoxModel<>();
-            model.addElement("N/A");
+            model.addElement(Service.LANGUAGE_UNAVAILABLE);
+            language.setEnabled(false);
             languageLabel.setEnabled(false);
             language.setEditable(false);
             language.setToolTipText("Completions are not ready. Try to refresh, and then open preferences again.");
@@ -39,11 +50,15 @@ public class eZPlugin implements Configurable
             if (selectedLanguage != null) {
                 model.setSelectedItem(selectedLanguage);
             }
-
         }
 
         language.setModel(model);
         environment.setText(settings.getEnvironment());
+        executable.setText(settings.getExecutable());
+
+        FileChooserDescriptor fileDescriptor = FileChooserDescriptorFactory.createSingleLocalFileDescriptor();
+        MouseListener pathButtonMouseListener = createPathButtonMouseListener(executable.getTextField(), fileDescriptor);
+        executable.getButton().addMouseListener(pathButtonMouseListener);
 
         component = panel;
         return component;
@@ -82,7 +97,10 @@ public class eZPlugin implements Configurable
         String selectedEnvironment = environment.getText();
         String storedEnvironment = settings.getEnvironment();
 
-        return !storedEnvironment.equals(selectedEnvironment);
+        String selectedExecutable = executable.getText();
+        String storedExecutable = settings.getExecutable();
+
+        return !storedEnvironment.equals(selectedEnvironment) || !storedExecutable.equals(selectedExecutable);
     }
 
     @Override
@@ -94,7 +112,51 @@ public class eZPlugin implements Configurable
         String selectedEnvironment = environment.getText();
         settings.setEnvironment(selectedEnvironment);
 
+        String selectedExecutable = executable.getText();
+        settings.setExecutable(selectedExecutable);
+
         settings.refreshCompletions();
+    }
+
+    protected MouseListener createPathButtonMouseListener(final JTextField textField, final FileChooserDescriptor fileChooserDescriptor) {
+        return new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                VirtualFile projectDirectory = Util.currentProject().getBaseDir();
+                VirtualFile selectedFile = FileChooser.chooseFile(
+                        fileChooserDescriptor,
+                        Util.currentProject(),
+                        VfsUtil.findRelativeFile(textField.getText(), projectDirectory)
+                );
+
+                if (null == selectedFile) {
+                    return; // Ignore but keep the previous path
+                }
+
+                String path = VfsUtil.getRelativePath(selectedFile, projectDirectory, '/');
+                if (null == path) {
+                    path = selectedFile.getPath();
+                }
+
+                textField.setText(path);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+            }
+        };
     }
 
     @Override

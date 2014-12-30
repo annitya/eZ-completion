@@ -10,5 +10,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="php-openapi" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="symfony2-plugin" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="phpstorm-remote-interpreter" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="remote-run" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="webDeployment" level="project" />
   </component>
 </module>

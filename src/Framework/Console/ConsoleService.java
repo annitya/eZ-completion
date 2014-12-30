@@ -1,14 +1,12 @@
 package Framework.Console;
 
 import Framework.CompletionContainer;
+import com.intellij.notification.*;
 import com.intellij.openapi.progress.PerformInBackgroundOption;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 
 public class ConsoleService extends Task.Backgroundable implements PerformInBackgroundOption
 {
@@ -23,40 +21,34 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
     public void seteZCommand(Command command)
     {
         eZCommand = command;
-        eZCommand.setProject(myProject);
-    }
-
-    protected String getConsole() throws Exception
-    {
-        String path = myProject.getBaseDir().getCanonicalPath() + File.separator + "ezpublish/console";
-        if (!new File(path).isFile()) {
-            throw new Exception("Unable to locate console-executable");
-        }
-
-        return path;
     }
 
     @Override
     public void run(@NotNull ProgressIndicator indicator)
     {
         try {
-            String command = getConsole() + " " + eZCommand;
-            Process process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            String line, result = "";
-            while ((line = reader.readLine()) != null) {
-                result += line;
-            }
-
-            eZCommand.setResult(result);
-        } catch (Exception ignored) {}
+            eZCommand.execute();
+        } catch (Exception e){
+            notifyFailure(e.getMessage());
+        }
     }
 
     @Override
     public void onSuccess()
     {
         eZCommand.success();
+    }
+
+    protected void notifyFailure(String message)
+    {
+        NotificationGroup group = new NotificationGroup("EZ_GROUP", NotificationDisplayType.STICKY_BALLOON, true);
+        Notification notification = group.createNotification(
+                "Failed: " + eZCommand,
+                message,
+                NotificationType.ERROR,
+                null
+        );
+        Notifications.Bus.notify(notification);
     }
 
     @Override
