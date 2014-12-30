@@ -10,6 +10,10 @@ Requirements:
 -------------
 PhpStorm 8.0.2 or IntelliJ IDEA equivalent.
 Bundle: https://github.com/whitefire/ez-completion-bundle
+Plugins:
+ - Remote Run
+ - Remote Php Interpreters
+ - SSH Remote-run.
 
 What does it do?
 ----------------
@@ -51,6 +55,7 @@ Todo:
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Automatic installation?
+* Remote logs?
 * Donut?
 
 Known issues:
