@@ -54,7 +54,6 @@ Todo:
     - execute query and return data with information regarding query-performance.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
-    - Automatic installation?
     - Add to packagist.
 * Remote logs?
 * Donut?
