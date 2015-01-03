@@ -1,4 +1,4 @@
-package Toolbar;
+package Actions;
 
 import Framework.CompletionPreloader;
 import com.intellij.openapi.actionSystem.AnAction;

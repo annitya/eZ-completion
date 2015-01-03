@@ -47,10 +47,16 @@ Completion is case-sensitive (for now).
 
 Todo:
 -----
+* Type provider for content-objects.
+    - Should make completions for getField and getFieldValue possible.
+    - See if it is possible to complete text/value-part of fields.
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
-* SearchService:
-    - execute query and return data with information regarding query-performance.
+* Execute SearchService-query:
+    - Add support for services.
+    - Ask for controller parameter-values if needed.
+    - Modify method to return eval'd data.
+    - Present the results in an easily browsible manner.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Add to packagist.

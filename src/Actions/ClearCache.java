@@ -1,4 +1,4 @@
-package Toolbar;
+package Actions;
 
 import Framework.Console.Command;
 import Framework.Console.ConsoleService;

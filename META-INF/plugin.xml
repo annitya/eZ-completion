@@ -33,6 +33,11 @@
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
         <applicationConfigurable instance="Settings.eZPlugin" />
+        <intentionAction>
+            <className>Actions.Query</className>
+            <category>Database</category>
+            <descriptionDirectoryName>Query</descriptionDirectoryName>
+        </intentionAction>
     </extensions>
 
     <application-components>
@@ -51,7 +56,7 @@
     <actions>
         <action
                 id="flageolett.ez.completion_refresh"
-                class="Toolbar.RefreshCompletions"
+                class="Actions.RefreshCompletions"
                 text="Refresh completions"
                 description="Refreshes code-completions from eZ."
                 icon="AllIcons.Actions.Refresh"
@@ -59,7 +64,7 @@
 
         <action
                 id="flageolett.ez.clear_cache"
-                class="Toolbar.ClearCache"
+                class="Actions.ClearCache"
                 text="Clear cache"
                 description="Clears cache"
                 icon="AllIcons.Actions.Cancel"
@@ -67,7 +72,7 @@
 
         <action
                 id="flageolett.ez.assetic_watch"
-                class="Toolbar.AsseticWatch"
+                class="Actions.AsseticWatch"
                 text="Toggle assetic watch"
                 description="Dumps assets when needed."
                 icon="AllIcons.Actions.Rerun"
