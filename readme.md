@@ -37,6 +37,7 @@ Provides completion for:
  - SectionId
 
 * Clear cache from IDE.
+* Toggle assetic-watch
 
 Usage:
 ------
@@ -46,15 +47,13 @@ Completion is case-sensitive (for now).
 
 Todo:
 -----
-* Assetic-watch toggle.
 * Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
-* Automatic installation of required bundle.
 * SearchService:
     - execute query and return data with information regarding query-performance.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
-    - Automatic installation?
+    - Add to packagist.
 * Remote logs?
 * Donut?
 

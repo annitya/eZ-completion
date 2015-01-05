@@ -5,6 +5,7 @@ import Framework.CompletionPreloader;
 import Settings.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 
@@ -30,9 +31,9 @@ public class RefreshCompletions extends Command
     }
 
     @Override
-    public void execute() throws Exception
+    public void execute(ProgressIndicator indicator, String title) throws Exception
     {
-        super.execute();
+        super.execute(indicator, title);
 
         Gson gson = new GsonBuilder().create();
         completions = gson.fromJson(result, CompletionContainer.class);

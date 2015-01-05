@@ -65,10 +65,18 @@
                 icon="AllIcons.Actions.Cancel"
                 />
 
+        <action
+                id="flageolett.ez.assetic_watch"
+                class="Toolbar.AsseticWatch"
+                text="Toggle assetic watch"
+                description="Dumps assets when needed."
+                icon="AllIcons.Actions.Rerun"
+                />
         <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
             <separator/>
             <reference ref="flageolett.ez.completion_refresh"/>
             <reference ref="flageolett.ez.clear_cache"/>
+            <reference ref="flageolett.ez.assetic_watch" />
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>
         </group>
