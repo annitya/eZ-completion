@@ -18,6 +18,7 @@ public class ClearCache extends AnAction
         }
 
         Command command = new Command("cache:clear", project) { @Override public void success() {}};
+        command.setExpectedResultLength(755);
         ConsoleService consoleService = new ConsoleService(project, "Clearing cache for environment: " + command.getEnvironment(), false);
         consoleService.seteZCommand(command);
         consoleService.queue();

@@ -56,6 +56,7 @@ public class CompletionPreloader implements ProjectComponent
     {
         ConsoleService consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
         Command command = new RefreshCompletions("ezcode:completion", project);
+        command.setExpectedResultLength(249035);
         consoleService.seteZCommand(command);
 
         ProgressManager.getInstance().run(consoleService);

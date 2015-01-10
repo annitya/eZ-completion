@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class AsseticWatch extends AnAction
 {
-    static Command command;
+    protected static Command command;
 
     @Override
     public void update(@NotNull AnActionEvent e)
@@ -37,7 +37,7 @@ public class AsseticWatch extends AnAction
         }
 
         command = new Command("assetic:watch", project) { @Override public void success() {}};
-        command.setAsync(true);
+
         ConsoleService consoleService = new ConsoleService(project, "Watching assets for environment: " + command.getEnvironment(), false);
         consoleService.seteZCommand(command);
         consoleService.queue();

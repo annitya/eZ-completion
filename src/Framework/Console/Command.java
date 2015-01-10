@@ -15,10 +15,11 @@ import java.io.*;
 abstract public class Command
 {
     protected String command;
-    protected String result;
+    protected String result = "";
     protected Process process;
     protected Project project;
-    protected Boolean async = false;
+    protected Integer expectedResultLength = 0;
+    protected ProgressIndicator indicator;
 
     public Command(String command, Project project)
     {
@@ -26,12 +27,11 @@ abstract public class Command
         this.project = project;
     }
 
-    public void setAsync(Boolean async)
-    {
-        this.async = async;
-    }
-
     public Process getProcess() { return process; }
+
+    public void setExpectedResultLength(Integer expectedResultLength) { this.expectedResultLength = expectedResultLength; }
+
+    public void setProgressIndicator(ProgressIndicator indicator) { this.indicator = indicator; }
 
     abstract public void success();
 
@@ -69,19 +69,56 @@ abstract public class Command
         return commandSettings;
     }
 
-    protected String readAll(InputStream stream) throws IOException
+    protected String readAllTextProgress(InputStream stream) throws IOException, InterruptedException
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        String currentLine;
+        String originalText = indicator.getText();
+        StringBuilder temp = new StringBuilder();
 
-        String line, result = "";
-        while ((line = reader.readLine()) != null) {
-            result += line.trim();
+        while ((currentLine = reader.readLine()) != null) {
+            temp.append(currentLine);
+            indicator.setText(currentLine);
+
+            if (!reader.ready()) {
+                Thread.sleep(500);
+                indicator.setText(originalText);
+            }
         }
 
-        return result;
+        return temp.toString();
     }
 
-    public void execute(ProgressIndicator indicator, String title) throws Exception
+    protected String readAll(InputStream stream) throws IOException, InterruptedException
+    {
+        if (expectedResultLength == 0) {
+            return readAllTextProgress(stream);
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        StringBuilder temp = new StringBuilder();
+        int currentChar;
+
+        while (true) {
+            currentChar = reader.read();
+
+            if (currentChar == -1) {
+                break;
+            }
+
+            temp.append((char)currentChar);
+
+            if (expectedResultLength > 0) {
+                indicator.setFraction((double)temp.length() / (double)expectedResultLength);
+            }
+        }
+
+        indicator.setFraction(1);
+
+        return temp.toString();
+    }
+
+    public void execute(String title) throws Exception
     {
         PhpCommandSettings commandSettings = createCommandSettings();
         GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
@@ -103,23 +140,17 @@ abstract public class Command
         result = readAll(process.getInputStream());
         process.waitFor();
 
-        if (async) {
-            return;
-        }
-        if (process.exitValue() != 0) {
+        // Check if process was destroyed intentionally or exited properly.
+        if (process.exitValue() != 0 && process.exitValue() != 143)   {
             throw new Exception(getErrorMessage());
         }
     }
 
     protected String getErrorMessage()
     {
-        if (result != null && result.length() > 0) {
-            return result;
-        }
-
         try {
             return readAll(process.getErrorStream());
-        } catch (IOException e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }

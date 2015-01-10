@@ -47,6 +47,7 @@ Completion is case-sensitive (for now).
 
 Todo:
 -----
+* Not all PhpStorm-projects are eZ-projects. Allow for the plugin to be disabled per project.
 * Type provider for content-objects.
     - Should make completions for getField and getFieldValue possible.
     - See if it is possible to complete text/value-part of fields.
