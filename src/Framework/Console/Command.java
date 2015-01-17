@@ -4,11 +4,8 @@ import Settings.Service;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
-import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 import com.jetbrains.php.config.commandLine.PhpCommandSettingsBuilder;
-import com.jetbrains.php.remote.PhpRemoteProcessUtil;
-import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 
 import java.io.*;
 
@@ -20,6 +17,7 @@ abstract public class Command
     protected Project project;
     protected Integer expectedResultLength = 0;
     protected ProgressIndicator indicator;
+    protected String title;
 
     public Command(String command, Project project)
     {
@@ -28,6 +26,8 @@ abstract public class Command
     }
 
     public Process getProcess() { return process; }
+
+    public void setTitle(String title) { this.title = title; }
 
     public void setExpectedResultLength(Integer expectedResultLength) { this.expectedResultLength = expectedResultLength; }
 
@@ -118,38 +118,40 @@ abstract public class Command
         return temp.toString();
     }
 
-    public void execute(String title) throws Exception
+    public void execute() throws Exception
     {
-        PhpCommandSettings commandSettings = createCommandSettings();
-        GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
-
-        if (commandSettings.isRemote()) {
-            PhpRemoteSdkAdditionalData remoteSdkAdditionalData = (PhpRemoteSdkAdditionalData)commandSettings.getAdditionalData();
-            if (remoteSdkAdditionalData == null) {
-                throw new Exception("Unable to fetch remote sdk-data!");
-            }
-
-            RemoteSdkCredentials remoteSdkCredentials = remoteSdkAdditionalData.getRemoteSdkCredentials(false);
-            process = PhpRemoteProcessUtil.createRemoteProcess(project, remoteSdkCredentials, generalCommandLine, true);
-            indicator.setText(title);
-        }
-        else {
-            process = generalCommandLine.createProcess();
-        }
+        createProcess();
 
         result = readAll(process.getInputStream());
         process.waitFor();
 
         // Check if process was destroyed intentionally or exited properly.
         if (process.exitValue() != 0 && process.exitValue() != 143)   {
-            throw new Exception(getErrorMessage());
+            throw new Exception(getErrorMessage(result));
         }
     }
 
-    protected String getErrorMessage()
+    protected void createProcess() throws Exception
+    {
+        PhpCommandSettings commandSettings = createCommandSettings();
+        if (commandSettings.isRemote()) {
+            process = RemoteCommand.createProcess(commandSettings, project);
+            indicator.setText(title);
+        }
+        else {
+            GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
+            process = generalCommandLine.createProcess();
+        }
+    }
+
+    protected String getErrorMessage(String result)
     {
         try {
-            return readAll(process.getErrorStream());
+            String output = readAll(process.getErrorStream());
+            if (output.length() == 0) {
+                return result;
+            }
+            return output;
         } catch (Exception e) {
             return e.getMessage();
         }

@@ -21,7 +21,10 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
     public void seteZCommand(Command command)
     {
         eZCommand = command;
+        command.setTitle(myTitle);
     }
+
+    public Command geteZCommand() { return eZCommand; }
 
     @Override
     public void run(@NotNull ProgressIndicator indicator)
@@ -29,9 +32,9 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
         eZCommand.setProgressIndicator(indicator);
 
         try {
-            eZCommand.execute(myTitle);
+            eZCommand.execute();
         } catch (Exception e){
-            notifyFailure(e.getMessage());
+            notifyFailure(e.getMessage(), eZCommand.toString(), myProject);
         }
     }
 
@@ -41,14 +44,16 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
         eZCommand.success();
     }
 
-    protected void notifyFailure(String message)
+    public static void notifyFailure(String message, String command, Project project)
     {
+        message += "\n\n<a href='http://google.no'>Disable plugin for this project.</a>";
+
         NotificationGroup group = new NotificationGroup("EZ_GROUP", NotificationDisplayType.STICKY_BALLOON, true);
         Notification notification = group.createNotification(
-                "Failed: " + eZCommand,
+                "Failed: " + command,
                 message,
                 NotificationType.ERROR,
-                null
+                new ErrorListener(project)
         );
         Notifications.Bus.notify(notification);
     }

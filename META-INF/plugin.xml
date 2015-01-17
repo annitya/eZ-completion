@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
@@ -9,6 +9,15 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.02</h2>
+        <ul>
+            <li>It is now possible to disable the plugin per project.</li>
+            <li>Plugin is now compiled using java 1.6 (issue#4)</li>
+            <li>Remote dependencies are now optional (issue#5)</li>
+            <li>Added support for the assetic-watch command.</li>
+            <li>Background-actions now shows progress.</li>
+        </ul>
+
         <h2>1.0.1</h2>
         <ul>
             <li>Added support for local and remote PHP-interpreters.</li>
@@ -28,7 +37,8 @@
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
-    <depends>org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
+    <depends optional="true">org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
+    <depends optional="true">org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>

@@ -8,15 +8,18 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiRecursiveElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
+import com.jetbrains.php.lang.psi.elements.AssignmentExpression;
 import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.PhpReturn;
 import org.jetbrains.annotations.NotNull;
 
 public class Query extends BaseIntentionAction
 {
-
     public static final String SEARCHSERVICE_FQN = "\\eZ\\Publish\\API\\Repository\\SearchService";
     public static final String SEARCHSERVICE_METHOD = "findContent";
 
@@ -58,6 +61,29 @@ public class Query extends BaseIntentionAction
         if (method == null) {
             return;
         }
+        
+        method.accept(new PsiRecursiveElementVisitor()
+              {
+                  @Override
+                  public void visitElement(PsiElement element)
+                  {
+                      System.out.println(element.getText());
+                      super.visitElement(element);
+                  }
+              }
+        );
+        PsiElement assignment = PsiTreeUtil.getParentOfType(element, AssignmentExpression.class);
+        if (assignment == null) {
+            return;
+        }
+        PsiElement assignmentCopy = assignment.copy();
+        PsiElement methodCall = assignmentCopy.getChildren()[1];
+        PhpReturn returnStatement = PhpPsiElementFactory.createReturnStatement(project, methodCall.getText());
+
+        methodCall.delete();
+        assignmentCopy.getChildren()[0].getNextSibling().getNextSibling().delete();
+        assignmentCopy.getChildren()[0].replace(returnStatement);
+
         String methodFqn = method.getFQN();
         String queryCode = "";
 

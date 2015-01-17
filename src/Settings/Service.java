@@ -24,6 +24,10 @@ public class Service implements ProjectComponent
         return project.getComponent(Service.class);
     }
 
+    public Boolean getDisabled() { return getSetting("disabled", "false").equals("true"); }
+
+    public void setDisabled(Boolean disabled) { setSetting("disabled", disabled.toString()); }
+
     public void refreshCompletions()
     {
         CompletionPreloader.getInstance(project).fetchCompletions();

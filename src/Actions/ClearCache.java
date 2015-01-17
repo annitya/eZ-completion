@@ -1,7 +1,6 @@
 package Actions;
 
-import Framework.Console.Command;
-import Framework.Console.ConsoleService;
+import Framework.Console.ConsoleCommandFactory;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
@@ -17,10 +16,6 @@ public class ClearCache extends AnAction
             return;
         }
 
-        Command command = new Command("cache:clear", project) { @Override public void success() {}};
-        command.setExpectedResultLength(755);
-        ConsoleService consoleService = new ConsoleService(project, "Clearing cache for environment: " + command.getEnvironment(), false);
-        consoleService.seteZCommand(command);
-        consoleService.queue();
+        ConsoleCommandFactory.runConsoleCommand(ConsoleCommandFactory.CommandName.CLEAR_CACHE, project);
     }
 }

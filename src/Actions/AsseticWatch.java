@@ -1,6 +1,7 @@
 package Actions;
 
 import Framework.Console.Command;
+import Framework.Console.ConsoleCommandFactory;
 import Framework.Console.ConsoleService;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -36,10 +37,11 @@ public class AsseticWatch extends AnAction
             return;
         }
 
-        command = new Command("assetic:watch", project) { @Override public void success() {}};
-
-        ConsoleService consoleService = new ConsoleService(project, "Watching assets for environment: " + command.getEnvironment(), false);
-        consoleService.seteZCommand(command);
+        ConsoleService consoleService = ConsoleCommandFactory.createConsoleCommand(ConsoleCommandFactory.CommandName.ASSETIC_WATCH, project);
+        if (consoleService == null) {
+            return;
+        }
+        command = consoleService.geteZCommand();
         consoleService.queue();
     }
 }

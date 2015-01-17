@@ -30,9 +30,9 @@ public class RefreshCompletions extends Command
     }
 
     @Override
-    public void execute(String title) throws Exception
+    public void execute() throws Exception
     {
-        super.execute(title);
+        super.execute();
 
         Gson gson = new GsonBuilder().create();
         completions = gson.fromJson(result, CompletionContainer.class);

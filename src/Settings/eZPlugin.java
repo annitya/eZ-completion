@@ -22,11 +22,13 @@ public class eZPlugin implements Configurable
     protected JComponent component;
     protected JPanel panel;
     protected JLabel languageLabel;
-    protected JComboBox<String> language;
+    protected JComboBox language;
     protected JLabel environmentLabel;
     protected JTextField environment;
     protected JLabel executableLabel;
     protected TextFieldWithBrowseButton executable;
+    protected JLabel disableLabel;
+    protected JCheckBox disablePlugin;
 
     protected Service settings;
 
@@ -35,9 +37,9 @@ public class eZPlugin implements Configurable
     public JComponent createComponent()
     {
         settings = Service.getInstance(Util.currentProject());
-        DefaultComboBoxModel<String> model = createLanguageModel();
+        DefaultComboBoxModel model = createLanguageModel();
         if (model == null || model.getSize() == 0) {
-            model = new DefaultComboBoxModel<>();
+            model = new DefaultComboBoxModel();
             model.addElement(Service.LANGUAGE_UNAVAILABLE);
             language.setEnabled(false);
             languageLabel.setEnabled(false);
@@ -55,6 +57,7 @@ public class eZPlugin implements Configurable
         language.setModel(model);
         environment.setText(settings.getEnvironment());
         executable.setText(settings.getExecutable());
+        disablePlugin.setSelected(settings.getDisabled());
 
         FileChooserDescriptor fileDescriptor = FileChooserDescriptorFactory.createSingleLocalFileDescriptor();
         MouseListener pathButtonMouseListener = createPathButtonMouseListener(executable.getTextField(), fileDescriptor);
@@ -64,7 +67,7 @@ public class eZPlugin implements Configurable
         return component;
     }
 
-    protected DefaultComboBoxModel<String> createLanguageModel()
+    protected DefaultComboBoxModel createLanguageModel()
     {
         CompletionPreloader preloader = CompletionPreloader.getInstance(Util.currentProject());
         CompletionContainer completionContainer = preloader.getCurrentCompletions();
@@ -73,7 +76,7 @@ public class eZPlugin implements Configurable
             return null;
         }
 
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
         for (String contentLanguage : completionContainer.getContentLanguages()) {
             model.addElement(contentLanguage);
         }
@@ -85,13 +88,17 @@ public class eZPlugin implements Configurable
     public boolean isModified()
     {
         Object selectedLanguageItem = language.getSelectedItem();
-        if (selectedLanguageItem != null) {
+        if (selectedLanguageItem != null && language.isEnabled()) {
             String selectedLanguage = selectedLanguageItem.toString();
             String storedLanguage = settings.getLanguage();
 
             if (storedLanguage == null || !selectedLanguage.equals(storedLanguage)) {
                 return true;
             }
+        }
+
+        if (settings.getDisabled() != disablePlugin.isSelected()) {
+            return true;
         }
 
         String selectedEnvironment = environment.getText();
@@ -115,7 +122,12 @@ public class eZPlugin implements Configurable
         String selectedExecutable = executable.getText();
         settings.setExecutable(selectedExecutable);
 
-        settings.refreshCompletions();
+        boolean isDisabled = disablePlugin.isSelected();
+        settings.setDisabled(isDisabled);
+
+        if (!isDisabled) {
+            settings.refreshCompletions();
+        }
     }
 
     protected MouseListener createPathButtonMouseListener(final JTextField textField, final FileChooserDescriptor fileChooserDescriptor) {

@@ -1,10 +1,7 @@
 package Framework;
 
-import Framework.Console.Command;
-import Framework.Console.ConsoleService;
-import Framework.Console.RefreshCompletions;
+import Framework.Console.ConsoleCommandFactory;
 import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +44,11 @@ public class CompletionPreloader implements ProjectComponent
 
     public void projectOpened()
     {
+        // No autofetch if plugin is disabled.
+        if (Settings.Service.getInstance(project).getDisabled()) {
+            return;
+        }
+
         try {
             fetchCompletions();
         } catch (Exception ignored) {}
@@ -54,12 +56,7 @@ public class CompletionPreloader implements ProjectComponent
 
     public void fetchCompletions()
     {
-        ConsoleService consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
-        Command command = new RefreshCompletions("ezcode:completion", project);
-        command.setExpectedResultLength(249035);
-        consoleService.seteZCommand(command);
-
-        ProgressManager.getInstance().run(consoleService);
+        ConsoleCommandFactory.runConsoleCommand(ConsoleCommandFactory.CommandName.REFRESH_COMPLETIONS, project);
     }
 
     public void projectClosed() {}
