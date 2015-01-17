@@ -8,7 +8,6 @@ public class ConsoleCommandFactory
     public enum CommandName {
         ASSETIC_WATCH("assetic:watch"),
         CLEAR_CACHE("cache:clear"),
-        QUERY("ezcode:query"),
         REFRESH_COMPLETIONS("ezcode:completion");
 
         protected String command;
@@ -44,8 +43,6 @@ public class ConsoleCommandFactory
                     command.setExpectedResultLength(249035);
                     consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
                     consoleService.seteZCommand(command);
-                break;
-                case QUERY:
                 break;
             }
         } catch (Exception e) {

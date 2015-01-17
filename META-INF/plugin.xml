@@ -43,11 +43,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
         <applicationConfigurable instance="Settings.eZPlugin" />
-        <intentionAction>
-            <className>Actions.Query</className>
-            <category>Database</category>
-            <descriptionDirectoryName>Query</descriptionDirectoryName>
-        </intentionAction>
     </extensions>
 
     <application-components>
