@@ -64,7 +64,11 @@ abstract public class Command
         commandSettings.setScript(getConsole());
         commandSettings.addArgument(command);
         commandSettings.addArgument("--no-ansi");
-        commandSettings.addArgument("--env=" + getEnvironment());
+
+        String environment = getEnvironment().trim();
+        if (environment.length() > 0) {
+            commandSettings.addArgument("--env=" + getEnvironment());
+        }
 
         return commandSettings;
     }
@@ -125,10 +129,7 @@ abstract public class Command
         result = readAll(process.getInputStream());
         process.waitFor();
 
-        // Check if process was destroyed intentionally or exited properly.
-        if (process.exitValue() != 0 && process.exitValue() != 143)   {
-            throw new Exception(getErrorMessage(result));
-        }
+        processExited();
     }
 
     protected void createProcess() throws Exception
@@ -141,6 +142,13 @@ abstract public class Command
         else {
             GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
             process = generalCommandLine.createProcess();
+        }
+    }
+
+    protected void processExited() throws Exception
+    {
+        if (process.exitValue() != 0)   {
+            throw new Exception(getErrorMessage(result));
         }
     }
 

@@ -2,6 +2,7 @@ package Completions;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
@@ -16,6 +17,16 @@ public class Completion extends LookupElement
     @NotNull
     @Override
     public String getLookupString() { return lookupValue; }
+
+    @Override
+    public boolean isCaseSensitive() { return false; }
+
+    @Override
+    public void renderElement(LookupElementPresentation presentation)
+    {
+        presentation.appendTailText("(" + returnValue + ")", true);
+        super.renderElement(presentation);
+    }
 
     @Override
     public void handleInsert(InsertionContext context)

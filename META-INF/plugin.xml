@@ -5,7 +5,7 @@
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
-      Provides completion for contentclasses and attributes in eZ.
+      Provides completion for contentclasses and attributes in eZ Publish.
     ]]></description>
 
     <change-notes><![CDATA[
@@ -13,9 +13,12 @@
         <ul>
             <li>It is now possible to disable the plugin per project.</li>
             <li>Plugin is now compiled using java 1.6 (issue#4)</li>
-            <li>Remote dependencies are now optional (issue#5)</li>
+            <li>Remote dependencies are now optional.</li>
             <li>Added support for the assetic-watch command.</li>
             <li>Background-actions now shows progress.</li>
+            <li>Environment is now optional.</li>
+            <li>Completions are no longer case-sensitive.</li>
+            <li>Inserted values are now available in completion-list.</li>
         </ul>
 
         <h2>1.0.1</h2>

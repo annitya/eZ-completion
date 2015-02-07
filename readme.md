@@ -42,7 +42,6 @@ Usage:
 ------
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
-Completion is case-sensitive (for now).
 
 Todo:
 -----
@@ -54,7 +53,7 @@ Roadmap 1.0.3:
 --------------
 * Execute SearchService-query:
     - Add support for services.
-    - Ask for controller parameter-values if needed.
+    - Ask for unresolved criteria-values.
     - Modify method to return eval'd data.
     - Present the results in an easily browsible manner.
 * Bundle:

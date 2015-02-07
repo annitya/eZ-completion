@@ -28,7 +28,7 @@ public class ConsoleCommandFactory
             PhpCommandSettingsBuilder.create(project);
             switch (commandName) {
                 case ASSETIC_WATCH:
-                    command = new Command(commandName.toString(), project) { @Override public void success() {}};
+                    command = new Assetic(commandName.toString(), project) { @Override public void success() {}};
                     consoleService = new ConsoleService(project, "Watching assets for environment: " + command.getEnvironment(), false);
                     consoleService.seteZCommand(command);
                 break;
