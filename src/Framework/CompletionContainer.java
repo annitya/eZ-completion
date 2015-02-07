@@ -11,8 +11,8 @@ public class CompletionContainer
 
     public CompletionContainer()
     {
-        list = new ArrayList<>();
-        contentLanguages = new ArrayList<>();
+        list = new ArrayList<ParameterCompletion>();
+        contentLanguages = new ArrayList<String>();
     }
 
     public ArrayList<ParameterCompletion> getList(){ return list; }

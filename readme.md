@@ -10,8 +10,7 @@ Requirements:
 -------------
 PhpStorm 8.0.2 or IntelliJ IDEA equivalent.
 Bundle: https://github.com/whitefire/ez-completion-bundle
-Plugins:
- - Remote Run
+Remote interpreter support:
  - Remote Php Interpreters
  - SSH Remote-run.
 
@@ -43,19 +42,36 @@ Usage:
 ------
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
-Completion is case-sensitive (for now).
 
 Todo:
 -----
-* Add twig-completions for content/location
 * Perhaps documentation-lookups could be helpful?
-* SearchService:
-    - execute query and return data with information regarding query-performance.
+* Remote logs?
+* Structure view for content-types?
+
+Roadmap 1.0.3:
+--------------
+* Execute SearchService-query:
+    - Add support for services.
+    - Ask for unresolved criteria-values.
+    - Modify method to return eval'd data.
+    - Present the results in an easily browsible manner.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Add to packagist.
-* Remote logs?
+* Add completions for configResolverInterface
+* Add completions for $repository->canUser(...)
+
+Roadmap 1.0.4:
+--------------
+* Type provider for content-objects.
+    - Should make completions for getField and getFieldValue possible.
+    - See if it is possible to complete text/value-part of fields.
+* Add twig-completions for content/location
 * Donut?
+* https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
+* https://devnet.jetbrains.com/message/5520264#5520264
+
 
 Known issues:
 -------------

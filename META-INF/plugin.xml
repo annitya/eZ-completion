@@ -1,14 +1,26 @@
 <idea-plugin version="2">
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
-      Provides completion for contentclasses and attributes in eZ.
+      Provides completion for contentclasses and attributes in eZ Publish.
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.02</h2>
+        <ul>
+            <li>It is now possible to disable the plugin per project.</li>
+            <li>Plugin is now compiled using java 1.6 (issue#4)</li>
+            <li>Remote dependencies are now optional.</li>
+            <li>Added support for the assetic-watch command.</li>
+            <li>Background-actions now shows progress.</li>
+            <li>Environment is now optional.</li>
+            <li>Completions are no longer case-sensitive.</li>
+            <li>Inserted values are now available in completion-list.</li>
+        </ul>
+
         <h2>1.0.1</h2>
         <ul>
             <li>Added support for local and remote PHP-interpreters.</li>
@@ -28,7 +40,8 @@
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
-    <depends>org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
+    <depends optional="true">org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
+    <depends optional="true">org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
@@ -51,7 +64,7 @@
     <actions>
         <action
                 id="flageolett.ez.completion_refresh"
-                class="Toolbar.RefreshCompletions"
+                class="Actions.RefreshCompletions"
                 text="Refresh completions"
                 description="Refreshes code-completions from eZ."
                 icon="AllIcons.Actions.Refresh"
@@ -59,7 +72,7 @@
 
         <action
                 id="flageolett.ez.clear_cache"
-                class="Toolbar.ClearCache"
+                class="Actions.ClearCache"
                 text="Clear cache"
                 description="Clears cache"
                 icon="AllIcons.Actions.Cancel"
@@ -67,7 +80,7 @@
 
         <action
                 id="flageolett.ez.assetic_watch"
-                class="Toolbar.AsseticWatch"
+                class="Actions.AsseticWatch"
                 text="Toggle assetic watch"
                 description="Dumps assets when needed."
                 icon="AllIcons.Actions.Rerun"

@@ -4,21 +4,20 @@ import Settings.Service;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
-import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 import com.jetbrains.php.config.commandLine.PhpCommandSettingsBuilder;
-import com.jetbrains.php.remote.PhpRemoteProcessUtil;
-import com.jetbrains.php.remote.interpreter.PhpRemoteSdkAdditionalData;
 
 import java.io.*;
 
 abstract public class Command
 {
     protected String command;
-    protected String result;
+    protected String result = "";
     protected Process process;
     protected Project project;
-    protected Boolean async = false;
+    protected Integer expectedResultLength = 0;
+    protected ProgressIndicator indicator;
+    protected String title;
 
     public Command(String command, Project project)
     {
@@ -26,12 +25,13 @@ abstract public class Command
         this.project = project;
     }
 
-    public void setAsync(Boolean async)
-    {
-        this.async = async;
-    }
-
     public Process getProcess() { return process; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public void setExpectedResultLength(Integer expectedResultLength) { this.expectedResultLength = expectedResultLength; }
+
+    public void setProgressIndicator(ProgressIndicator indicator) { this.indicator = indicator; }
 
     abstract public void success();
 
@@ -64,62 +64,103 @@ abstract public class Command
         commandSettings.setScript(getConsole());
         commandSettings.addArgument(command);
         commandSettings.addArgument("--no-ansi");
-        commandSettings.addArgument("--env=" + getEnvironment());
+
+        String environment = getEnvironment().trim();
+        if (environment.length() > 0) {
+            commandSettings.addArgument("--env=" + getEnvironment());
+        }
 
         return commandSettings;
     }
 
-    protected String readAll(InputStream stream) throws IOException
+    protected String readAllTextProgress(InputStream stream) throws IOException, InterruptedException
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        String currentLine;
+        String originalText = indicator.getText();
+        StringBuilder temp = new StringBuilder();
 
-        String line, result = "";
-        while ((line = reader.readLine()) != null) {
-            result += line.trim();
+        while ((currentLine = reader.readLine()) != null) {
+            temp.append(currentLine);
+            indicator.setText(currentLine);
+
+            if (!reader.ready()) {
+                Thread.sleep(500);
+                indicator.setText(originalText);
+            }
         }
 
-        return result;
+        return temp.toString();
     }
 
-    public void execute(ProgressIndicator indicator, String title) throws Exception
+    protected String readAll(InputStream stream) throws IOException, InterruptedException
     {
-        PhpCommandSettings commandSettings = createCommandSettings();
-        GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
+        if (expectedResultLength == 0) {
+            return readAllTextProgress(stream);
+        }
 
-        if (commandSettings.isRemote()) {
-            PhpRemoteSdkAdditionalData remoteSdkAdditionalData = (PhpRemoteSdkAdditionalData)commandSettings.getAdditionalData();
-            if (remoteSdkAdditionalData == null) {
-                throw new Exception("Unable to fetch remote sdk-data!");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        StringBuilder temp = new StringBuilder();
+        int currentChar;
+
+        while (true) {
+            currentChar = reader.read();
+
+            if (currentChar == -1) {
+                break;
             }
 
-            RemoteSdkCredentials remoteSdkCredentials = remoteSdkAdditionalData.getRemoteSdkCredentials(false);
-            process = PhpRemoteProcessUtil.createRemoteProcess(project, remoteSdkCredentials, generalCommandLine, true);
-            indicator.setText(title);
+            temp.append((char)currentChar);
+
+            if (expectedResultLength > 0) {
+                indicator.setFraction((double)temp.length() / (double)expectedResultLength);
+            }
         }
-        else {
-            process = generalCommandLine.createProcess();
-        }
+
+        indicator.setFraction(1);
+
+        return temp.toString();
+    }
+
+    public void execute() throws Exception
+    {
+        createProcess();
 
         result = readAll(process.getInputStream());
         process.waitFor();
 
-        if (async) {
-            return;
+        processExited();
+    }
+
+    protected void createProcess() throws Exception
+    {
+        PhpCommandSettings commandSettings = createCommandSettings();
+        if (commandSettings.isRemote()) {
+            process = RemoteCommand.createProcess(commandSettings, project);
+            indicator.setText(title);
         }
-        if (process.exitValue() != 0) {
-            throw new Exception(getErrorMessage());
+        else {
+            GeneralCommandLine generalCommandLine = commandSettings.createGeneralCommandLine();
+            process = generalCommandLine.createProcess();
         }
     }
 
-    protected String getErrorMessage()
+    protected void processExited() throws Exception
     {
-        if (result != null && result.length() > 0) {
-            return result;
+        if (process.exitValue() != 0)   {
+            throw new Exception(getErrorMessage(result));
         }
+    }
 
+    protected String getErrorMessage(String result)
+    {
         try {
-            return readAll(process.getErrorStream());
-        } catch (IOException e) {
+            String output = readAll(process.getErrorStream());
+            if (output.length() == 0) {
+                return result;
+            }
+            return output;
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
