@@ -9,7 +9,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <h2>1.0.02</h2>
+        <h2>1.0.2</h2>
         <ul>
             <li>It is now possible to disable the plugin per project.</li>
             <li>Plugin is now compiled using java 1.6 (issue#4)</li>
