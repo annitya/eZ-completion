@@ -51,6 +51,17 @@ Todo:
 
 Roadmap 1.0.3:
 --------------
+* Type provider for content-objects.
+    - Should make completions for getField and getFieldValue possible.
+    - See if it is possible to complete text/value-part of fields.
+    - Annotation-support.
+    - Be sure to include field-descriptions.
+    - GIF's of goodness.
+    - Adjust expected length of completion-response.
+
+Roadmap 1.0.4:
+--------------
+* Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
     - Add support for services.
     - Ask for unresolved criteria-values.
@@ -59,19 +70,15 @@ Roadmap 1.0.3:
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
     - Add to packagist.
-* Add completions for configResolverInterface
-* Add completions for $repository->canUser(...)
-
-Roadmap 1.0.4:
---------------
-* Type provider for content-objects.
-    - Should make completions for getField and getFieldValue possible.
-    - See if it is possible to complete text/value-part of fields.
+* Revisit the whole bundle-installation-thingy.
 * Add twig-completions for content/location
 * Donut?
 * https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
 * https://devnet.jetbrains.com/message/5520264#5520264
 
+Future:
+-------
+* Are there challenges with starting a new eZ-site which this plugin could help with?
 
 Known issues:
 -------------

@@ -1,4 +1,4 @@
-package Completions;
+package Completions.Repository;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -24,7 +24,9 @@ public class Completion extends LookupElement
     @Override
     public void renderElement(LookupElementPresentation presentation)
     {
-        presentation.appendTailText("(" + returnValue + ")", true);
+        if (!returnValue.equals(lookupValue)) {
+            presentation.appendTailText("(" + returnValue + ")", true);
+        }
         super.renderElement(presentation);
     }
 

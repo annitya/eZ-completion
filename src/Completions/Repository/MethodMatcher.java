@@ -1,4 +1,4 @@
-package Completions;
+package Completions.Repository;
 
 import Framework.Util;
 import com.intellij.patterns.PatternCondition;
