@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
@@ -9,6 +9,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.3</h2>
+        <ul>
+            <li>Plugin is now disabled by default. Be sure to enable! :)</li>
+            <li>Added completions for configResolver->getParameter(...)</li>
+            <li>Added completions for repository->canUser/hasAccess(...)</li>
+            <li>Improved presentation of completions.</li>
+        </ul>
+
         <h2>1.0.2</h2>
         <ul>
             <li>It is now possible to disable the plugin per project.</li>
@@ -45,6 +53,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
+        <php.typeProvider2 implementation="Completions.Content.ContentTypeProvider" />
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>
 
