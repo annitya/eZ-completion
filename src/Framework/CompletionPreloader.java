@@ -3,7 +3,10 @@ package Framework;
 import Framework.Console.ConsoleCommandFactory;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
+import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class CompletionPreloader implements ProjectComponent
 {
@@ -72,5 +75,21 @@ public class CompletionPreloader implements ProjectComponent
          * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
          */
         completions = completionContainer;
+
+        checkAddIncludePath();
+    }
+
+    protected void checkAddIncludePath()
+    {
+        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(this.project);
+        List<String> includePaths = facade.getIncludePath();
+        String completionIncludePath = completions.getIncludePath();
+
+        if (includePaths.contains(completionIncludePath)) {
+            return;
+        }
+
+        includePaths.add(completionIncludePath);
+        facade.setIncludePath(includePaths);
     }
 }

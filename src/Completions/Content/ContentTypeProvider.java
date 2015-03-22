@@ -2,6 +2,7 @@ package Completions.Content;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
@@ -51,18 +52,12 @@ public class ContentTypeProvider implements PhpTypeProvider2
             return null;
         }
 
-        return null;
-        //return parts[2];
+        return parts[2];
     }
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project)
     {
-        if (!s.equals("user_idea")) {
-            return null;
-        }
-
-        return null;
-        //return PhpIndex.getInstance(project).getAnyByFQN("\\ContentTypes\\user_idea_test");
+        return PhpIndex.getInstance(project).getAnyByFQN("\\eZCompletion\\" + s);
     }
 }
