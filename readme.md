@@ -43,12 +43,6 @@ Usage:
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
 
-Todo:
------
-* Perhaps documentation-lookups could be helpful?
-* Remote logs?
-* Structure view for content-types?
-
 Roadmap 1.0.3:
 --------------
 * Type provider for content-objects.
@@ -58,6 +52,7 @@ Roadmap 1.0.3:
     - Be sure to include field-descriptions.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
+    - Be sure that the disable-plugin-setting is honoured in all cases.
 
 Roadmap 1.0.4:
 --------------

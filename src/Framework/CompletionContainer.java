@@ -10,6 +10,7 @@ public class CompletionContainer
     protected ArrayList<ParameterCompletion> list;
     protected ArrayList<ContentType> contentTypes;
     protected ArrayList<String> contentLanguages;
+    protected String includePath;
 
     public CompletionContainer()
     {
@@ -17,6 +18,8 @@ public class CompletionContainer
         contentTypes = new ArrayList<ContentType>();
         contentLanguages = new ArrayList<String>();
     }
+
+    public String getIncludePath() { return includePath; }
 
     public ArrayList<ParameterCompletion> getList(){ return list; }
 
