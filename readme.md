@@ -35,6 +35,10 @@ Provides completion for:
  - ObjectStateId
  - SectionId
 
+* The Content-class
+    - getField(...)
+    - getFieldValue(...)
+
 * Clear cache from IDE.
 * Toggle assetic-watch
 
@@ -43,19 +47,35 @@ Usage:
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
 
+
+Known issues:
+-------------
+User must manually mark eZCompletion-directory as not excluded.
+PhpStorm will suggest overridden class while updating method phpdoc.
+Existing Content-class type-hints in method-phpdoc will complain about argument type not matching.
+You might need to clear the cache before refreshing completions.
+eZDoc-hints for variables must be directly above the variable in question.
+
 Roadmap 1.0.3:
 --------------
 * Type provider for content-objects.
-    - Should make completions for getField and getFieldValue possible.
+    - Find a better name than "annotate".
     - See if it is possible to complete text/value-part of fields.
-    - Annotation-support.
-    - Be sure to include field-descriptions.
+    - What about?
+        - fields
+        - getFields()
+        - getFieldsByLanguage()
+    - Be sure to include field-descriptions. (If there are any)
+        - https://github.com/JetBrains/intellij-community/blob/master/plugins/properties/src/com/intellij/lang/properties/PropertiesDocumentationProvider.java
     - GIF's of goodness.
     - Adjust expected length of completion-response.
-    - Be sure that the disable-plugin-setting is honoured in all cases.
+* Make sure that the disable-plugin-setting is honored in all cases.
+* Test all cases of type-hinting and content-completion.
+* Walkthrough of all changes in 1.0.3. Refactor ftw.
 
 Roadmap 1.0.4:
 --------------
+* Create eZDoc-intention.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
     - Add support for services.
@@ -70,14 +90,6 @@ Roadmap 1.0.4:
 * Donut?
 * https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
 * https://devnet.jetbrains.com/message/5520264#5520264
-
-Future:
--------
-* Are there challenges with starting a new eZ-site which this plugin could help with?
-
-Known issues:
--------------
-You might need to clear the cache before refreshing completions.
 
 Troubleshooting:
 ----------------
