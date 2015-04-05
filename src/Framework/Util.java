@@ -93,6 +93,9 @@ public class Util
             return false;
         }
 
+        if (phpClass == null) {
+            return false;
+        }
         String classFqn = phpClass.getFQN();
         if (classFqn != null && classFqn.equals(fqn)) {
             return true;

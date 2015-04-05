@@ -53,7 +53,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
-        <php.typeProvider2 implementation="Completions.Content.ContentTypeProvider" />
+        <php.typeProvider2 implementation="Completions.Content.VariableTypeProvider" />
+        <php.typeProvider2 implementation="Completions.Content.FieldTypeProvider" />
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>
 
