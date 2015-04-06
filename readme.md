@@ -50,16 +50,15 @@ Request completions from within literals.
 
 Known issues:
 -------------
-User must manually mark eZCompletion-directory as not excluded.
-PhpStorm will suggest overridden class while updating method phpdoc.
-Existing Content-class type-hints in method-phpdoc will complain about argument type not matching.
+eZDoc must be placed directly above the variable in question.
 You might need to clear the cache before refreshing completions.
-eZDoc-hints for variables must be directly above the variable in question.
 
 Roadmap 1.0.3:
 --------------
 * Type provider for content-objects.
+    - How did Haenchen solve type-hinting in Twig?
     - Find a better name than "annotate".
+    - Add cache-warmer to regenerate proxy-classes on cache-clear.
     - See if it is possible to complete text/value-part of fields.
     - What about?
         - fields

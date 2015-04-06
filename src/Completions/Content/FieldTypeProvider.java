@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
@@ -22,15 +23,17 @@ public class FieldTypeProvider implements PhpTypeProvider2
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project)
     {
+        return lookupClassname(s, project);
+    }
+
+    protected Collection<PhpClass> lookupClassname(String s, Project project)
+    {
         return PhpIndex.getInstance(project).getAnyByFQN("\\eZCompletion\\" + s);
     }
 
     @Nullable
     @Override
-    public String getType(PsiElement psiElement)
-    {
-        return parsePhpDoc(getTargetElement(psiElement));
-    }
+    public String getType(PsiElement psiElement) { return parsePhpDoc(getTargetElement(psiElement)); }
 
     protected PsiElement getTargetElement(PsiElement psiElement)
     {
@@ -67,6 +70,14 @@ public class FieldTypeProvider implements PhpTypeProvider2
         String firstPart = parts[0];
         String secondPart = parts.length > 1 ? parts[1] : null;
 
-        return firstPart.contains("$") ? secondPart : firstPart;
+        String className = firstPart.contains("$") ? secondPart : firstPart;
+        Collection<PhpClass> result = lookupClassname(className, psiElement.getProject());
+
+        if (result.size() > 0) {
+            return className;
+        }
+        else {
+            return null;
+        }
     }
 }

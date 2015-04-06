@@ -86,7 +86,8 @@ public class CompletionPreloader implements ProjectComponent
         String completionIncludePath = completions.getIncludePath();
 
         if (includePaths.contains(completionIncludePath)) {
-            return;
+            includePaths.remove(completionIncludePath);
+            facade.setIncludePath(includePaths);
         }
 
         includePaths.add(completionIncludePath);
