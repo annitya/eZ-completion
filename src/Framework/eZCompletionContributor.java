@@ -1,7 +1,7 @@
 package Framework;
 
-import Completions.Annotation.AnnotationCompletion;
-import Completions.Annotation.ContentTypeCompletion;
+import Completions.EzDoc.EzDocCompletion;
+import Completions.EzDoc.ContentTypeCompletion;
 import Completions.Repository.ParameterCompletion;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.PlatformPatterns;
@@ -35,7 +35,7 @@ public class eZCompletionContributor extends CompletionContributor
             extend(CompletionType.BASIC, PlatformPatterns.psiElement().with(completion.getMatcher()), completion);
         }
 
-        AnnotationCompletion annotationCompletion = new AnnotationCompletion();
+        EzDocCompletion annotationCompletion = new EzDocCompletion();
         extend(CompletionType.BASIC, PlatformPatterns.psiElement().with(annotationCompletion.getMatcher()), annotationCompletion);
 
         ContentTypeCompletion contentTypeCompletion = new ContentTypeCompletion(completions.getContentTypes());

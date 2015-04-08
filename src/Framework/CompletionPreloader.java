@@ -74,9 +74,11 @@ public class CompletionPreloader implements ProjectComponent
          * Contributor hasn't been requested yet, lets store completions for later use.
          * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
          */
-        completions = completionContainer;
+        if (completions != null) {
+            checkAddIncludePath();
+        }
 
-        checkAddIncludePath();
+        completions = completionContainer;
     }
 
     protected void checkAddIncludePath()

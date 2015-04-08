@@ -1,83 +1,93 @@
 package Completions.Content;
 
+import Framework.CompletionContainer;
+import Framework.CompletionPreloader;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
+import java.util.HashMap;
 
 public class FieldTypeProvider implements PhpTypeProvider2
 {
     @Override
     public char getKey()
     {
-        return 'Z';
+        return 'Ø';
+    }
+
+    @Nullable
+    @Override
+    public String getType(PsiElement psiElement)
+    {
+        if (!(psiElement instanceof MethodReference)) {
+            return null;
+        }
+        PsiElement[] children = psiElement.getChildren();
+        if (children.length == 0) {
+            return null;
+        }
+
+        Variable variable;
+        try {
+            variable = (Variable)children[0];
+        } catch (Exception e) {
+            return null;
+        }
+        String className = variable.getType().getTypes().toArray()[0].toString().replace("#Z", "");
+
+        PsiElement[] parameters;
+        try {
+            parameters = ((ParameterList) psiElement.getChildren()[1]).getParameters();
+        } catch (Exception e) {
+            return null;
+        }
+
+        StringLiteralExpression stringParameter;
+        try {
+            stringParameter = (StringLiteralExpression)parameters[0];
+        } catch (Exception e) {
+            return null;
+        }
+        String fieldName = stringParameter.getContents();
+
+        if (className.length() == 0 || fieldName.length() == 0) {
+            return null;
+        }
+
+        return className + "#" + getKey() + fieldName;
     }
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project)
     {
-        return lookupClassname(s, project);
-    }
+        CompletionPreloader preloader = CompletionPreloader.getInstance(project);
+        CompletionContainer completions = preloader.getCurrentCompletions();
 
-    protected Collection<PhpClass> lookupClassname(String s, Project project)
-    {
-        return PhpIndex.getInstance(project).getAnyByFQN("\\eZCompletion\\" + s);
-    }
-
-    @Nullable
-    @Override
-    public String getType(PsiElement psiElement) { return parsePhpDoc(getTargetElement(psiElement)); }
-
-    protected PsiElement getTargetElement(PsiElement psiElement)
-    {
-        PsiElement parent = psiElement.getParent();
-        if (parent == null) {
+        if (completions == null) {
             return null;
         }
 
-        PsiElement sibling = parent.getPrevSibling();
-        if (sibling == null) {
+        HashMap<String, HashMap<String, String>> contentTypeFields = completions.getContentTypeFields();
+        String[] parts = s.split("#" + getKey());
+        if (parts.length != 2) {
+            return null;
+        }
+        String contentClass = parts[0];
+        String fieldType = parts[1];
+
+        HashMap<String, String> fieldTypeList = contentTypeFields.get(contentClass);
+        if (fieldTypeList == null) {
+            return null;
+        }
+        String className = fieldTypeList.get(fieldType);
+        if (className == null) {
             return null;
         }
 
-        return sibling.getPrevSibling();
-    }
-
-    protected String parsePhpDoc(PsiElement psiElement)
-    {
-        PhpDocTag tagValue = PsiTreeUtil.getChildOfType(psiElement, PhpDocTag.class);
-        if (tagValue == null) {
-            return null;
-        }
-
-        if (!tagValue.getName().equals("@ContentType")) {
-            return null;
-        }
-
-        String value = tagValue.getTagValue();
-        if (value.length() == 0) {
-            return null;
-        }
-
-        String[] parts = value.split(" ");
-        String firstPart = parts[0];
-        String secondPart = parts.length > 1 ? parts[1] : null;
-
-        String className = firstPart.contains("$") ? secondPart : firstPart;
-        Collection<PhpClass> result = lookupClassname(className, psiElement.getProject());
-
-        if (result.size() > 0) {
-            return className;
-        }
-        else {
-            return null;
-        }
+        return PhpIndex.getInstance(project).getAnyByFQN(className);
     }
 }

@@ -1,4 +1,4 @@
-package Completions.Annotation;
+package Completions.EzDoc;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
@@ -17,7 +17,7 @@ public class ContentTypeCompletion extends CompletionProvider<CompletionParamete
         this.contentTypes = contentTypes;
     }
 
-    public AnnotationMatcher getMatcher() { return new AnnotationMatcher("ContentTypes", false); }
+    public EzDocMatcher getMatcher() { return new EzDocMatcher("ContentTypes", false); }
 
     @Override
     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)

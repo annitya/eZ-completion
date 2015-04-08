@@ -1,4 +1,4 @@
-package Completions.Annotation;
+package Completions.EzDoc;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
@@ -7,11 +7,11 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
-public class AnnotationCompletion extends CompletionProvider<CompletionParameters>
+public class EzDocCompletion extends CompletionProvider<CompletionParameters>
 {
-    public AnnotationMatcher getMatcher()
+    public EzDocMatcher getMatcher()
     {
-        return new AnnotationMatcher("ContentType-annotation", true);
+        return new EzDocMatcher("ContentType-annotation", true);
     }
 
     @Override

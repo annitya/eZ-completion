@@ -50,16 +50,18 @@ Request completions from within literals.
 
 Known issues:
 -------------
-eZDoc must be placed directly above the variable in question.
 You might need to clear the cache before refreshing completions.
 
 Roadmap 1.0.3:
 --------------
+* Update changelog.
 * Type provider for content-objects.
-    - How did Haenchen solve type-hinting in Twig?
-    - Find a better name than "annotate".
-    - Add cache-warmer to regenerate proxy-classes on cache-clear.
-    - See if it is possible to complete text/value-part of fields.
+    - Contentclass "product" appears twice. Why?
+    - Respect "isDumb" for all providers.
+    - Make sure signature-key from type providers don't collide with anything.
+    - Field-type-completion doesn't seem to work for class-fields at the moment.
+    - Need to check method-signature. Field != FieldValue.
+    - Must validate method fqn.
     - What about?
         - fields
         - getFields()
@@ -74,6 +76,7 @@ Roadmap 1.0.3:
 
 Roadmap 1.0.4:
 --------------
+* How does the Symfony2-plugin solve type-hinting in Twig?
 * Create eZDoc-intention.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
@@ -89,6 +92,7 @@ Roadmap 1.0.4:
 * Donut?
 * https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
 * https://devnet.jetbrains.com/message/5520264#5520264
+* Automatic eZDoc if possible.
 
 Troubleshooting:
 ----------------
