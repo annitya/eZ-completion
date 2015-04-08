@@ -1,4 +1,4 @@
-package Completions.Annotation;
+package Completions.EzDoc;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import org.jetbrains.annotations.NotNull;

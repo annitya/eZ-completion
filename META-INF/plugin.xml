@@ -12,6 +12,7 @@
         <h2>1.0.3</h2>
         <ul>
             <li>Plugin is now disabled by default. Be sure to enable! :)</li>
+            <li>Added completions for eZ-fields.</li>
             <li>Added completions for configResolver->getParameter(...)</li>
             <li>Added completions for repository->canUser/hasAccess(...)</li>
             <li>Improved presentation of completions.</li>
@@ -54,6 +55,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
         <php.typeProvider2 implementation="Completions.Content.VariableTypeProvider" />
+        <php.typeProvider2 implementation="Completions.Content.TypeProvider" />
         <php.typeProvider2 implementation="Completions.Content.FieldTypeProvider" />
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>
