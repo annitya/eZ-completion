@@ -31,13 +31,13 @@ public class FieldTypeProvider implements PhpTypeProvider2
             return null;
         }
 
-        Variable variable;
+        PhpTypedElement typedElement;
         try {
-            variable = (Variable)children[0];
+            typedElement = (PhpTypedElement)children[0];
         } catch (Exception e) {
             return null;
         }
-        String className = variable.getType().getTypes().toArray()[0].toString().replace("#Z", "");
+        String className = typedElement.getType().getTypes().toArray()[0].toString().replace("#Z", "");
 
         PsiElement[] parameters;
         try {
