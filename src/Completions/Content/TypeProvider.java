@@ -34,15 +34,8 @@ public class TypeProvider implements PhpTypeProvider2
 
     @Nullable
     @Override
-    public String getType(PsiElement psiElement) { return parsePhpDoc(getTargetElement(psiElement)); }
-
-    protected PsiElement getTargetElement(PsiElement psiElement)
+    public String getType(PsiElement psiElement)
     {
-        // Lets wait until the index is ready.
-        if (DumbService.isDumb(psiElement.getProject())) {
-            return null;
-        }
-
         PsiElement parent = psiElement.getParent();
         if (parent == null) {
             return null;
@@ -53,18 +46,28 @@ public class TypeProvider implements PhpTypeProvider2
             return null;
         }
 
-        return PsiTreeUtil.getChildOfType(sibling.getPrevSibling(), PhpDocTag.class);
+        PhpDocTag phpDocTag = PsiTreeUtil.getChildOfType(sibling.getPrevSibling(), PhpDocTag.class);
+        return parsePhpDoc(phpDocTag);
     }
 
     protected String parsePhpDoc(PsiElement psiElement)
     {
+        if (psiElement == null) {
+            return null;
+        }
+
+        // Lets wait until the index is ready.
+        if (DumbService.isDumb(psiElement.getProject())) {
+            return null;
+        }
+
         PhpDocTag tagValue;
         try {
             tagValue = (PhpDocTag)psiElement;
         } catch (Exception e) {
             return null;
         }
-        if (tagValue == null || !tagValue.getName().equals("@ContentType")) {
+        if (!tagValue.getName().equals("@ContentType")) {
             return null;
         }
 

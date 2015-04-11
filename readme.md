@@ -56,18 +56,13 @@ Roadmap 1.0.3:
 --------------
 * Update changelog.
 * Type provider for content-objects.
-    - Contentclass "product" appears twice. Why?
-    - Respect "isDumb" for all providers.
     - Make sure signature-key from type providers don't collide with anything.
-    - Field-type-completion doesn't seem to work for class-fields at the moment.
-    - Need to check method-signature. Field != FieldValue.
+    - Need to check method-signature. Field != FieldValue?
     - Must validate method fqn.
     - What about?
         - fields
         - getFields()
         - getFieldsByLanguage()
-    - Be sure to include field-descriptions. (If there are any)
-        - https://github.com/JetBrains/intellij-community/blob/master/plugins/properties/src/com/intellij/lang/properties/PropertiesDocumentationProvider.java
     - GIF's of goodness.
     - Adjust expected length of completion-response.
 * Make sure that the disable-plugin-setting is honored in all cases.
@@ -76,6 +71,8 @@ Roadmap 1.0.3:
 
 Roadmap 1.0.4:
 --------------
+* Make field-descriptions available.
+    - https://github.com/JetBrains/intellij-community/blob/master/plugins/properties/src/com/intellij/lang/properties/PropertiesDocumentationProvider.java
 * How does the Symfony2-plugin solve type-hinting in Twig?
 * Create eZDoc-intention.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
