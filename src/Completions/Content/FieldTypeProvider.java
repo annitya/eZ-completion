@@ -2,6 +2,7 @@ package Completions.Content;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
@@ -23,6 +24,11 @@ public class FieldTypeProvider implements PhpTypeProvider2
     @Override
     public String getType(PsiElement psiElement)
     {
+        // Lets wait until the index is ready.
+        if (DumbService.isDumb(psiElement.getProject())) {
+            return null;
+        }
+
         if (!(psiElement instanceof MethodReference)) {
             return null;
         }
