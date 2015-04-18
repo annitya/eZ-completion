@@ -10,7 +10,7 @@ public class ArrayFieldTypeProvider extends FieldTypeProvider
 {
     @Nullable
     @Override
-    public String getType(PsiElement psiElement)
+    public String resolveType(PsiElement psiElement)
     {
         String fieldName;
         try {

@@ -12,7 +12,7 @@ public class VariableTypeProvider extends TypeProvider
 {
     @Nullable
     @Override
-    public String getType(PsiElement psiElement)
+    public String resolveType(PsiElement psiElement)
     {
         String variableName = psiElement.getText();
         PsiElement statement = PsiTreeUtil.getParentOfType(psiElement, Statement.class);

@@ -12,7 +12,7 @@
         <h2>1.0.3</h2>
         <ul>
             <li>Plugin is now disabled by default. Be sure to enable! :)</li>
-            <li>Added completions for eZ-fields.</li>
+            <li>Added completions and type-providers for eZ-fields.</li>
             <li>Added completions for configResolver->getParameter(...)</li>
             <li>Added completions for repository->canUser/hasAccess(...)</li>
             <li>Improved presentation of completions.</li>
