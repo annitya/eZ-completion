@@ -68,20 +68,21 @@ Roadmap 1.0.3:
         - Class-generation and file-writing should probably be done in the plugin, not in the bundle.
             - What if environment isn't set?
         - What about the cache-warmer?
-    - translation-helper?
+    - translation-helper
+        - add completions for field-identifiers.
     - What about?
         - fields/getFields()
             - Validate fqn if needed.
-            - Provide dropdown-completion for array-keys.
+            - Provide completion for array-keys/field-identifiers.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
 * Test all cases of type-hinting and content-completion.
-    - Do some internal testing.
+    - Do some internal testing at Keyteq.
         - Look for broken type-chains.
         - Error while using the plugin.
         - Other problems and suggestions.
 * Walkthrough of all changes in 1.0.3. Refactor ftw.
-* Null-pointer exception if ezcode:completion fails.
+* Validate results from type-providers before returning from resolveType(...)?
 
 Roadmap 1.0.4:
 --------------
