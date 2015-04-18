@@ -29,21 +29,25 @@ public class FieldTypeProvider implements PhpTypeProvider2
             return null;
         }
 
-        if (!(psiElement instanceof MethodReference)) {
+        MethodReference methodReference;
+        try {
+            methodReference = (MethodReference)psiElement;
+            Method psiMethod = (Method)methodReference.resolve();
+            if (psiMethod == null) {
+                return null;
+            }
+
+            if (!"\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content.getFieldValue".equals(psiMethod.getFQN())) {
+                return null;
+            }
+        } catch (Exception e) {
             return null;
         }
+
         PsiElement[] children = psiElement.getChildren();
         if (children.length == 0) {
             return null;
         }
-
-        PhpTypedElement typedElement;
-        try {
-            typedElement = (PhpTypedElement)children[0];
-        } catch (Exception e) {
-            return null;
-        }
-        String className = typedElement.getType().getTypes().toArray()[0].toString().replace("#Z", "");
 
         PsiElement[] parameters;
         try {
@@ -60,11 +64,33 @@ public class FieldTypeProvider implements PhpTypeProvider2
         }
         String fieldName = stringParameter.getContents();
 
+        String className = getClassname(children[0]);
         if (className.length() == 0 || fieldName.length() == 0) {
             return null;
         }
 
+        return formatResponse(className, fieldName);
+    }
+
+    protected String formatResponse(String className, String fieldName)
+    {
         return className + "#" + getKey() + fieldName;
+    }
+
+    protected String getClassname(PsiElement variable)
+    {
+        PhpTypedElement typedElement;
+        try {
+            typedElement = (PhpTypedElement)variable;
+        } catch (Exception e) {
+            return null;
+        }
+        Object[] types = typedElement.getType().getTypes().toArray();
+        if (types.length == 0) {
+            return null;
+        }
+
+        return types[0].toString().replace("#Z", "");
     }
 
     @Override
