@@ -7,12 +7,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class FieldTypeProvider implements PhpTypeProvider2
+public class FieldTypeProvider extends DumbAwareTypeProvider
 {
     @Override
     public char getKey()
@@ -22,7 +21,7 @@ public class FieldTypeProvider implements PhpTypeProvider2
 
     @Nullable
     @Override
-    public String getType(PsiElement psiElement)
+    public String resolveType(PsiElement psiElement)
     {
         // Lets wait until the index is ready.
         if (DumbService.isDumb(psiElement.getProject())) {

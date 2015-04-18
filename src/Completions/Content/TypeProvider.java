@@ -8,12 +8,11 @@ import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
-public class TypeProvider implements PhpTypeProvider2
+public class TypeProvider extends DumbAwareTypeProvider
 {
     @Override
     public char getKey()
@@ -34,7 +33,7 @@ public class TypeProvider implements PhpTypeProvider2
 
     @Nullable
     @Override
-    public String getType(PsiElement psiElement)
+    public String resolveType(PsiElement psiElement)
     {
         PsiElement parent = psiElement.getParent();
         if (parent == null) {

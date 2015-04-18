@@ -61,7 +61,6 @@ No completion for fields returned from getFieldsByLanguage because they not inde
 
 Roadmap 1.0.3:
 --------------
-* Add completions to entities returned by the API-repository.
 * Update changelog.
 * Type provider for content-objects.
     - ez_field_value-helper?
@@ -76,13 +75,18 @@ Roadmap 1.0.3:
             - Provide dropdown-completion for array-keys.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
-* Make sure that the disable-plugin-setting is honored in all cases.
 * Test all cases of type-hinting and content-completion.
+    - Do some internal testing.
+        - Look for broken type-chains.
+        - Error while using the plugin.
+        - Other problems and suggestions.
 * Walkthrough of all changes in 1.0.3. Refactor ftw.
 * Null-pointer exception if ezcode:completion fails.
 
 Roadmap 1.0.4:
 --------------
+* Add completions to entities returned by the API-repository.
+    - Ex: ContentType returned from loadContentType...(...)
 * Make field-descriptions available.
     - https://github.com/JetBrains/intellij-community/blob/master/plugins/properties/src/com/intellij/lang/properties/PropertiesDocumentationProvider.java
 * How does the Symfony2-plugin solve type-hinting in Twig?

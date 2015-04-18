@@ -21,6 +21,11 @@ public class EzDocMatcher extends PatternCondition<PsiElement>
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext context)
     {
+        // Do not provide completions if plugin is disabled.
+        if (Settings.Service.getInstance(psiElement.getProject()).getDisabled()) {
+            return false;
+        }
+
         PhpDocTag phpDocTag = PsiTreeUtil.getParentOfType(psiElement, PhpDocTag.class);
         if (phpDocTag == null) {
             return false;
