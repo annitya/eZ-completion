@@ -47,27 +47,39 @@ Usage:
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
 
+Troubleshooting:
+----------------
+Run the ezcode:completion-command and makes sure that it does not output anything else than valid JSON.
+Any errors in the console?
+If fieldtype-completions isn't working, make sure that all ContentClasses are available under the eZCompletion-namespace.
 
 Known issues:
 -------------
 You might need to clear the cache before refreshing completions.
+Rename-refactoring does not work for @ContentType doc-blocks.
+No completion for fields returned from getFieldsByLanguage because they not indexed by identifier.
 
 Roadmap 1.0.3:
 --------------
+* Add completions to entities returned by the API-repository.
 * Update changelog.
 * Type provider for content-objects.
-    - Make sure signature-key from type providers don't collide with anything.
-    - Need to check method-signature. Field != FieldValue?
-    - Must validate method fqn.
+    - ez_field_value-helper?
+    - What happens with generated classes if ezcode:completion-command is run on a remote environment?
+        - Class-generation and file-writing should probably be done in the plugin, not in the bundle.
+            - What if environment isn't set?
+        - What about the cache-warmer?
+    - translation-helper?
     - What about?
-        - fields
-        - getFields()
-        - getFieldsByLanguage()
+        - fields/getFields()
+            - Validate fqn if needed.
+            - Provide dropdown-completion for array-keys.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
 * Make sure that the disable-plugin-setting is honored in all cases.
 * Test all cases of type-hinting and content-completion.
 * Walkthrough of all changes in 1.0.3. Refactor ftw.
+* Null-pointer exception if ezcode:completion fails.
 
 Roadmap 1.0.4:
 --------------
@@ -90,8 +102,6 @@ Roadmap 1.0.4:
 * https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
 * https://devnet.jetbrains.com/message/5520264#5520264
 * Automatic eZDoc if possible.
+    - Direct sql-access through plugin.
+        - loadContent => resolve content-type.
 
-Troubleshooting:
-----------------
-Run the ezcode:completion-command and makes sure that PHP does not output anything else than valid JSON.
-Any errors in the console?
