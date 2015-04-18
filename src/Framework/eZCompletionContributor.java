@@ -29,6 +29,9 @@ public class eZCompletionContributor extends CompletionContributor
             refreshCompletions(completionContainer);
             return;
         }
+        if (completionContainer == null) {
+            return;
+        }
         completions = completionContainer;
 
         for (ParameterCompletion completion : completions.getList()) {

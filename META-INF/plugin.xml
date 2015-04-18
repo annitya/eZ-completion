@@ -58,6 +58,7 @@
         <php.typeProvider2 implementation="Completions.Content.TypeProvider" />
         <php.typeProvider2 implementation="Completions.Content.FieldTypeProvider" />
         <php.typeProvider2 implementation="Completions.Content.ArrayFieldTypeProvider" />
+        <php.typeProvider2 implementation="Completions.Content.TranslationFieldTypeProvider" />
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>
 
