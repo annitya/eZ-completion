@@ -57,6 +57,7 @@
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
 
         <php.typeProvider2 implementation="TypeProviders.ContentVariableTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.MethodParameterTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.ArrayOfFieldsTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.FieldTypeProvider" />
         <!--<php.typeProvider2 implementation="TypeProviders.TranslationFieldTypeProvider" />-->
@@ -101,6 +102,7 @@
                 description="Dumps assets when needed."
                 icon="AllIcons.Actions.Rerun"
                 />
+
         <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
             <separator/>
             <reference ref="flageolett.ez.completion_refresh"/>

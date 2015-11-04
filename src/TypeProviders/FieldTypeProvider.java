@@ -53,7 +53,7 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
         String fieldName = stringParameter.getContents();
 
         String className = getClassname(children[0]);
-        if (className.length() == 0 || fieldName.length() == 0) {
+        if (className == null || className.length() == 0 || fieldName.length() == 0) {
             return null;
         }
 
