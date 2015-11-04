@@ -56,8 +56,12 @@
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
 
-        <php.typeProvider2 implementation="TypeProviders.ContentVariableTypeProvider" />
-        <php.typeProvider2 implementation="TypeProviders.MethodParameterTypeProvider" />
+        <!-- Type providers for Content. -->
+        <php.typeProvider2 implementation="TypeProviders.Content.ContentVariableTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.MethodParameterTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.ClassMemberTypeProvider" />
+
+
         <php.typeProvider2 implementation="TypeProviders.ArrayOfFieldsTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.FieldTypeProvider" />
         <!--<php.typeProvider2 implementation="TypeProviders.TranslationFieldTypeProvider" />-->
