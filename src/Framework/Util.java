@@ -106,6 +106,10 @@ public class Util
             return true;
         }
 
+        if (fqn.equals(phpClass.getType().toString())) {
+            return true;
+        }
+
         PhpClass[] implementedInterfaces = phpClass.getImplementedInterfaces();
         if (implementedInterfaces.length == 0) {
             return false;

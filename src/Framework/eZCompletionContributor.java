@@ -1,6 +1,7 @@
 package Framework;
 
 import Completions.Content.FieldArrayCompletionProvider;
+import Completions.Content.GetFieldValueCompletionProvider;
 import Completions.Content.TranslationCompletionProvider;
 import Completions.EzCompletionProvider;
 import Completions.EzDoc.ContentTypeCompletion;
@@ -46,8 +47,11 @@ public class eZCompletionContributor extends CompletionContributor
         ContentTypeCompletion contentTypeCompletion = new ContentTypeCompletion(completions.getContentTypes());
         extend(CompletionType.BASIC, contentTypeCompletion.getMatcher(), contentTypeCompletion);
 
-        TranslationCompletionProvider fieldCompletion = new TranslationCompletionProvider();
-        extend(CompletionType.BASIC, fieldCompletion.getMatcher(), fieldCompletion);
+        TranslationCompletionProvider translationCompletion = new TranslationCompletionProvider();
+        extend(CompletionType.BASIC, translationCompletion.getMatcher(), translationCompletion);
+
+        GetFieldValueCompletionProvider fieldValueCompletion = new GetFieldValueCompletionProvider();
+        extend(CompletionType.BASIC, fieldValueCompletion.getMatcher(), fieldValueCompletion);
 
         FieldArrayCompletionProvider fieldArrayCompletion = new FieldArrayCompletionProvider();
         extend(CompletionType.BASIC, fieldArrayCompletion.getMatcher(), fieldArrayCompletion);

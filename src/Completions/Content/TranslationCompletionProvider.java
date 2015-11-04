@@ -27,16 +27,26 @@ public class TranslationCompletionProvider extends EzCompletionProvider
         return PlatformPatterns.psiElement().with(matcher);
     }
 
-    @Override
-    protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+    protected String getClassName(PsiElement psiElement)
     {
-        PsiElement psiElement = parameters.getPosition();
         String contentClass;
         try {
             PsiElement[] parameterList = Util.getParameters(psiElement);
             Variable content = (Variable)parameterList[0];
             contentClass = content.getType().getTypes().toArray()[0].toString().replace("#Z", "");
         } catch (Exception e) {
+            return null;
+        }
+
+        return contentClass;
+    }
+
+    @Override
+    protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
+    {
+        PsiElement psiElement = parameters.getPosition();
+        String contentClass = getClassName(psiElement);
+        if (contentClass == null) {
             return;
         }
 
