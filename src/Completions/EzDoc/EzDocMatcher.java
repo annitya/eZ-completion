@@ -1,5 +1,7 @@
 package Completions.EzDoc;
 
+import Framework.CompletionContainer;
+import Framework.CompletionPreloader;
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -41,9 +43,10 @@ public class EzDocMatcher extends PatternCondition<PsiElement>
         String tagValue = phpDocTag.getTagValue();
         String[] parts = tagValue.split(" ");
 
-        // Tag already has a contentclass.
+        // Tag might already have a contentclass.
+        CompletionContainer completions = CompletionPreloader.getInstance(psiElement.getProject()).getCurrentCompletions();
         for (String part : parts) {
-            if (part.length() > 0 & !part.contains("$") && !part.equals("IntellijIdeaRulezzz")) {
+            if (completions.contentClassExists(part)) {
                 return false;
             }
         }

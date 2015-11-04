@@ -38,6 +38,7 @@ Provides completion for:
  - SectionId
 
 * The Content-class
+    - fields/getFields
     - getFieldValue(...)
 
 * Clear cache from IDE.
@@ -67,28 +68,16 @@ Roadmap 1.0.3:
 * What would happen if doc-block statement is within a parent-scope? Test: docblock outside try-catch or if-sentence.
 * Re-add support for @ContentType-hints for method-parameters.
 * Type provider for content-objects.
-    - Reparse type-tree after completions is loaded.
-    - is it possible to provide a custom-type-provider which always resolves to Api\Content?
-        - a trace can then be left and used by completion-providers?
-        - might have to leave the current generic implementation behind
-        - would remove the need for generating php-code
-    - What happens with generated classes if ezcode:completion-command is run on a remote environment?
-        - Class-generation and file-writing should probably be done in the plugin, not in the bundle.
-            - What if environment isn't set?
-        - What about the cache-warmer?
-    - What about?
-        - fields/getFields(...)
-            - Provide completion for array-keys/field-identifiers.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
         - The milage will vary (count of contentclasses), lets find another approach to this.
 * Test all cases of type-hinting and content-completion.
     - Do some internal testing at Keyteq.
         - Look for broken type-chains.
-        - Error while using the plugin.
+        - Errors while using the plugin?
         - Other problems and suggestions.
+        - Is array-completion sluggish?
 * Walkthrough of all changes in 1.0.3. Refactor ftw.
-* Validate results from type-providers before returning from resolveType(...)?
 
 Roadmap 1.0.4:
 --------------
