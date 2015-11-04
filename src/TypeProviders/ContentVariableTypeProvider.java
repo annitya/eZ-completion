@@ -40,41 +40,49 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
         String variableName = psiElement.getText();
         PsiElement statement = PsiTreeUtil.getParentOfType(psiElement, Statement.class);
         PsiElement sibling = PsiTreeUtil.getPrevSiblingOfType(statement, PhpDocComment.class);
-        PhpDocTag tagValue;
+        PhpDocTag tag;
         // Check all statements within current scope for doc-blocks.
         do {
-            tagValue = PsiTreeUtil.getChildOfType(sibling, PhpDocTag.class);
-            if (tagValue != null && tagValue.getTagValue().contains(variableName)) {
+            tag = PsiTreeUtil.getChildOfType(sibling, PhpDocTag.class);
+            if (tagMatches(tag, variableName)) {
                 break;
             }
             sibling = PsiTreeUtil.getPrevSiblingOfType(sibling, PhpDocComment.class);
-            tagValue = null;
+            tag = null;
         } while (sibling != null);
 
-        if (tagValue == null) {
+        if (tag == null) {
             return null;
         }
 
-        return parsePhpDoc(tagValue);
+        return parsePhpDoc(tag);
     }
 
-    protected String parsePhpDoc(PsiElement psiElement)
+    protected boolean tagMatches(PhpDocTag tag, String variableName)
     {
-        if (psiElement == null) {
+        if (tag == null) {
+            return false;
+        }
+
+        variableName = variableName.replace("$", "");
+        String[] parts = tag.getTagValue().split(" ");
+        for (String part : parts) {
+            part = part.replace("$", "");
+            if (part.equals(variableName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected String parsePhpDoc(PhpDocTag tag)
+    {
+        if (!tag.getName().equals("@ContentType")) {
             return null;
         }
 
-        PhpDocTag tagValue;
-        try {
-            tagValue = (PhpDocTag)psiElement;
-        } catch (Exception e) {
-            return null;
-        }
-        if (!tagValue.getName().equals("@ContentType")) {
-            return null;
-        }
-
-        String value = tagValue.getTagValue();
+        String value = tag.getTagValue();
         if (value.length() == 0) {
             return null;
         }

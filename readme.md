@@ -65,8 +65,7 @@ Roadmap 1.0.3:
 * No warning if fetching-completions fails on startup?
 * Does the "disabled by default" actually work?
 * Update changelog.
-* What would happen if doc-block statement is within a parent-scope? Test: docblock outside try-catch or if-sentence.
-* Re-add support for @ContentType-hints for method-parameters.
+* What about content-hinting for class-members?
 * Type provider for content-objects.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
