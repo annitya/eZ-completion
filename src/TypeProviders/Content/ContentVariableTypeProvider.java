@@ -1,4 +1,4 @@
-package TypeProviders;
+package TypeProviders.Content;
 
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
@@ -10,6 +10,7 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Statement;
+import com.jetbrains.php.lang.psi.elements.impl.FieldImpl;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -41,6 +42,7 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
         PsiElement statement = PsiTreeUtil.getParentOfType(psiElement, Statement.class);
         PsiElement sibling = PsiTreeUtil.getPrevSiblingOfType(statement, PhpDocComment.class);
         PhpDocTag tag;
+
         // Check all statements within current scope for doc-blocks.
         do {
             tag = PsiTreeUtil.getChildOfType(sibling, PhpDocTag.class);
@@ -88,6 +90,10 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
         }
 
         String[] parts = value.split(" ");
+        if (parts.length == 1) {
+            return parts[0];
+        }
+
         String firstPart = parts[0];
         String secondPart = parts.length > 1 ? parts[1] : null;
 

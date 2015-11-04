@@ -62,10 +62,9 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 
 Roadmap 1.0.3:
 --------------
-* No warning if fetching-completions fails on startup?
 * Does the "disabled by default" actually work?
+* Should class-type = Content be implicit when @ContentType-hint is present?
 * Update changelog.
-* What about content-hinting for class-members?
 * Type provider for content-objects.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
