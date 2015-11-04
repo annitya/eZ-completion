@@ -1,8 +1,8 @@
-package Completions.Content;
+package TypeProviders;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
-import com.intellij.openapi.project.DumbService;
+import TypeProviders.Abstract.DumbAwareTypeProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
@@ -13,21 +13,10 @@ import java.util.HashMap;
 
 public class FieldTypeProvider extends DumbAwareTypeProvider
 {
-    @Override
-    public char getKey()
-    {
-        return 'Ø';
-    }
-
     @Nullable
     @Override
     public String resolveType(PsiElement psiElement)
     {
-        // Lets wait until the index is ready.
-        if (DumbService.isDumb(psiElement.getProject())) {
-            return null;
-        }
-
         MethodReference methodReference;
         try {
             methodReference = (MethodReference)psiElement;
@@ -76,31 +65,11 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
         return className + "#" + getKey() + fieldName;
     }
 
-    protected String getClassname(PsiElement variable)
-    {
-        PhpTypedElement typedElement;
-        try {
-            typedElement = (PhpTypedElement)variable;
-        } catch (Exception e) {
-            return null;
-        }
-        Object[] types = typedElement.getType().getTypes().toArray();
-        if (types.length == 0) {
-            return null;
-        }
-
-        return types[0].toString().replace("#Z", "");
-    }
-
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project)
     {
         CompletionPreloader preloader = CompletionPreloader.getInstance(project);
         CompletionContainer completions = preloader.getCurrentCompletions();
-
-        if (completions == null) {
-            return null;
-        }
 
         HashMap<String, HashMap<String, String>> contentTypeFields = completions.getContentTypeFields();
         String[] parts = s.split("#" + getKey());

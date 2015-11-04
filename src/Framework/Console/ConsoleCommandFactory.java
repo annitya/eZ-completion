@@ -12,7 +12,7 @@ public class ConsoleCommandFactory
 
         protected String command;
 
-        private CommandName(String command) { this.command = command; }
+        CommandName(String command) { this.command = command; }
 
         @Override
         public String toString() { return command; }
@@ -25,7 +25,7 @@ public class ConsoleCommandFactory
 
         try {
             // Will generate an error if remote-dependencies are missing.
-            PhpCommandSettingsBuilder.create(project);
+            PhpCommandSettingsBuilder.create(project, false);
             switch (commandName) {
                 case ASSETIC_WATCH:
                     command = new Assetic(commandName.toString(), project) { @Override public void success() {}};

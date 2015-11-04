@@ -1,8 +1,10 @@
 package Framework;
 
-import Completions.EzDoc.EzDocCompletion;
+import Completions.Content.FieldArrayCompletionProvider;
+import Completions.Content.TranslationCompletionProvider;
+import Completions.EzCompletionProvider;
 import Completions.EzDoc.ContentTypeCompletion;
-import Completions.Repository.ParameterCompletion;
+import Completions.EzDoc.EzDocCompletion;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
@@ -34,16 +36,21 @@ public class eZCompletionContributor extends CompletionContributor
         }
         completions = completionContainer;
 
-        for (ParameterCompletion completion : completions.getList()) {
-            extend(CompletionType.BASIC, PlatformPatterns.psiElement().with(completion.getMatcher()), completion);
+        for (EzCompletionProvider completion : completions.getList()) {
+            extend(CompletionType.BASIC, completion.getMatcher(), completion);
         }
 
         EzDocCompletion annotationCompletion = new EzDocCompletion();
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement().with(annotationCompletion.getMatcher()), annotationCompletion);
+        extend(CompletionType.BASIC, annotationCompletion.getMatcher(), annotationCompletion);
 
         ContentTypeCompletion contentTypeCompletion = new ContentTypeCompletion(completions.getContentTypes());
-        PsiElementPattern.Capture<PsiElement> elementPattern = PlatformPatterns.psiElement().with(contentTypeCompletion.getMatcher());
-        extend(CompletionType.BASIC, elementPattern, contentTypeCompletion);
+        extend(CompletionType.BASIC, contentTypeCompletion.getMatcher(), contentTypeCompletion);
+
+        TranslationCompletionProvider fieldCompletion = new TranslationCompletionProvider();
+        extend(CompletionType.BASIC, fieldCompletion.getMatcher(), fieldCompletion);
+
+        FieldArrayCompletionProvider fieldArrayCompletion = new FieldArrayCompletionProvider();
+        extend(CompletionType.BASIC, fieldArrayCompletion.getMatcher(), fieldArrayCompletion);
     }
 
     public void refreshCompletions(CompletionContainer completionContainer)

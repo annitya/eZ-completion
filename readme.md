@@ -8,11 +8,13 @@ Installation:
 
 Requirements:
 -------------
-PhpStorm 8.0.2 or IntelliJ IDEA equivalent.
+PhpStorm 10 or IntelliJ IDEA equivalent.
 Bundle: https://github.com/whitefire/ez-completion-bundle
 Remote interpreter support:
  - Remote Php Interpreters
  - SSH Remote-run.
+
+While the Symfony2-plugin is not a hard requirement, it is highly recommended.
 
 What does it do?
 ----------------
@@ -36,7 +38,6 @@ Provides completion for:
  - SectionId
 
 * The Content-class
-    - getField(...)
     - getFieldValue(...)
 
 * Clear cache from IDE.
@@ -51,31 +52,36 @@ Troubleshooting:
 ----------------
 Run the ezcode:completion-command and makes sure that it does not output anything else than valid JSON.
 Any errors in the console?
-If fieldtype-completions isn't working, make sure that all ContentClasses are available under the eZCompletion-namespace.
 
 Known issues:
 -------------
 You might need to clear the cache before refreshing completions.
 Rename-refactoring does not work for @ContentType doc-blocks.
-No completion for fields returned from getFieldsByLanguage because they not indexed by identifier.
+No completion for fields returned from getFieldsByLanguage because they are not indexed by identifier.
 
 Roadmap 1.0.3:
 --------------
+* No warning if fetching-completions fails on startup?
+* Does the "disabled by default" actually work?
 * Update changelog.
+* What would happen if doc-block statement is within a parent-scope? Test: docblock outside try-catch or if-sentence.
+* Re-add support for @ContentType-hints for method-parameters.
 * Type provider for content-objects.
-    - ez_field_value-helper?
+    - Reparse type-tree after completions is loaded.
+    - is it possible to provide a custom-type-provider which always resolves to Api\Content?
+        - a trace can then be left and used by completion-providers?
+        - might have to leave the current generic implementation behind
+        - would remove the need for generating php-code
     - What happens with generated classes if ezcode:completion-command is run on a remote environment?
         - Class-generation and file-writing should probably be done in the plugin, not in the bundle.
             - What if environment isn't set?
         - What about the cache-warmer?
-    - translation-helper
-        - add completions for field-identifiers.
     - What about?
-        - fields/getFields()
-            - Validate fqn if needed.
+        - fields/getFields(...)
             - Provide completion for array-keys/field-identifiers.
     - GIF's of goodness.
     - Adjust expected length of completion-response.
+        - The milage will vary (count of contentclasses), lets find another approach to this.
 * Test all cases of type-hinting and content-completion.
     - Do some internal testing at Keyteq.
         - Look for broken type-chains.
@@ -86,6 +92,10 @@ Roadmap 1.0.3:
 
 Roadmap 1.0.4:
 --------------
+* Inspections for field-accessors.
+* ez_field_value-helper?
+* Determine if configured environment should be tied to selected interpreter.
+* Yml-completions for controllers, matchers, views, etc...
 * Add completions to entities returned by the API-repository.
     - Ex: ContentType returned from loadContentType...(...)
 * Make field-descriptions available.

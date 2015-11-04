@@ -20,6 +20,12 @@ public class MethodMatcher extends PatternCondition<PsiElement>
         this.method = method;
     }
 
+    public MethodMatcher(String fqn, String method, int parameterIndex)
+    {
+        this(parameterIndex, method);
+        this.fqn = fqn;
+    }
+
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext context)
     {

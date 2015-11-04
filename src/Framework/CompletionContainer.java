@@ -1,29 +1,26 @@
 package Framework;
 
 import Completions.EzDoc.ContentType;
-import Completions.Repository.ParameterCompletion;
+import Completions.EzCompletionProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompletionContainer
 {
-    protected ArrayList<ParameterCompletion> list;
+    protected ArrayList<EzCompletionProvider> list;
     protected ArrayList<ContentType> contentTypes;
     protected HashMap<String, HashMap<String, String>> contentTypeFields;
     protected ArrayList<String> contentLanguages;
-    protected String includePath;
 
     public CompletionContainer()
     {
-        list = new ArrayList<ParameterCompletion>();
-        contentTypes = new ArrayList<ContentType>();
-        contentLanguages = new ArrayList<String>();
-        contentTypeFields = new HashMap<String, HashMap<String, String>>();
+        list = new ArrayList<>();
+        contentTypes = new ArrayList<>();
+        contentLanguages = new ArrayList<>();
+        contentTypeFields = new HashMap<>();
     }
 
-    public String getIncludePath() { return includePath; }
-
-    public ArrayList<ParameterCompletion> getList(){ return list; }
+    public ArrayList<EzCompletionProvider> getList(){ return list; }
 
     public ArrayList<String> getContentLanguages() { return contentLanguages; }
 
@@ -31,14 +28,19 @@ public class CompletionContainer
 
     public HashMap<String, HashMap<String, String>> getContentTypeFields() { return contentTypeFields; }
 
-    public void refresh(ArrayList<ParameterCompletion> newList)
+    public void refresh(ArrayList<EzCompletionProvider> newList)
     {
-        for (ParameterCompletion p : list) {
+        for (EzCompletionProvider p : list) {
             p.getCompletions().clear();
 
             if (newList.contains(p)) {
                 p.getCompletions().addAll(newList.get(newList.indexOf(p)).getCompletions());
             }
         }
+    }
+
+    public boolean contentClassExists(String contentClass)
+    {
+        return contentTypeFields.containsKey(contentClass);
     }
 }

@@ -74,25 +74,6 @@ public class CompletionPreloader implements ProjectComponent
          * Contributor hasn't been requested yet, lets store completions for later use.
          * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
          */
-        if (completions != null) {
-            checkAddIncludePath();
-        }
-
         completions = completionContainer;
-    }
-
-    protected void checkAddIncludePath()
-    {
-        PhpProjectConfigurationFacade facade = PhpProjectConfigurationFacade.getInstance(this.project);
-        List<String> includePaths = facade.getIncludePath();
-        String completionIncludePath = completions.getIncludePath();
-
-        if (includePaths.contains(completionIncludePath)) {
-            includePaths.remove(completionIncludePath);
-            facade.setIncludePath(includePaths);
-        }
-
-        includePaths.add(completionIncludePath);
-        facade.setIncludePath(includePaths);
     }
 }

@@ -59,7 +59,7 @@ abstract public class Command
 
     protected PhpCommandSettings createCommandSettings() throws Exception
     {
-        PhpCommandSettings commandSettings = PhpCommandSettingsBuilder.create(project);
+        PhpCommandSettings commandSettings = PhpCommandSettingsBuilder.create(project, false);
 
         commandSettings.setScript(getConsole());
         commandSettings.addArgument(command);

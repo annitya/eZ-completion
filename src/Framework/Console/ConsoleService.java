@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class ConsoleService extends Task.Backgroundable implements PerformInBackgroundOption
 {
-    protected CompletionContainer completions;
     protected Command eZCommand;
 
     public ConsoleService(Project project, @NotNull String title, boolean canBeCancelled)

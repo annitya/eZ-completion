@@ -7,6 +7,7 @@ import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 import com.jetbrains.php.remote.PhpRemoteProcessUtil;
 
+
 public class RemoteCommand
 {
     public static Process createProcess(PhpCommandSettings commandSettings, Project project) throws Exception
