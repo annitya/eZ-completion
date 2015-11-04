@@ -49,6 +49,6 @@ public class EzDocMatcher extends PatternCondition<PsiElement>
         }
 
         boolean hasTag = phpDocTag.getName().equals("@ContentType");
-        return tagCompletion ? !hasTag : hasTag;
+        return tagCompletion != hasTag;
     }
 }

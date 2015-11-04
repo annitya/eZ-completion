@@ -1,5 +1,6 @@
 package Framework;
 
+import Completions.Repository.MethodMatcher;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -97,7 +98,7 @@ public class Util
             return false;
         }
         String classFqn = phpClass.getFQN();
-        if (classFqn != null && classFqn.equals(fqn)) {
+        if (classFqn.equals(fqn)) {
             return true;
         }
 
@@ -112,9 +113,6 @@ public class Util
 
         for (PhpClass implementedInterface : implementedInterfaces) {
             String interfaceFqn = implementedInterface.getFQN();
-            if (interfaceFqn == null) {
-                continue;
-            }
 
             if (interfaceFqn.equals(fqn)) {
                 return true;

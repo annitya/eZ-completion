@@ -1,5 +1,6 @@
-package Completions.Content;
+package TypeProviders;
 
+import Framework.Util;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
@@ -11,6 +12,7 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
     @Override
     public String resolveType(PsiElement psiElement)
     {
+        // Unless fqn is matched, this will trigger the field-type-provider and cause a npe.
         MethodReference methodReference;
         try {
             methodReference = (MethodReference)psiElement;

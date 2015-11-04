@@ -5,7 +5,8 @@
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
-      Provides completion for contentclasses and attributes in eZ Publish.
+        Unofficial eZ-plugin.
+        Provides completion for contentclasses and attributes in eZ Publish.
     ]]></description>
 
     <change-notes><![CDATA[
@@ -54,11 +55,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
-        <php.typeProvider2 implementation="Completions.Content.VariableTypeProvider" />
-        <php.typeProvider2 implementation="Completions.Content.TypeProvider" />
-        <php.typeProvider2 implementation="Completions.Content.FieldTypeProvider" />
-        <php.typeProvider2 implementation="Completions.Content.ArrayFieldTypeProvider" />
-        <php.typeProvider2 implementation="Completions.Content.TranslationFieldTypeProvider" />
+
+        <php.typeProvider2 implementation="TypeProviders.ContentVariableTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.ArrayOfFieldsTypeProvider" />
+        <!--<php.typeProvider2 implementation="TypeProviders.FieldTypeProvider" />-->
+        <!--<php.typeProvider2 implementation="TypeProviders.TranslationFieldTypeProvider" />-->
+
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>
 

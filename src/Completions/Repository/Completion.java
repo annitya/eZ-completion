@@ -2,10 +2,13 @@ package Completions.Repository;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
+import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
+import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
 
 public class Completion extends LookupElement
@@ -16,7 +19,7 @@ public class Completion extends LookupElement
 
     @NotNull
     @Override
-    public String getLookupString() { return lookupValue; }
+    public String getLookupString() { return returnValue; }
 
     @Override
     public boolean isCaseSensitive() { return false; }
@@ -25,7 +28,7 @@ public class Completion extends LookupElement
     public void renderElement(LookupElementPresentation presentation)
     {
         if (!returnValue.equals(lookupValue)) {
-            presentation.appendTailText("(" + returnValue + ")", true);
+            presentation.appendTailText("(" + lookupValue + ")", true);
         }
         super.renderElement(presentation);
     }
@@ -33,18 +36,33 @@ public class Completion extends LookupElement
     @Override
     public void handleInsert(InsertionContext context)
     {
-        PsiElement cursorElement = PsiUtilBase.getElementAtCaret(context.getEditor());
-        if (cursorElement == null) {
+        if (keepQuotes) {
             return;
         }
 
-        String completion = returnValue;
-        if (keepQuotes) {
-            String quote = cursorElement.getText().substring(0, 1);
-            completion = quote + returnValue + quote;
+        PsiElement rightSingleQuote = PsiUtilBase.getElementAtCaret(context.getEditor());
+        if (rightSingleQuote == null || !isQuote(rightSingleQuote)) {
+            return;
         }
 
-        ((LeafPsiElement)cursorElement).replaceWithText(completion);
+        PsiElement previousSibling = rightSingleQuote.getPrevSibling();
+        if (previousSibling == null) {
+            return;
+        }
+
+        PsiElement leftSingleQuote = previousSibling.getPrevSibling();
+        if (leftSingleQuote == null || !isQuote(leftSingleQuote)) {
+            return;
+        }
+
+        leftSingleQuote.delete();
+        rightSingleQuote.delete();
+    }
+
+    protected boolean isQuote(PsiElement element)
+    {
+        String text = element.getText();
+        return text.equals("\'") || text.equals("\"");
     }
 }
 

@@ -13,6 +13,7 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -45,7 +46,6 @@ public class eZPlugin implements Configurable
             languageLabel.setEnabled(false);
             language.setEditable(false);
             language.setToolTipText("Completions are not ready. Try to refresh, and then open preferences again.");
-
         }
         else {
             String selectedLanguage = settings.getLanguage();
@@ -77,9 +77,7 @@ public class eZPlugin implements Configurable
         }
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for (String contentLanguage : completionContainer.getContentLanguages()) {
-            model.addElement(contentLanguage);
-        }
+        completionContainer.getContentLanguages().forEach(model::addElement);
 
         return model;
     }

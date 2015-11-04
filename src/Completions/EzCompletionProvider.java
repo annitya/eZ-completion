@@ -1,14 +1,19 @@
-package Completions.Repository;
+package Completions;
 
 import java.util.ArrayList;
 
+import Completions.Repository.Completion;
+import Completions.Repository.MethodMatcher;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.patterns.PsiElementPattern;
+import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
-public class ParameterCompletion extends CompletionProvider<CompletionParameters>
+public class EzCompletionProvider extends CompletionProvider<CompletionParameters>
 {
     protected ArrayList<Completion> completions;
     protected MethodMatcher matcher;
@@ -18,9 +23,9 @@ public class ParameterCompletion extends CompletionProvider<CompletionParameters
         return completions;
     }
 
-    public MethodMatcher getMatcher()
+    public PsiElementPattern.Capture<PsiElement> getMatcher()
     {
-        return matcher;
+        return PlatformPatterns.psiElement().with(matcher);
     }
 
     @Override
@@ -32,6 +37,6 @@ public class ParameterCompletion extends CompletionProvider<CompletionParameters
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof ParameterCompletion && ((ParameterCompletion)obj).matcher.equals(matcher);
+        return obj instanceof EzCompletionProvider && ((EzCompletionProvider)obj).matcher.equals(matcher);
     }
 }
