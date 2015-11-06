@@ -23,7 +23,7 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
         ArrayIndex arrayIndex;
         StringLiteralExpression stringLiteral;
         FieldReference field;
-        //((FieldReferenceImpl) psiElement.getChildren()[0]).getType().getTypes()
+
         try {
             field = (FieldReference)psiElement.getFirstChild();
             if (field == null) {
