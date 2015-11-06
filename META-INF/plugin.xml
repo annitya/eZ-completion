@@ -62,9 +62,9 @@
         <php.typeProvider2 implementation="TypeProviders.Content.ClassMemberTypeProvider" />
 
 
-        <php.typeProvider2 implementation="TypeProviders.ArrayOfFieldsTypeProvider" />
-        <php.typeProvider2 implementation="TypeProviders.FieldTypeProvider" />
-        <!--<php.typeProvider2 implementation="TypeProviders.TranslationFieldTypeProvider" />-->
+        <php.typeProvider2 implementation="TypeProviders.Content.Fields.ArrayOfFieldsTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.Fields.FieldTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.Fields.TranslationFieldTypeProvider" />
 
         <applicationConfigurable instance="Settings.eZPlugin" />
     </extensions>

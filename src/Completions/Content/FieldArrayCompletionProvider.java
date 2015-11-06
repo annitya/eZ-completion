@@ -2,7 +2,7 @@ package Completions.Content;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
-import TypeProviders.ArrayOfFieldsTypeProvider;
+import TypeProviders.Content.Fields.ArrayOfFieldsTypeProvider;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
