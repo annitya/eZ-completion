@@ -37,6 +37,6 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
             return null;
         }
 
-        return formatResponse(className, fieldName);
+        return null;
     }
 }

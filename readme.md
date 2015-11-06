@@ -63,7 +63,6 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 Roadmap 1.0.3:
 --------------
 * Does the "disabled by default" actually work?
-* Should class-type = Content be implicit when @ContentType-hint is present?
 * Update changelog.
 * Type provider for content-objects.
     - GIF's of goodness.
@@ -73,9 +72,9 @@ Roadmap 1.0.3:
     - Do some internal testing at Keyteq.
         - Look for broken type-chains.
         - Errors while using the plugin?
-        - Other problems and suggestions.
-        - Is array-completion sluggish?
+        - Other problems and suggestions.        
 * Walkthrough of all changes in 1.0.3. Refactor ftw.
+    - There is probably room for improvement regarding type-chain parsing.
 
 Roadmap 1.0.4:
 --------------

@@ -27,7 +27,7 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
     {
         // Break if user specifies a wrong contentclass.
         if (!CompletionPreloader.getInstance(project).getCurrentCompletions().contentClassExists(s)) {
-            return Collections.emptySet();
+            return null;
         }
 
         // Passthrough
