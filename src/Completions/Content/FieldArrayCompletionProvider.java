@@ -34,7 +34,7 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
         }
 
         Set<String> types = variableType.getTypes();
-        if (types.size() > 1) {
+        if (types.size() != 2) {
             return;
         }
 

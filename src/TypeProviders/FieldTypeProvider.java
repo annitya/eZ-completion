@@ -7,9 +7,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class FieldTypeProvider extends DumbAwareTypeProvider
 {
@@ -17,52 +19,41 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
     @Override
     public String resolveType(PsiElement psiElement)
     {
-        MethodReference methodReference;
+        ArrayAccessExpression arrayAccess;
+        ArrayIndex arrayIndex;
+        StringLiteralExpression stringLiteral;
+        FieldReference field;
+        //((FieldReferenceImpl) psiElement.getChildren()[0]).getType().getTypes()
         try {
-            methodReference = (MethodReference)psiElement;
-            Method psiMethod = (Method)methodReference.resolve();
-            if (psiMethod == null) {
+            field = (FieldReference)psiElement.getFirstChild();
+            if (field == null) {
                 return null;
             }
 
-            if (!"\\eZ\\Publish\\API\\Repository\\Values\\Content\\Content.getFieldValue".equals(psiMethod.getFQN())) {
+            arrayAccess = (ArrayAccessExpression)psiElement;
+            arrayIndex = arrayAccess.getIndex();
+            if (arrayIndex == null) {
                 return null;
             }
-        } catch (Exception e) {
+            stringLiteral = (StringLiteralExpression)arrayIndex.getValue();
+        }
+        catch (Exception e) {
             return null;
         }
 
-        PsiElement[] children = psiElement.getChildren();
-        if (children.length == 0) {
+        PhpType fieldType = field.getType();
+        if (fieldType.getTypes().size() != 1) {
             return null;
         }
+        String classTypeIdentifier = fieldType.getTypes().toArray()[0].toString().replace("#P", "").replace("#Z", "");
+        String className = classTypeIdentifier.split("\\.")[0];
 
-        PsiElement[] parameters;
-        try {
-            parameters = ((ParameterList) psiElement.getChildren()[1]).getParameters();
-        } catch (Exception e) {
+        if (stringLiteral == null) {
             return null;
         }
+        String fieldIdentifier = stringLiteral.getContents();
 
-        StringLiteralExpression stringParameter;
-        try {
-            stringParameter = (StringLiteralExpression)parameters[0];
-        } catch (Exception e) {
-            return null;
-        }
-        String fieldName = stringParameter.getContents();
-
-        String className = getClassname(children[0]);
-        if (className == null || className.length() == 0 || fieldName.length() == 0) {
-            return null;
-        }
-
-        return formatResponse(className, fieldName);
-    }
-
-    protected String formatResponse(String className, String fieldName)
-    {
-        return className + "#" + getKey() + fieldName;
+        return className + "#" + getKey() + fieldIdentifier;
     }
 
     @Override

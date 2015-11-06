@@ -24,7 +24,15 @@ public class ArrayOfFieldsTypeProvider extends DumbAwareTypeProvider
     @Override
     public String resolveType(PsiElement psiElement)
     {
-        PsiElement[] children = psiElement.getChildren();
+        ArrayAccessExpression arrayAccess;
+        try {
+            arrayAccess = (ArrayAccessExpression)psiElement;
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+        PsiElement[] children = arrayAccess.getChildren();
         if (children.length != 2) {
             return null;
         }
@@ -45,7 +53,7 @@ public class ArrayOfFieldsTypeProvider extends DumbAwareTypeProvider
             return null;
         }
 
-        accessType = accessType.replace("#P", "").replace("#M", "");
+        accessType = accessType.replace("#P", "");
         String[] parts = accessType.split("\\.");
         if (parts.length != 2) {
             return null;
