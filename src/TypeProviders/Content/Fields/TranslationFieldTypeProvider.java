@@ -1,6 +1,5 @@
-package TypeProviders;
+package TypeProviders.Content.Fields;
 
-import Framework.Util;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
@@ -37,6 +36,6 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
             return null;
         }
 
-        return null;
+        return className + "#" + getKey() + fieldName;
     }
 }

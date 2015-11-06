@@ -1,4 +1,4 @@
-package TypeProviders;
+package TypeProviders.Content.Fields;
 
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;

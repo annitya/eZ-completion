@@ -1,4 +1,4 @@
-package TypeProviders;
+package TypeProviders.Content.Fields;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
