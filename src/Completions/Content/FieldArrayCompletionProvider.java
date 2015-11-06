@@ -51,7 +51,7 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
 
         CompletionPreloader preloader = CompletionPreloader.getInstance(psiElement.getProject());
         CompletionContainer completions = preloader.getCurrentCompletions();
-        HashMap<String, HashMap<String, String>> contentTypeFields = completions.getContentTypeFields();
+        HashMap<String, HashMap<String, Field>> contentTypeFields = completions.getContentTypeFields();
         if (!contentTypeFields.containsKey(contentClass)) {
             return;
         }

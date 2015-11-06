@@ -1,5 +1,6 @@
 package TypeProviders.Content.Fields;
 
+import Completions.Content.Field;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
@@ -11,7 +12,6 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class FieldTypeProvider extends DumbAwareTypeProvider
 {
@@ -62,7 +62,7 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
         CompletionPreloader preloader = CompletionPreloader.getInstance(project);
         CompletionContainer completions = preloader.getCurrentCompletions();
 
-        HashMap<String, HashMap<String, String>> contentTypeFields = completions.getContentTypeFields();
+        HashMap<String, HashMap<String, Field>> contentTypeFields = completions.getContentTypeFields();
         String[] parts = s.split("#" + getKey());
         if (parts.length != 2) {
             return null;
@@ -70,15 +70,18 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
         String contentClass = parts[0];
         String fieldType = parts[1];
 
-        HashMap<String, String> fieldTypeList = contentTypeFields.get(contentClass);
+        HashMap<String, Field> fieldTypeList = contentTypeFields.get(contentClass);
         if (fieldTypeList == null) {
             return null;
         }
-        String className = fieldTypeList.get(fieldType);
-        if (className == null) {
+        if (!fieldTypeList.containsKey(fieldType)) {
+            return null;
+        }
+        Field field = fieldTypeList.get(fieldType);
+        if (!field.hasFqn()) {
             return null;
         }
 
-        return PhpIndex.getInstance(project).getAnyByFQN(className);
+        return PhpIndex.getInstance(project).getAnyByFQN(field.getFqn());
     }
 }
