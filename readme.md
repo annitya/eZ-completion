@@ -66,26 +66,22 @@ Roadmap 1.0.3:
 * Update changelog.
 * Type provider for content-objects.
     - GIF's of goodness.
-    - Adjust expected length of completion-response.
-        - The milage will vary (count of contentclasses), lets find another approach to this.
 * Test all cases of type-hinting and content-completion.
     - Do some internal testing at Keyteq.
         - Look for broken type-chains.
         - Errors while using the plugin?
-        - Other problems and suggestions.        
-* Walkthrough of all changes in 1.0.3. Refactor ftw.
-    - There is probably room for improvement regarding type-chain parsing.
+        - Other problems and suggestions.
+* Add bundle to packagist.
 
 Roadmap 1.0.4:
 --------------
+* Subscription-model for the CompletionContainer so that the type-providers don't have to fetch it all the time?
 * Inspections for field-accessors.
-* ez_field_value-helper?
+* ez_field_value-helper? (twig)
 * Determine if configured environment should be tied to selected interpreter.
 * Yml-completions for controllers, matchers, views, etc...
 * Add completions to entities returned by the API-repository.
     - Ex: ContentType returned from loadContentType...(...)
-* Make field-descriptions available.
-    - https://github.com/JetBrains/intellij-community/blob/master/plugins/properties/src/com/intellij/lang/properties/PropertiesDocumentationProvider.java
 * How does the Symfony2-plugin solve type-hinting in Twig?
 * Create eZDoc-intention.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
@@ -96,12 +92,9 @@ Roadmap 1.0.4:
     - Present the results in an easily browsible manner.
 * Bundle:
     - Use PSR-4 for bundle-autoloading.
-    - Add to packagist.
 * Revisit the whole bundle-installation-thingy.
 * Add twig-completions for content/location
 * Donut?
-* https://confluence.jetbrains.com/display/PhpStorm/PHP+Open+API#PHPOpenAPI-PhpTypeProvider
-* https://devnet.jetbrains.com/message/5520264#5520264
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.
         - loadContent => resolve content-type.

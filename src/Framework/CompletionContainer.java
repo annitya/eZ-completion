@@ -1,5 +1,6 @@
 package Framework;
 
+import Completions.Content.Field;
 import Completions.EzDoc.ContentType;
 import Completions.EzCompletionProvider;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ public class CompletionContainer
 {
     protected ArrayList<EzCompletionProvider> list;
     protected ArrayList<ContentType> contentTypes;
-    protected HashMap<String, HashMap<String, String>> contentTypeFields;
+    protected HashMap<String, HashMap<String, Field>> contentTypeFields;
     protected ArrayList<String> contentLanguages;
 
     public CompletionContainer()
@@ -26,7 +27,7 @@ public class CompletionContainer
 
     public ArrayList<ContentType> getContentTypes() { return contentTypes; }
 
-    public HashMap<String, HashMap<String, String>> getContentTypeFields() { return contentTypeFields; }
+    public HashMap<String, HashMap<String, Field>> getContentTypeFields() { return contentTypeFields; }
 
     public void refresh(ArrayList<EzCompletionProvider> newList)
     {

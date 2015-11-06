@@ -67,6 +67,9 @@
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.TranslationFieldTypeProvider" />
 
         <applicationConfigurable instance="Settings.eZPlugin" />
+
+        <annotator order="first" implementationClass="Annotation.FieldAnnotator" language="PHP" />
+
     </extensions>
 
     <application-components>
