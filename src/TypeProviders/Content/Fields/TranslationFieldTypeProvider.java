@@ -1,5 +1,6 @@
 package TypeProviders.Content.Fields;
 
+import TypeProviders.Abstract.TypeKeys;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
@@ -32,10 +33,7 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
             return null;
         }
 
-        String className = getClassname(parameters[0]);
-        if (className == null) {
-            return null;
-        }
+        String className = TypeKeys.getTypeString(parameters[0], TypeKeys.CONTENT_KEY);
 
         String fieldName;
         try {
@@ -44,6 +42,6 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
             return null;
         }
 
-        return className + "#" + getKey() + fieldName;
+        return className + typeSeparator() + fieldName;
     }
 }

@@ -3,6 +3,7 @@ package Annotation;
 import Completions.Content.Field;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
+import TypeProviders.Abstract.TypeKeys;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.psi.PsiElement;
@@ -32,10 +33,10 @@ public class FieldAnnotator implements Annotator
         }
 
         Set<String> types = arrayAccess.getType().getTypes();
-        if (types.size() != 2) {
+        if (types.size() != 1) {
             return;
         }
-        String[] typeParts = types.toArray()[1].toString().split("#Z");
+        String[] typeParts = types.toArray()[0].toString().split("#" + TypeKeys.FIELD_KEY);
         if (typeParts.length != 3) {
             return;
         }

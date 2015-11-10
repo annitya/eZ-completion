@@ -2,6 +2,8 @@ package TypeProviders.Content.Fields;
 
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
+import TypeProviders.Abstract.TypeKeys;
+import TypeProviders.Content.ContentVariableTypeProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.*;
@@ -9,66 +11,53 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * A Content-object in eZ will always have an array of fields which has various accessors.
  * This class tags them for later use when requesting field-identifier completions.
  *
- * $content->fields['|'], $content->getFields()['|']
+ * $content->getFields()['|']
+ *
+ * The resolved signature is a contentclass-identifier
  */
 public class ArrayOfFieldsTypeProvider extends DumbAwareTypeProvider
 {
-    public final static String FIELD_LIST_IDENTIFIER = "contentclass_field_list";
+    @Override
+    public char getKey()
+    {
+        return TypeKeys.ARRAY_FIELD_KEY;
+    }
 
     @Nullable
     @Override
     public String resolveType(PsiElement psiElement)
     {
-        ArrayAccessExpression arrayAccess;
+        MethodReference method;
+        Variable variable;
         try {
-            arrayAccess = (ArrayAccessExpression)psiElement;
+            method = (MethodReference) psiElement;
+            variable = (Variable)method.getFirstChild();
         }
         catch (Exception e) {
             return null;
         }
 
-        PsiElement[] children = arrayAccess.getChildren();
-        if (children.length != 2) {
+        String methodName = method.getName();
+        if (methodName == null || !methodName.equals("getFields")) {
             return null;
         }
 
-        PhpTypedElement typedElement;
-        try {
-            typedElement = (PhpTypedElement)children[0];
-        } catch (Exception e) {
-            return null;
-        }
-        Object[] types = typedElement.getType().getTypes().toArray();
-        if (types.length == 0) {
+        if (!TypeKeys.isContent(variable)) {
             return null;
         }
 
-        String accessType = types[0].toString().replace("#Z", "");
-        if (accessType == null) {
+        String className = TypeKeys.getTypeString(variable, TypeKeys.CONTENT_KEY);
+        if (className == null) {
             return null;
         }
 
-        accessType = accessType.replace("#P", "");
-        String[] parts = accessType.split("\\.");
-        if (parts.length != 2) {
-            return null;
-        }
-        String className = parts[0];
-        if (!CompletionPreloader.getInstance(psiElement.getProject()).getCurrentCompletions().contentClassExists(className)) {
-            return null;
-        }
-
-        String accessor = parts[1];
-        if (!accessor.equals("fields") && !accessor.equals("getFields")) {
-            return null;
-        }
-
-        return className + "#" + getKey() + FIELD_LIST_IDENTIFIER;
+        return typeSeparator() + className;
     }
 
     @Override

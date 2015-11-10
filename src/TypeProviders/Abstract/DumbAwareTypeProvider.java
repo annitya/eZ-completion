@@ -9,12 +9,9 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class DumbAwareTypeProvider implements PhpTypeProvider2
 {
-    public final static char TYPE_IDENTIFIER = 'Z';
-
-    @Override
-    public char getKey()
+    public String typeSeparator()
     {
-        return TYPE_IDENTIFIER;
+        return "#" + getKey();
     }
 
     @Nullable
@@ -39,28 +36,5 @@ public abstract class DumbAwareTypeProvider implements PhpTypeProvider2
         return resolveType(psiElement);
     }
 
-
     public abstract String resolveType(PsiElement psiElement);
-
-    protected String getClassname(PsiElement psiElement)
-    {
-        PhpTypedElement typedElement;
-        try {
-            typedElement = (PhpTypedElement)psiElement;
-        } catch (Exception e) {
-            return null;
-        }
-        Object[] types = typedElement.getType().getTypes().toArray();
-        if (types.length == 0) {
-            return null;
-        }
-
-        String className = types[0].toString().replace("#Z", "");
-        CompletionPreloader preloader = CompletionPreloader.getInstance(psiElement.getProject());
-        if (!preloader.getCurrentCompletions().contentClassExists(className)) {
-            return null;
-        }
-
-        return className;
-    }
 }

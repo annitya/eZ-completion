@@ -62,6 +62,7 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 
 Roadmap 1.0.3:
 --------------
+* Wait until all other jobs are completed before fetching completions?
 * Does the "disabled by default" actually work?
 * Update changelog.
 * Type provider for content-objects.

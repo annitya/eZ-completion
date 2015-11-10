@@ -1,6 +1,9 @@
 package Completions.Content;
 
 import Framework.Util;
+import TypeProviders.Abstract.TypeKeys;
+import TypeProviders.Content.ContentVariableTypeProvider;
+import TypeProviders.Content.Fields.ArrayOfFieldsTypeProvider;
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -16,24 +19,19 @@ public class ArrayMatcher extends PatternCondition<PsiElement>
         super(debugMethodName);
     }
 
-    public static PhpType getArrayVariableType(PsiElement psiElement)
+    public static ArrayAccessExpression getArrayExpression(PsiElement psiElement)
     {
         if (!Util.withinQuotes(psiElement)) {
             return null;
         }
 
-        ArrayAccessExpression arrayAccessExpression = PsiTreeUtil.getParentOfType(psiElement, ArrayAccessExpression.class);
-        if (arrayAccessExpression == null) {
-            return null;
-        }
-
-        return arrayAccessExpression.getType();
+        return PsiTreeUtil.getParentOfType(psiElement, ArrayAccessExpression.class);
     }
 
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext context)
     {
-        PhpType type = getArrayVariableType(psiElement);
-        return type != null && type.toString().contains("#Z");
+        ArrayAccessExpression arrayExpression = getArrayExpression(psiElement);
+        return TypeKeys.isField(arrayExpression) || TypeKeys.isContent(arrayExpression);
     }
 }

@@ -38,6 +38,6 @@ public class ClassMemberTypeProvider extends ContentVariableTypeProvider
             return null;
         }
 
-        return parsePhpDoc(tag);
+        return typeSeparator() + parsePhpDoc(tag);
     }
 }
