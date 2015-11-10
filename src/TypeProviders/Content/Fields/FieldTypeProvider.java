@@ -4,32 +4,54 @@ import Completions.Content.Field;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
+import TypeProviders.Abstract.TypeKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class FieldTypeProvider extends DumbAwareTypeProvider
 {
-    @Nullable
+    protected String accessorName;
+
+    public FieldTypeProvider()
+    {
+        accessorName = "fields";
+    }
+
     @Override
-    public String resolveType(PsiElement psiElement)
+    public char getKey()
+    {
+        return TypeKeys.FIELD_KEY;
+    }
+
+    protected boolean validReferenceName(PsiElement firstChild, String name)
+    {
+        if (firstChild == null) {
+            return false;
+        }
+
+        PhpReference reference;
+        String referenceName;
+        try {
+            reference = (PhpReference)firstChild;
+            referenceName = reference.getName();
+        } catch (Exception e) {
+            return false;
+        }
+
+        return name != null && name.equals(referenceName);
+
+    }
+
+    protected String getArrayAccessIndexValue(PsiElement psiElement)
     {
         ArrayAccessExpression arrayAccess;
         ArrayIndex arrayIndex;
         StringLiteralExpression stringLiteral;
-        FieldReference field;
-
         try {
-            field = (FieldReference)psiElement.getFirstChild();
-            if (field == null) {
-                return null;
-            }
-
             arrayAccess = (ArrayAccessExpression)psiElement;
             arrayIndex = arrayAccess.getIndex();
             if (arrayIndex == null) {
@@ -41,19 +63,35 @@ public class FieldTypeProvider extends DumbAwareTypeProvider
             return null;
         }
 
-        PhpType fieldType = field.getType();
-        if (fieldType.getTypes().size() != 1) {
+        if (stringLiteral == null || stringLiteral.getContents().length() == 0) {
             return null;
         }
-        String classTypeIdentifier = fieldType.getTypes().toArray()[0].toString().replace("#P", "").replace("#Z", "");
-        String className = classTypeIdentifier.split("\\.")[0];
 
-        if (stringLiteral == null) {
+        return stringLiteral.getContents();
+    }
+
+    public String resolveType(PsiElement psiElement)
+    {
+        PsiElement firstChild = psiElement.getFirstChild();
+        if (!validReferenceName(firstChild, accessorName)) {
             return null;
         }
-        String fieldIdentifier = stringLiteral.getContents();
 
-        return className + "#" + getKey() + fieldIdentifier;
+        String className = TypeKeys.getTypeString(firstChild, TypeKeys.ARRAY_FIELD_KEY);
+        if (className == null) {
+            className = TypeKeys.getTypeString(firstChild, TypeKeys.CONTENT_KEY);
+        }
+
+        if (className == null) {
+            return null;
+        }
+
+        String accessor = getArrayAccessIndexValue(psiElement);
+        if (accessor == null) {
+            return null;
+        }
+
+        return className + typeSeparator() + accessor;
     }
 
     @Override

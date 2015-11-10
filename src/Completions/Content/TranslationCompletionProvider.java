@@ -5,6 +5,7 @@ import Completions.Repository.MethodMatcher;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import Framework.Util;
+import TypeProviders.Abstract.TypeKeys;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -33,7 +34,7 @@ public class TranslationCompletionProvider extends EzCompletionProvider
         try {
             PsiElement[] parameterList = Util.getParameters(psiElement);
             Variable content = (Variable)parameterList[0];
-            contentClass = content.getType().getTypes().toArray()[0].toString().replace("#Z", "");
+            contentClass = TypeKeys.getTypeString(content, TypeKeys.CONTENT_KEY);
         } catch (Exception e) {
             return null;
         }
@@ -53,12 +54,11 @@ public class TranslationCompletionProvider extends EzCompletionProvider
         CompletionPreloader preloader = CompletionPreloader.getInstance(psiElement.getProject());
         CompletionContainer completions = preloader.getCurrentCompletions();
 
-        HashMap<String, HashMap<String, Field>> contentTypeFields = completions.getContentTypeFields();
-        if (!contentTypeFields.containsKey(contentClass)) {
+        Set<String> fieldIdentifiers = completions.getFieldIdentifiers(contentClass);
+        if (fieldIdentifiers == null) {
             return;
         }
 
-        Set<String> fieldIdentifiers = contentTypeFields.get(contentClass).keySet();
         for (final String fieldIdentifier : fieldIdentifiers) {
             result.addElement(new LookupElement()
             {

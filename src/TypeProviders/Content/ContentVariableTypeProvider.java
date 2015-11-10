@@ -2,6 +2,7 @@ package TypeProviders.Content;
 
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
+import TypeProviders.Abstract.TypeKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -10,21 +11,31 @@ import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocComment;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.tags.PhpDocTag;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.elements.Statement;
-import com.jetbrains.php.lang.psi.elements.impl.FieldImpl;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Parses PhpDoc and returns the specified content-type-identifier eg. "article_list"
  * "@ContentType article_list $content"
+ *
+ * The resolved signature is contentclass-identifier.
  */
 public class ContentVariableTypeProvider extends DumbAwareTypeProvider
 {
     @Override
+    public char getKey()
+    {
+        return TypeKeys.CONTENT_KEY;
+    }
+
+    @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project)
     {
+        if (s.indexOf(TypeKeys.CONTENT_KEY) < 0) {
+            return null;
+        }
+        s = s.replaceAll("#.", "");
+
         // Break if user specifies a wrong contentclass.
         if (!CompletionPreloader.getInstance(project).getCurrentCompletions().contentClassExists(s)) {
             return null;
@@ -59,6 +70,7 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
 
         return parsePhpDoc(tag);
     }
+
 
     protected boolean tagMatches(PhpDocTag tag, String variableName)
     {
@@ -96,7 +108,8 @@ public class ContentVariableTypeProvider extends DumbAwareTypeProvider
 
         String firstPart = parts[0];
         String secondPart = parts.length > 1 ? parts[1] : null;
+        String contentClass = firstPart.contains("$") ? secondPart : firstPart;
 
-        return firstPart.contains("$") ? secondPart : firstPart;
+        return typeSeparator() + contentClass;
     }
 }

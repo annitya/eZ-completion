@@ -5,6 +5,7 @@ import Completions.EzDoc.ContentType;
 import Completions.EzCompletionProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class CompletionContainer
 {
@@ -28,6 +29,15 @@ public class CompletionContainer
     public ArrayList<ContentType> getContentTypes() { return contentTypes; }
 
     public HashMap<String, HashMap<String, Field>> getContentTypeFields() { return contentTypeFields; }
+
+    public Set<String> getFieldIdentifiers(String contentClass)
+    {
+        if (!contentTypeFields.containsKey(contentClass)) {
+            return null;
+        }
+
+        return contentTypeFields.get(contentClass).keySet();
+    }
 
     public void refresh(ArrayList<EzCompletionProvider> newList)
     {
