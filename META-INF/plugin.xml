@@ -54,7 +54,8 @@
     <depends optional="true">org.jetbrains.plugins.remote-run</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <completion.contributor language="any" implementationClass="Framework.eZCompletionContributor"/>
+        <!--suppress PluginXmlValidity -->
+        <completion.contributor language="PHP" implementationClass="Framework.eZCompletionContributor"/>
 
         <!-- Type providers for Content. -->
         <php.typeProvider2 implementation="TypeProviders.Content.ContentVariableTypeProvider" />
@@ -69,7 +70,13 @@
 
         <applicationConfigurable instance="Settings.eZPlugin" />
 
+        <!--suppress PluginXmlValidity -->
         <annotator order="first" implementationClass="Annotation.FieldAnnotator" language="PHP" />
+
+        <intentionAction>
+            <className>Intentions.EzDocVariableIntention</className>
+            <category>PHP</category>
+        </intentionAction>
 
     </extensions>
 
@@ -113,8 +120,11 @@
 
         <group id="flageolett.ez" text="eZ" description="eZ Publish tools">
             <separator/>
+            <!--suppress PluginXmlValidity -->
             <reference ref="flageolett.ez.completion_refresh"/>
+            <!--suppress PluginXmlValidity -->
             <reference ref="flageolett.ez.clear_cache"/>
+            <!--suppress PluginXmlValidity -->
             <reference ref="flageolett.ez.assetic_watch" />
             <add-to-group group-id="MainMenu" anchor="last"/>
             <add-to-group group-id="MainToolBar" anchor="after" relative-to-action="HelpTopics"/>

@@ -33,13 +33,6 @@ public class EzDocMatcher extends PatternCondition<PsiElement>
             return false;
         }
 
-        // Disallow completion within method-phpdoc.
-        //try {
-        //    if (phpDocTag.getParent().getNextSibling().getNextSibling() instanceof Method) {
-        //        return false;
-        //    }
-        //} catch (Exception ignored) {}
-
         String tagValue = phpDocTag.getTagValue();
         String[] parts = tagValue.split(" ");
 

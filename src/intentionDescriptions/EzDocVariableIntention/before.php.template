@@ -1,0 +1,10 @@
+<?php
+
+class A
+{
+    public function renderContent($contentId)
+    {
+        $contentService = $this->getRepository->getContentService();
+        $content = $contentService->loadContent($contentId);
+    }
+}

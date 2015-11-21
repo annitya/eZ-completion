@@ -28,5 +28,15 @@
     </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="php" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="phpstorm-remote" level="project" />
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Applications/PhpStorm.app/Contents/plugins/twig/lib/twig.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="symfony2-plugin" level="project" />
   </component>
 </module>

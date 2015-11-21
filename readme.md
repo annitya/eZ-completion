@@ -63,16 +63,15 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 Roadmap 1.0.3:
 --------------
 * Wait until all other jobs are completed before fetching completions?
-* Does the "disabled by default" actually work?
+* How well does this plugin work without Symfony2-plugin?
+* Serialize and store fetched completions?
 * Update changelog.
-* Type provider for content-objects.
     - GIF's of goodness.
 * Test all cases of type-hinting and content-completion.
     - Do some internal testing at Keyteq.
         - Look for broken type-chains.
         - Errors while using the plugin?
         - Other problems and suggestions.
-* Add bundle to packagist.
 
 Roadmap 1.0.4:
 --------------
@@ -81,8 +80,6 @@ Roadmap 1.0.4:
 * ez_field_value-helper? (twig)
 * Determine if configured environment should be tied to selected interpreter.
 * Yml-completions for controllers, matchers, views, etc...
-* Add completions to entities returned by the API-repository.
-    - Ex: ContentType returned from loadContentType...(...)
 * How does the Symfony2-plugin solve type-hinting in Twig?
 * Create eZDoc-intention.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
@@ -91,9 +88,6 @@ Roadmap 1.0.4:
     - Ask for unresolved criteria-values.
     - Modify method to return eval'd data.
     - Present the results in an easily browsible manner.
-* Bundle:
-    - Use PSR-4 for bundle-autoloading.
-* Revisit the whole bundle-installation-thingy.
 * Add twig-completions for content/location
 * Donut?
 * Automatic eZDoc if possible.
