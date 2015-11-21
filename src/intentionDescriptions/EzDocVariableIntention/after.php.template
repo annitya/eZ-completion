@@ -1,0 +1,11 @@
+<?php
+
+class A
+{
+    public function renderContent($contentId)
+    {
+        $contentService = $this->getRepository->getContentService();
+        /** @ContentType IDENTIFIER $innhold */
+        $content = $contentService->loadContent($contentId);
+    }
+}

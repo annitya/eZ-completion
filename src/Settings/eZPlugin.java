@@ -23,7 +23,7 @@ public class eZPlugin implements Configurable
     protected JComponent component;
     protected JPanel panel;
     protected JLabel languageLabel;
-    protected JComboBox language;
+    protected JComboBox<String> language;
     protected JLabel environmentLabel;
     protected JTextField environment;
     protected JLabel executableLabel;
@@ -38,9 +38,9 @@ public class eZPlugin implements Configurable
     public JComponent createComponent()
     {
         settings = Service.getInstance(Util.currentProject());
-        DefaultComboBoxModel model = createLanguageModel();
+        DefaultComboBoxModel<String> model = createLanguageModel();
         if (model == null || model.getSize() == 0) {
-            model = new DefaultComboBoxModel();
+            model = new DefaultComboBoxModel<>();
             model.addElement(Service.LANGUAGE_UNAVAILABLE);
             language.setEnabled(false);
             languageLabel.setEnabled(false);
@@ -67,7 +67,7 @@ public class eZPlugin implements Configurable
         return component;
     }
 
-    protected DefaultComboBoxModel createLanguageModel()
+    protected DefaultComboBoxModel<String> createLanguageModel()
     {
         CompletionPreloader preloader = CompletionPreloader.getInstance(Util.currentProject());
         CompletionContainer completionContainer = preloader.getCurrentCompletions();
@@ -76,7 +76,7 @@ public class eZPlugin implements Configurable
             return null;
         }
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         completionContainer.getContentLanguages().forEach(model::addElement);
 
         return model;
