@@ -1,12 +1,11 @@
 package Framework;
 
+import Framework.Console.Command;
 import Framework.Console.ConsoleCommandFactory;
+import Framework.Console.ConsoleService;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
-import com.jetbrains.php.config.PhpProjectConfigurationFacade;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class CompletionPreloader implements ProjectComponent
 {
@@ -53,7 +52,12 @@ public class CompletionPreloader implements ProjectComponent
         }
 
         try {
-            fetchCompletions();
+            // Enable caching of command-result on startup.
+            ConsoleService consoleService = ConsoleCommandFactory.createConsoleCommand(ConsoleCommandFactory.CommandName.REFRESH_COMPLETIONS, project);
+            Command command = consoleService.geteZCommand();
+            command.setUseFileCache(true);
+            consoleService.seteZCommand(command);
+            consoleService.queue();
         } catch (Exception ignored) {}
     }
 
