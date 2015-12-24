@@ -41,6 +41,7 @@ public class ConsoleCommandFactory
                 case REFRESH_COMPLETIONS:
                     command = new Framework.Console.RefreshCompletions(commandName.toString(), project);
                     command.setExpectedResultLength(249035);
+                    command.setStoreResult(true);
                     consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
                     consoleService.seteZCommand(command);
                 break;

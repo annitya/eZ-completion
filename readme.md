@@ -15,6 +15,7 @@ Remote interpreter support:
  - SSH Remote-run.
 
 While the Symfony2-plugin is not a hard requirement, it is highly recommended.
+Much of the provided functionality will be unavailable without it.
 
 What does it do?
 ----------------
@@ -41,6 +42,8 @@ Provides completion for:
     - fields/getFields
     - getFieldValue(...)
 
+* Config-resolver
+
 * Clear cache from IDE.
 * Toggle assetic-watch
 
@@ -51,7 +54,7 @@ Request completions from within literals.
 
 Troubleshooting:
 ----------------
-Run the ezcode:completion-command and makes sure that it does not output anything else than valid JSON.
+Run the ezcode:completion-command and make sure that it does not output anything other than valid JSON.
 Any errors in the console?
 
 Known issues:
@@ -60,28 +63,23 @@ You might need to clear the cache before refreshing completions.
 Rename-refactoring does not work for @ContentType doc-blocks.
 No completion for fields returned from getFieldsByLanguage because they are not indexed by identifier.
 
+Current:
+--------
+* Inspections for field-accessors.
+
+
 Roadmap 1.0.3:
 --------------
-* Wait until all other jobs are completed before fetching completions?
-* How well does this plugin work without Symfony2-plugin?
-* Serialize and store fetched completions?
 * Update changelog.
     - GIF's of goodness.
-* Test all cases of type-hinting and content-completion.
-    - Do some internal testing at Keyteq.
-        - Look for broken type-chains.
-        - Errors while using the plugin?
-        - Other problems and suggestions.
 
 Roadmap 1.0.4:
 --------------
 * Subscription-model for the CompletionContainer so that the type-providers don't have to fetch it all the time?
-* Inspections for field-accessors.
 * ez_field_value-helper? (twig)
-* Determine if configured environment should be tied to selected interpreter.
 * Yml-completions for controllers, matchers, views, etc...
 * How does the Symfony2-plugin solve type-hinting in Twig?
-* Create eZDoc-intention.
+    - The hard way. There are no types in twig.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
     - Add support for services.
@@ -93,4 +91,5 @@ Roadmap 1.0.4:
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.
         - loadContent => resolve content-type.
+    - Does database access yield other posibilities as well?
 

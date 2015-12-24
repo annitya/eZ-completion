@@ -2,12 +2,16 @@ package Framework.Console;
 
 import Settings.Service;
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
 import com.jetbrains.php.config.commandLine.PhpCommandSettingsBuilder;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 abstract public class Command
 {
@@ -18,6 +22,8 @@ abstract public class Command
     protected Integer expectedResultLength = 0;
     protected ProgressIndicator indicator;
     protected String title;
+    protected Boolean useFileCache = false;
+    protected Boolean storeResult = false;
 
     public Command(String command, Project project)
     {
@@ -32,6 +38,10 @@ abstract public class Command
     public void setExpectedResultLength(Integer expectedResultLength) { this.expectedResultLength = expectedResultLength; }
 
     public void setProgressIndicator(ProgressIndicator indicator) { this.indicator = indicator; }
+
+    public void setUseFileCache(Boolean useFileCache) { this.useFileCache = useFileCache; }
+
+    public void setStoreResult(Boolean storeResult) { this.storeResult = storeResult; }
 
     abstract public void success();
 
@@ -124,12 +134,23 @@ abstract public class Command
 
     public void execute() throws Exception
     {
+        if (useFileCache) {
+            loadCachedResult();
+        }
+
+        if (result != null && result.length() > 0) {
+            return;
+        }
+
         createProcess();
 
         result = readAll(process.getInputStream());
         process.waitFor();
-
         processExited();
+
+        if (storeResult) {
+            cacheResult();
+        }
     }
 
     protected void createProcess() throws Exception
@@ -163,5 +184,69 @@ abstract public class Command
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    protected void loadCachedResult()
+    {
+        if (!ensureDirectory()) {
+            return;
+        }
+
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(buildFileName()));
+            result = new String(encoded, StandardCharsets.UTF_8);
+        }
+        catch (Exception ignored) {}
+    }
+
+    protected void cacheResult()
+    {
+        if (result == null || result.length() == 0) {
+            return;
+        }
+
+        if (!ensureDirectory()) {
+            return;
+        }
+
+        try {
+            PrintWriter out = new PrintWriter(buildFileName());
+            out.println(result);
+            out.close();
+        }
+        catch (Exception ignored) {}
+    }
+
+    protected Boolean ensureDirectory()
+    {
+        File directory = new File(buildDirectoryName());
+        if (directory.isDirectory()) {
+            return true;
+        }
+
+        //noinspection SimplifiableIfStatement
+        if (directory.isFile()) {
+            return false;
+        }
+
+        return directory.mkdirs();
+    }
+
+    protected String buildDirectoryName()
+    {
+        return
+                PathManager.getPluginsPath() +
+                        File.separator +
+                        "eZPlugin" +
+                        File.separator +
+                        project.getLocationHash();
+    }
+
+    protected String buildFileName()
+    {
+        return
+                buildDirectoryName() +
+                        File.separator +
+                        command;
     }
 }
