@@ -66,8 +66,7 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 Current:
 --------
  * Attach test-file which lists all completion/type-resolve cases.
- * $content->fields['|'], is slow. Disable native-completions for this one.
-// * Inspections for field-accessors.
+ // * Inspections for field-accessors.
 
 
 Roadmap 1.0.3:

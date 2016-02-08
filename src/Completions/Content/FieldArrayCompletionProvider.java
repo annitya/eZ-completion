@@ -35,9 +35,9 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
             return;
         }
 
-        String contentClass = TypeKeys.getTypeString(arrayAccess, TypeKeys.FIELD_KEY);
+        String contentClass = TypeKeys.getArrayAccessTypeString(arrayAccess, TypeKeys.FIELD_KEY);
         if (contentClass == null) {
-            contentClass = TypeKeys.getTypeString(arrayAccess, TypeKeys.CONTENT_KEY);
+            contentClass = TypeKeys.getArrayAccessTypeString(arrayAccess, TypeKeys.CONTENT_KEY);
         }
 
         CompletionPreloader preloader = CompletionPreloader.getInstance(arrayAccess.getProject());
@@ -58,5 +58,7 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
                 }
             });
         }
+
+        result.stopHere();
     }
 }

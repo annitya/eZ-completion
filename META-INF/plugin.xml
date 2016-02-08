@@ -55,7 +55,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!--suppress PluginXmlValidity -->
-        <completion.contributor language="PHP" implementationClass="Framework.eZCompletionContributor"/>
+        <completion.contributor language="PHP" implementationClass="Framework.eZCompletionContributor" order="first"/>
 
         <!-- Type providers for Content. -->
         <php.typeProvider2 implementation="TypeProviders.Content.ContentVariableTypeProvider" />
