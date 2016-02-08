@@ -1,6 +1,8 @@
 package TypeProviders.Abstract;
 
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.ArrayAccessExpression;
+import com.jetbrains.php.lang.psi.elements.ArrayIndex;
 import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 
 public class TypeKeys
@@ -40,11 +42,6 @@ public class TypeKeys
         return getType(psiElement, CONTENT_KEY) != null;
     }
 
-    public static boolean isArrayofFields(PsiElement psiElement)
-    {
-        return getType(psiElement, ARRAY_FIELD_KEY) != null;
-    }
-
     public static boolean isField(PsiElement psiElement)
     {
         return getType(psiElement, TypeKeys.FIELD_KEY) != null;
@@ -52,12 +49,17 @@ public class TypeKeys
 
     public static String getTypeString(PsiElement psiElement, char typeKey)
     {
+        return getTypeString(psiElement, typeKey, "IntellijIdeaRulezzz");
+    }
+
+    protected static String getTypeString(PsiElement psiElement, char typeKey, String defaultLiteral)
+    {
         String type = getType(psiElement, typeKey);
         if (type == null) {
             return null;
         }
 
-        String typeString = type.replaceAll("#.", "").replace("IntellijIdeaRulezzz", "").trim();
+        String typeString = type.replaceAll("#.", "").replace(defaultLiteral, "").trim();
         if (!typeString.contains(".")) {
             return typeString;
         }
@@ -65,5 +67,15 @@ public class TypeKeys
         String[] parts = typeString.split("\\.");
 
         return parts[0];
+    }
+
+    public static String getArrayAccessTypeString(ArrayAccessExpression arrayAccess, char typeKey)
+    {
+        ArrayIndex index = arrayAccess.getIndex();
+        if (index == null) {
+            return null;
+        }
+
+        return getTypeString(arrayAccess, typeKey, arrayAccess.getIndex().getText().replaceAll("'", ""));
     }
 }
