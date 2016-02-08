@@ -65,7 +65,9 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 
 Current:
 --------
-* Inspections for field-accessors.
+ * Attach test-file which lists all completion/type-resolve cases.
+ * $content->fields['|'], is slow. Disable native-completions for this one.
+// * Inspections for field-accessors.
 
 
 Roadmap 1.0.3:
@@ -91,5 +93,5 @@ Roadmap 1.0.4:
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.
         - loadContent => resolve content-type.
-    - Does database access yield other posibilities as well?
-
+    - Does database access yield other possibilities as well?
+        - Database is being difficult, postponed for now.

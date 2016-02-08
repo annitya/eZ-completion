@@ -1,17 +1,12 @@
 package TypeProviders.Content.Fields;
 
-import Framework.CompletionPreloader;
 import TypeProviders.Abstract.DumbAwareTypeProvider;
 import TypeProviders.Abstract.TypeKeys;
-import TypeProviders.Content.ContentVariableTypeProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * A Content-object in eZ will always have an array of fields which has various accessors.

@@ -2,14 +2,11 @@ package Completions.Content;
 
 import Framework.Util;
 import TypeProviders.Abstract.TypeKeys;
-import TypeProviders.Content.ContentVariableTypeProvider;
-import TypeProviders.Content.Fields.ArrayOfFieldsTypeProvider;
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.psi.elements.ArrayAccessExpression;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import org.jetbrains.annotations.NotNull;
 
 public class ArrayMatcher extends PatternCondition<PsiElement>
