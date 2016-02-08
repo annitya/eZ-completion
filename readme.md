@@ -65,8 +65,8 @@ No completion for fields returned from getFieldsByLanguage because they are not 
 
 Current:
 --------
- * Attach test-file which lists all completion/type-resolve cases.
- // * Inspections for field-accessors.
+// Attach test-file which lists all completion/type-resolve cases.
+// Inspections for field-accessors.
 
 
 Roadmap 1.0.3:
@@ -76,18 +76,20 @@ Roadmap 1.0.3:
 
 Roadmap 1.0.4:
 --------------
-* Subscription-model for the CompletionContainer so that the type-providers don't have to fetch it all the time?
-* ez_field_value-helper? (twig)
+
 * Yml-completions for controllers, matchers, views, etc...
-* How does the Symfony2-plugin solve type-hinting in Twig?
-    - The hard way. There are no types in twig.
+
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
     - Add support for services.
     - Ask for unresolved criteria-values.
     - Modify method to return eval'd data.
     - Present the results in an easily browsible manner.
-* Add twig-completions for content/location
+* Twig
+    - completions for content/location
+    - How does the Symfony2-plugin solve type-hinting in Twig?
+    - The hard way. There are no types in twig.
+    - ez_field_value-helper?
 * Donut?
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.

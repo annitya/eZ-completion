@@ -1,6 +1,7 @@
 package Completions.Content;
 
 import Completions.EzCompletionProvider;
+import Completions.Repository.Completion;
 import Completions.Repository.MethodMatcher;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
@@ -8,15 +9,12 @@ import Framework.Util;
 import TypeProviders.Abstract.TypeKeys;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.Set;
 
 public class TranslationCompletionProvider extends EzCompletionProvider
@@ -60,15 +58,7 @@ public class TranslationCompletionProvider extends EzCompletionProvider
         }
 
         for (final String fieldIdentifier : fieldIdentifiers) {
-            result.addElement(new LookupElement()
-            {
-                @NotNull
-                @Override
-                public String getLookupString()
-                {
-                    return fieldIdentifier;
-                }
-            });
+            result.addElement(new Completion(fieldIdentifier, fieldIdentifier, true));
         }
     }
 }

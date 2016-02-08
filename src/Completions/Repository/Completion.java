@@ -2,13 +2,9 @@ package Completions.Repository;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
-import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
-import com.intellij.lang.PsiBuilder;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
-import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
 
 public class Completion extends LookupElement
@@ -16,6 +12,13 @@ public class Completion extends LookupElement
     protected String lookupValue;
     protected String returnValue;
     protected Boolean keepQuotes;
+
+    public Completion(String lookupValue, String returnValue, Boolean keepQuotes)
+    {
+        this.lookupValue = lookupValue;
+        this.returnValue = returnValue;
+        this.keepQuotes = keepQuotes;
+    }
 
     @NotNull
     @Override
@@ -36,6 +39,8 @@ public class Completion extends LookupElement
     @Override
     public void handleInsert(InsertionContext context)
     {
+        context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
+
         if (keepQuotes) {
             return;
         }
