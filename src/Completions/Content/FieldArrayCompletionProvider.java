@@ -43,9 +43,9 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
         }
 
         for (final String fieldIdentifier : fieldIdentifiers) {
-            result.addElement(new Completion(fieldIdentifier, fieldIdentifier, true));
+            result.addElement(new Completion().initalizeSimpleCompletion(fieldIdentifier));
         }
 
-        result.stopHere();
+//        result.stopHere();
     }
 }

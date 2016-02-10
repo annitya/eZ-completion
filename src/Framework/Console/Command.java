@@ -224,7 +224,6 @@ abstract public class Command
             return true;
         }
 
-        //noinspection SimplifiableIfStatement
         if (directory.isFile()) {
             return false;
         }
