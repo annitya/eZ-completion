@@ -58,7 +58,7 @@ public class TranslationCompletionProvider extends EzCompletionProvider
         }
 
         for (final String fieldIdentifier : fieldIdentifiers) {
-            result.addElement(new Completion(fieldIdentifier, fieldIdentifier, true));
+            result.addElement(new Completion().initalizeSimpleCompletion(fieldIdentifier));
         }
     }
 }

@@ -5,6 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilBase;
+import com.intellij.util.keyFMap.KeyFMap;
 import org.jetbrains.annotations.NotNull;
 
 public class Completion extends LookupElement
@@ -13,11 +14,16 @@ public class Completion extends LookupElement
     protected String returnValue;
     protected Boolean keepQuotes;
 
-    public Completion(String lookupValue, String returnValue, Boolean keepQuotes)
+    /**
+     * This exists because funky constructor-chaining screwing things up.
+     */
+    public Completion initalizeSimpleCompletion(String value)
     {
-        this.lookupValue = lookupValue;
-        this.returnValue = returnValue;
-        this.keepQuotes = keepQuotes;
+        lookupValue = value;
+        returnValue = value;
+        keepQuotes = true;
+
+        return this;
     }
 
     @NotNull
@@ -39,7 +45,7 @@ public class Completion extends LookupElement
     @Override
     public void handleInsert(InsertionContext context)
     {
-        context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
+//        context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
 
         if (keepQuotes) {
             return;
