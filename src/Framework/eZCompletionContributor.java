@@ -2,14 +2,12 @@ package Framework;
 
 import Completions.Content.FieldArrayCompletionProvider;
 import Completions.Content.GetFieldValueCompletionProvider;
+import Completions.Content.IsFieldEmptyCompletionProvider;
 import Completions.Content.TranslationCompletionProvider;
 import Completions.EzCompletionProvider;
 import Completions.EzDoc.ContentTypeCompletion;
 import Completions.EzDoc.EzDocCompletion;
 import com.intellij.codeInsight.completion.*;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.patterns.PsiElementPattern;
-import com.intellij.psi.PsiElement;
 
 public class eZCompletionContributor extends CompletionContributor
 {
@@ -49,6 +47,9 @@ public class eZCompletionContributor extends CompletionContributor
 
         TranslationCompletionProvider translationCompletion = new TranslationCompletionProvider();
         extend(CompletionType.BASIC, translationCompletion.getMatcher(), translationCompletion);
+
+        IsFieldEmptyCompletionProvider isFieldEmptyCompletionProvider = new IsFieldEmptyCompletionProvider();
+        extend(CompletionType.BASIC, isFieldEmptyCompletionProvider.getMatcher(), isFieldEmptyCompletionProvider);
 
         GetFieldValueCompletionProvider fieldValueCompletion = new GetFieldValueCompletionProvider();
         extend(CompletionType.BASIC, fieldValueCompletion.getMatcher(), fieldValueCompletion);
