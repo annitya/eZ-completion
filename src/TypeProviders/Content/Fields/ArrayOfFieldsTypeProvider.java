@@ -39,7 +39,10 @@ public class ArrayOfFieldsTypeProvider extends DumbAwareTypeProvider
         }
 
         String methodName = method.getName();
-        if (methodName == null || !methodName.equals("getFields")) {
+        if (methodName == null) {
+            return null;
+        }
+        if (!methodName.equals("getFields") && !methodName.equals("getFieldsByLanguage")) {
             return null;
         }
 

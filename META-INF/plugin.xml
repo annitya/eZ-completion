@@ -70,7 +70,8 @@
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.ArrayOfFieldsTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.FieldTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.GetFieldsTypeProvider" />
-        <php.typeProvider2 implementation="TypeProviders.Content.Fields.TranslationFieldTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.Fields.getFieldsByLanguageTypeProvider" />
+        <php.typeProvider2 implementation="TypeProviders.Content.Fields.FieldHelpersTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.GetFieldValueTypeProvider" />
 
         <applicationConfigurable instance="Settings.eZPlugin" />

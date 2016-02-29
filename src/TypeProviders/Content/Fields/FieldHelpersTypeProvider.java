@@ -7,10 +7,12 @@ import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Provides type for fields translated by the translation-helper.
+ * Provides type for field-helpers:
+ *
  * $translationHelper->getTranslatedField($content, 'identifier')->|
+ * fieldHelper->isFieldEmpty($content, 'identifier')->|
  */
-public class TranslationFieldTypeProvider extends FieldTypeProvider
+public class FieldHelpersTypeProvider extends FieldTypeProvider
 {
     @Nullable
     @Override
@@ -23,8 +25,11 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
             return null;
         }
         String methodName = methodReference.getName();
+        if (methodName == null) {
+            return null;
+        }
         // Slightly weak match.
-        if (methodName == null || !methodName.equals("getTranslatedField")) {
+        if (!methodName.equals("isFieldEmpty") && !methodName.equals("getTranslatedField")) {
             return null;
         }
 
@@ -37,7 +42,7 @@ public class TranslationFieldTypeProvider extends FieldTypeProvider
 
         String fieldName;
         try {
-        fieldName = ((StringLiteralExpression)parameters[1]).getContents();
+            fieldName = ((StringLiteralExpression)parameters[1]).getContents();
         } catch (Exception e) {
             return null;
         }
