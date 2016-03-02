@@ -19,7 +19,7 @@ public class TwigCompletionProvider extends CompletionProvider<CompletionParamet
     {
         String contentClass;
         try {
-            contentClass = (String)context.get("contentClassIdentifier");
+            contentClass = (String)context.get("contentTypeIdentifier");
         }
         catch (Exception e) {
             return;
