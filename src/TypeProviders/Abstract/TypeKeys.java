@@ -1,5 +1,6 @@
 package TypeProviders.Abstract;
 
+import Framework.Util;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ArrayAccessExpression;
 import com.jetbrains.php.lang.psi.elements.ArrayIndex;
@@ -49,7 +50,7 @@ public class TypeKeys
 
     public static String getTypeString(PsiElement psiElement, char typeKey)
     {
-        return getTypeString(psiElement, typeKey, "IntellijIdeaRulezzz");
+        return getTypeString(psiElement, typeKey, Util.INTELLIJ_RULES);
     }
 
     protected static String getTypeString(PsiElement psiElement, char typeKey, String defaultLiteral)

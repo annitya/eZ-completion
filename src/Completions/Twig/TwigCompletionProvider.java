@@ -6,10 +6,8 @@ import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Set;
 
 public class TwigCompletionProvider extends CompletionProvider<CompletionParameters>
@@ -17,16 +15,26 @@ public class TwigCompletionProvider extends CompletionProvider<CompletionParamet
     @Override
     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
     {
-        String contentClass;
-        try {
-            contentClass = (String)context.get("contentTypeIdentifier");
-        }
-        catch (Exception e) {
+        String simpleCompletion = (String)context.get("simpleCompletion");
+        if (simpleCompletion != null && simpleCompletion.length() > 0) {
+            result.addElement(new Completion().initalizeSimpleCompletion(simpleCompletion));
             return;
         }
 
         CompletionPreloader completionPreloader = CompletionPreloader.getInstance(parameters.getEditor().getProject());
         CompletionContainer completions = completionPreloader.getCurrentCompletions();
+
+        Boolean contentTypeCompletion = (Boolean)context.get("contentTypeCompletion");
+        if (contentTypeCompletion != null && contentTypeCompletion) {
+            result.addAllElements(completions.getContentTypes());
+            return;
+        }
+
+        String contentClass = (String)context.get("contentTypeIdentifier");
+        if (contentClass == null || contentClass.length() == 0) {
+            return;
+        }
+
         if (!completions.contentClassExists(contentClass)) {
             return;
         }
