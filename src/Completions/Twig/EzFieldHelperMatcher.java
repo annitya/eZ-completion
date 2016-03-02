@@ -1,34 +1,35 @@
 package Completions.Twig;
 
 import com.intellij.patterns.PatternCondition;
-import com.intellij.psi.PsiComment;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.twig.TwigTokenTypes;
+import com.jetbrains.twig.elements.TwigElementTypes;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
 {
-    protected static String[] allowedTypes = {
-            "ez_field_value",
-            "ez_render_field",
-            "ez_field_description",
-            "ez_field_name",
-            "ez_is_field_empty"
-    };
+    protected static List<String> allowedTypes = new ArrayList<>(Arrays.asList(
+        "ez_field_value",
+        "ez_render_field",
+        "ez_field_description",
+        "ez_field_name",
+        "ez_is_field_empty",
+        "ez_field"
+    ));
 
-    public EzFieldHelperMatcher()
-    {
-        super("EzFieldHelper");
-    }
+    public EzFieldHelperMatcher() { super("EzFieldHelper"); }
 
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext processingContext)
     {
-        // Wrong element, lets end it here.
         LeafPsiElement source;
         try {
             source = (LeafPsiElement)psiElement;
@@ -37,117 +38,90 @@ public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
             return false;
         }
 
-        try {
-            // Cursor in wrong place.
-            if (!withinQuotes(source)) {
-                return false;
-            }
+        if (!withinQuotes(source)) {
+            return false;
+        }
 
-            // Try to find match. What a terrible implementation! :-/
-            LeafPsiElement extensionIdentifier;
-            for (String identifier : allowedTypes) {
-                extensionIdentifier = findPreviousSibling(source, TwigTokenTypes.IDENTIFIER, identifier);
-                if (extensionIdentifier != null) {
-                    break;
-                }
-            }
+        PsiElement context = psiElement.getContext();
+        if (context == null) {
+            return false;
+        }
+
+        boolean correctContext = PlatformPatterns.psiElement().withElementType(PlatformPatterns.elementType().or(
+            TwigElementTypes.PRINT_BLOCK,
+            TwigElementTypes.IF_TAG,
+            TwigElementTypes.SET_TAG
+        )).accepts(context);
+
+        if (!correctContext) {
+            return false;
+        }
+
+        LeafPsiElement variable = findPreviousSibling(source, TwigTokenTypes.IDENTIFIER, null);
+        LeafPsiElement identifierStart;
+        try {
+            identifierStart = (LeafPsiElement)variable.getPrevSibling();
         }
         catch (Exception e) {
             return false;
         }
 
-        PsiComment eZDocBlock = findComment(psiElement);
-        if (eZDocBlock == null) {
+        PsiElement twigHelper = findPreviousSibling(identifierStart, TwigTokenTypes.IDENTIFIER, null);
+        if (!allowedTypes.contains(twigHelper.getText())) {
             return false;
         }
 
-        String[] parts = eZDocBlock.getText().split(" ");
-        if (parts.length != 5) {
-            return false;
-        }
-        if (!parts[1].equals("@ContentType")) {
-            return false;
-        }
-
-        String twigVariable = parts[3];
-        // More shitty code.
-        if (findPreviousSibling(source, TwigTokenTypes.IDENTIFIER, twigVariable) == null) {
+        CommentMatcher commentMatcher = new CommentMatcher(variable.getText());
+        psiElement.getContainingFile().accept(commentMatcher);
+        String contentTypeIdentifier = commentMatcher.getMatch();
+        if (contentTypeIdentifier == null) {
             return false;
         }
 
-        String contentClass = parts[2];
-        processingContext.put("contentClassIdentifier", contentClass);
-
+        processingContext.put("contentTypeIdentifier", contentTypeIdentifier);
         return true;
     }
 
-    /**
-     * Worst implementation ever. #$%#$&#$% Twig-files.
-     */
-    protected PsiComment findComment(PsiElement psiElement)
-    {
-        int start = psiElement.getTextOffset() - psiElement.getTextLength();
-        PsiFile file = psiElement.getContainingFile();
-
-        PsiElement current;
-        while (start > 0) {
-            current = file.findElementAt(start);
-            try {
-                return (PsiComment)current;
-            }
-            catch (Exception e) {
-                start -= current.getTextLength();
-            }
-        }
-
-        return null;
-    }
-
     protected boolean withinQuotes(LeafPsiElement psiElement) {
-        return
+        return (
             findPreviousSibling(psiElement, null, "'") != null &&
-            findNextSibling(psiElement, null, "'") != null;
+            findNextSibling(psiElement, null, "'") != null
+        ) || (
+            findPreviousSibling(psiElement, null, "\"") != null &&
+            findNextSibling(psiElement, null, "\"") != null
+        );
     }
 
     protected LeafPsiElement findPreviousSibling(LeafPsiElement source, IElementType elementType, String value)
     {
-        if (!withinBounds(source)) {
+        if (source == null) {
             return null;
         }
 
-        if (sourceMatches(source, elementType, value)) {
-            return source;
+        try {
+            return sourceMatches(source, elementType, value)
+                ? source
+                : findPreviousSibling((LeafPsiElement) source.getPrevSibling(), elementType, value);
         }
-
-        return findPreviousSibling((LeafPsiElement)source.getPrevSibling(), elementType, value);
+        catch (Exception e) {
+            return null;
+        }
     }
 
     protected LeafPsiElement findNextSibling(LeafPsiElement source, IElementType elementType, String value)
     {
-        if (!withinBounds(source)) {
+        if (source == null) {
             return null;
         }
 
-        if (sourceMatches(source, elementType, value)) {
-            return source;
+        try {
+            return sourceMatches(source, elementType, value)
+                ? source
+                : findNextSibling((LeafPsiElement) source.getNextSibling(), elementType, value);
         }
-
-        return findNextSibling((LeafPsiElement)source.getNextSibling(), elementType, value);
-    }
-
-    protected boolean withinBounds(LeafPsiElement source)
-    {
-        if (source == null) {
-            return false;
+        catch (Exception e) {
+            return null;
         }
-
-        // Lets not go outside of our little block.
-        if (source.getElementType() == TwigTokenTypes.PRINT_BLOCK_START) {
-            return false;
-        }
-
-        // Lets not go outside of our statement either.
-        return source.getElementType() != TwigTokenTypes.STATEMENT_BLOCK_START;
     }
 
     protected boolean sourceMatches(LeafPsiElement source, IElementType elementType, String value)
