@@ -15,6 +15,8 @@ import com.jetbrains.php.lang.psi.elements.impl.NewExpressionImpl;
 
 public class Util
 {
+    public static final String INTELLIJ_RULES = "IntellijIdeaRulezzz";
+
     public static Boolean withinQuotes(PsiElement psiElement)
     {
         // Require quotes to trigger completion.
