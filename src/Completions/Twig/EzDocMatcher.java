@@ -41,19 +41,19 @@ public class EzDocMatcher extends PatternCondition<PsiElement>
             return false;
         }
 
-        String currentText = partList.get(1).replace(Util.INTELLIJ_RULES, "");
         String tag = "@ContentType";
-        if (!currentText.equals(tag) && tag.contains(currentText)) {
+        String currentTagValue = partList.get(1);
+        if (partList.size() >= 4 && currentTagValue.equals(tag)) {
+            context.put("contentTypeCompletion", true);
+            return true;
+        }
+
+        String currentText = currentTagValue.replace(Util.INTELLIJ_RULES, "");
+        if (tag.startsWith(currentText)) {
             context.put("simpleCompletion", "ContentType");
             return true;
         }
 
-        // Variable name is missing
-        if (partList.size() < 4) {
-            return false;
-        }
-
-        context.put("contentTypeCompletion", true);
-        return true;
+        return false;
     }
 }
