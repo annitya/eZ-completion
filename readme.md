@@ -4,7 +4,7 @@ Provides code-completion for the eZ-API
 Installation:
 -------------
 1. Install plugin.
-2. Install the bundle:
+2. Install the bundle: flageolett/ezcompletionbundle
 
 Requirements:
 -------------
@@ -21,28 +21,14 @@ What does it do?
 ----------------
 Provides completion for:
 
-* services:
- - ContentTypeService
- - LanguageService
- - FieldTypeService
- - ObjectStateService
- - RoleService
- - SectionService
- - UrlAliasService
-
-* criteria:
- - ContentTypeId
- - ContentTypeIdentifier
- - ContentTypeGroupId
- - LanguageCode
- - ObjectStateId
- - SectionId
-
-* The Content-class
-    - fields/getFields
-    - getFieldValue(...)
-
+* repository-services:
+* query-criteria:
+* Available fields for Content (also in Twig)
 * Config-resolver
+
+For a complete list take a look in the "Examples" directory within the bundle-repository.
+
+Commands:
 
 * Clear cache from IDE.
 * Toggle assetic-watch
@@ -61,38 +47,46 @@ Known issues:
 -------------
 You might need to clear the cache before refreshing completions.
 Rename-refactoring does not work for @ContentType doc-blocks.
-No completion for fields returned from getFieldsByLanguage because they are not indexed by identifier.
 
 Current:
 --------
-// Attach test-file which lists all completion/type-resolve cases.
-// Inspections for field-accessors.
+Prepare and release 1.0.3
 
 
 Roadmap 1.0.3:
 --------------
 * Update changelog.
-    - GIF's of goodness.
+* Request completions + "modify external file dialogue" => UI-hang
+    - Is this my doing?
 
 Roadmap 1.0.4:
 --------------
 
 * Yml-completions for controllers, matchers, views, etc...
-
+    - Might also make it possible to guess ContentTypes in templates.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Execute SearchService-query:
     - Add support for services.
     - Ask for unresolved criteria-values.
     - Modify method to return eval'd data.
     - Present the results in an easily browsible manner.
-* Twig
-    - completions for content/location
-    - How does the Symfony2-plugin solve type-hinting in Twig?
-    - The hard way. There are no types in twig.
-    - ez_field_value-helper?
 * Donut?
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.
         - loadContent => resolve content-type.
     - Does database access yield other possibilities as well?
         - Database is being difficult, postponed for now.
+* Inspections for field-accessors.
+* Provide an ad-hoc way to search for ContentTypes and Fields.
+* Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
+* Streamline insertion of completions.
+* Support completions for multiple-values for criteria.
+* Display FieldType in field-completion lookup.
+* Make more use of PlatformPatterns.
+* Make data-provider for completions abstract.
+* Data-duplication in the completion-bundle is getting ridiculous.
+* Provide better progress-indicators for commands
+    - Time based (beware of yml-changes)
+    - Acitivity-indicator for watch.
+* Make better use of processingContext.
+* Type providers for fields in twig.
