@@ -50,14 +50,7 @@ Rename-refactoring does not work for @ContentType doc-blocks.
 
 Current:
 --------
-Prepare and release 1.0.3
-
-
-Roadmap 1.0.3:
---------------
-* Update changelog.
-* Request completions + "modify external file dialogue" => UI-hang
-    - Is this my doing?
+Begin work on 1.0.4.
 
 Roadmap 1.0.4:
 --------------
