@@ -53,17 +53,5 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Library/Application Support/WebIde100/symfony2-plugin.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../idea-php-symfony2-plugin/src" />
-          <root url="file://$MODULE_DIR$/../idea-php-symfony2-plugin/tests" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>

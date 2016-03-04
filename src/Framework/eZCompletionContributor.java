@@ -8,6 +8,11 @@ import Completions.EzCompletionProvider;
 import Completions.EzDoc.ContentTypeCompletion;
 import Completions.EzDoc.EzDocCompletion;
 import com.intellij.codeInsight.completion.*;
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.project.Project;
+import com.intellij.util.AsynchConsumer;
 
 public class eZCompletionContributor extends CompletionContributor
 {
@@ -15,7 +20,23 @@ public class eZCompletionContributor extends CompletionContributor
 
     public eZCompletionContributor()
     {
-        CompletionPreloader.getInstance(Util.currentProject()).attachContributor(this);
+        eZCompletionContributor currentContributor = this;
+
+        DataManager
+                .getInstance()
+                .getDataContextFromFocus()
+                .doWhenDone(new AsynchConsumer<DataContext>()
+                {
+                    @Override
+                    public void finished() {}
+
+                    @Override
+                    public void consume(DataContext dataContext)
+                    {
+                        Project project = CommonDataKeys.PROJECT.getData(dataContext);
+                        CompletionPreloader.getInstance(project).attachContributor(currentContributor);
+                    }
+                });
     }
 
     public Boolean hasCompletions()

@@ -13,10 +13,17 @@
         <h2>1.0.3</h2>
         <ul>
             <li>Plugin is now disabled by default. Be sure to enable! :)</li>
-            <li>Added completions and type-providers for eZ-fields.</li>
             <li>Added completions for configResolver->getParameter(...)</li>
             <li>Added completions for repository->canUser/hasAccess(...)</li>
             <li>Improved presentation of completions.</li>
+            <li>Added completions for available fields on Content-objects.</li>
+            <li>Type-providers are also available for said fields.</li>
+            <li>Added completions for fields in twig.</li>
+            <li>Added field-completions and type-providers for translation/field-helpers.</li>
+            <li>Completions are now persisted and loaded from cache upon project-open.</li>
+            <li>Added create eZDoc-intention.</li>
+            <li>Field-descriptions are now available as annotations.</li>
+            <li>Plugin no longer tries to resolve types or provide completions if indexing is in progress.</li>
         </ul>
 
         <h2>1.0.2</h2>
@@ -53,7 +60,6 @@
     <depends optional="true">org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
     <depends optional="true">org.jetbrains.plugins.remote-run</depends>
     <depends optional="true">com.jetbrains.twig</depends>
-    <depends optional="true">fr.adrienbrault.idea.symfony2plugin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!--suppress PluginXmlValidity -->
