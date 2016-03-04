@@ -58,11 +58,6 @@ Roadmap 1.0.4:
 * Yml-completions for controllers, matchers, views, etc...
     - Might also make it possible to guess ContentTypes in templates.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
-* Execute SearchService-query:
-    - Add support for services.
-    - Ask for unresolved criteria-values.
-    - Modify method to return eval'd data.
-    - Present the results in an easily browsible manner.
 * Donut?
 * Automatic eZDoc if possible.
     - Direct sql-access through plugin.
@@ -70,12 +65,10 @@ Roadmap 1.0.4:
     - Does database access yield other possibilities as well?
         - Database is being difficult, postponed for now.
 * Inspections for field-accessors.
-* Provide an ad-hoc way to search for ContentTypes and Fields.
 * Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
 * Streamline insertion of completions.
 * Support completions for multiple-values for criteria.
 * Display FieldType in field-completion lookup.
-* Make more use of PlatformPatterns.
 * Make data-provider for completions abstract.
 * Data-duplication in the completion-bundle is getting ridiculous.
 * Provide better progress-indicators for commands
@@ -83,3 +76,13 @@ Roadmap 1.0.4:
     - Acitivity-indicator for watch.
 * Make better use of processingContext.
 * Type providers for fields in twig.
+
+Roadmap 1.0.5:
+--------------
+* Provide an ad-hoc way to search for ContentTypes and Fields.
+* Make more use of PlatformPatterns.
+* Execute SearchService-query:
+    - Add support for services.
+    - Ask for unresolved criteria-values.
+    - Modify method to return eval'd data.
+    - Present the results in an easily browsible manner.
