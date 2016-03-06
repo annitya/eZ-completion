@@ -236,7 +236,7 @@ abstract public class Command
         return
                 PathManager.getPluginsPath() +
                         File.separator +
-                        "eZPlugin" +
+                        "EzPlugin" +
                         File.separator +
                         project.getLocationHash();
     }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class CompletionPreloader implements ProjectComponent
 {
     protected Project project;
-    protected eZCompletionContributor currentContributor;
+    protected EzCompletionContributor currentContributor;
     protected CompletionContainer completions;
 
     public CompletionPreloader(Project project)
@@ -35,7 +35,7 @@ public class CompletionPreloader implements ProjectComponent
         return "Framework.CompletionPreloader";
     }
 
-    public void attachContributor(eZCompletionContributor contributor)
+    public void attachContributor(EzCompletionContributor contributor)
     {
         currentContributor = contributor;
         // Completions are not yet registered, but they are available.
@@ -54,9 +54,9 @@ public class CompletionPreloader implements ProjectComponent
         try {
             // Enable caching of command-result on startup.
             ConsoleService consoleService = ConsoleCommandFactory.createConsoleCommand(ConsoleCommandFactory.CommandName.REFRESH_COMPLETIONS, project);
-            Command command = consoleService.geteZCommand();
+            Command command = consoleService.getEzCommand();
             command.setUseFileCache(true);
-            consoleService.seteZCommand(command);
+            consoleService.setEzCommand(command);
             consoleService.queue();
         } catch (Exception ignored) {}
     }
@@ -76,7 +76,7 @@ public class CompletionPreloader implements ProjectComponent
         }
         /**
          * Contributor hasn't been requested yet, lets store completions for later use.
-         * See {@link Framework.CompletionPreloader#attachContributor(Framework.eZCompletionContributor)}
+         * See {@link Framework.CompletionPreloader#attachContributor(EzCompletionContributor)}
          */
         completions = completionContainer;
     }

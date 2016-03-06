@@ -41,7 +41,7 @@ public class AsseticWatch extends AnAction
         if (consoleService == null) {
             return;
         }
-        command = consoleService.geteZCommand();
+        command = consoleService.getEzCommand();
         consoleService.queue();
     }
 }

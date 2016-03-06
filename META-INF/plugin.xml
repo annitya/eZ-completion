@@ -63,7 +63,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!--suppress PluginXmlValidity -->
-        <completion.contributor language="PHP" implementationClass="Framework.eZCompletionContributor" order="first"/>
+        <completion.contributor language="PHP" implementationClass="Framework.EzCompletionContributor" order="first"/>
         <!--suppress PluginXmlValidity -->
         <completion.contributor language="Twig" implementationClass="Framework.TwigCompletionContributor" order="first" />
 
@@ -80,7 +80,7 @@
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.FieldHelpersTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.GetFieldValueTypeProvider" />
 
-        <applicationConfigurable instance="Settings.eZPlugin" />
+        <applicationConfigurable instance="Settings.EzPlugin" />
 
         <!--suppress PluginXmlValidity -->
         <annotator order="first" implementationClass="Annotation.FieldAnnotator" language="PHP" />

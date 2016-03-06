@@ -30,20 +30,20 @@ public class ConsoleCommandFactory
                 case ASSETIC_WATCH:
                     command = new Assetic(commandName.toString(), project) { @Override public void success() {}};
                     consoleService = new ConsoleService(project, "Watching assets for environment: " + command.getEnvironment(), false);
-                    consoleService.seteZCommand(command);
+                    consoleService.setEzCommand(command);
                 break;
                 case CLEAR_CACHE:
                     command = new Command(commandName.toString(), project) { @Override public void success() {}};
                     command.setExpectedResultLength(755);
                     consoleService = new ConsoleService(project, "Clearing cache for environment: " + command.getEnvironment(), false);
-                    consoleService.seteZCommand(command);
+                    consoleService.setEzCommand(command);
                 break;
                 case REFRESH_COMPLETIONS:
                     command = new Framework.Console.RefreshCompletions(commandName.toString(), project);
                     command.setExpectedResultLength(249035);
                     command.setStoreResult(true);
                     consoleService = new ConsoleService(project, "Fetching eZ-completions", false);
-                    consoleService.seteZCommand(command);
+                    consoleService.setEzCommand(command);
                 break;
             }
         } catch (Exception e) {

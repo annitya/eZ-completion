@@ -17,13 +17,13 @@ public class ConsoleService extends Task.Backgroundable implements PerformInBack
         super(project, title, canBeCancelled);
     }
 
-    public void seteZCommand(Command command)
+    public void setEzCommand(Command command)
     {
         eZCommand = command;
         command.setTitle(myTitle);
     }
 
-    public Command geteZCommand() { return eZCommand; }
+    public Command getEzCommand() { return eZCommand; }
 
     @Override
     public void run(@NotNull ProgressIndicator indicator)

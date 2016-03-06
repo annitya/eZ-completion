@@ -14,13 +14,13 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.AsynchConsumer;
 
-public class eZCompletionContributor extends CompletionContributor
+public class EzCompletionContributor extends CompletionContributor
 {
     protected CompletionContainer completions;
 
-    public eZCompletionContributor()
+    public EzCompletionContributor()
     {
-        eZCompletionContributor currentContributor = this;
+        EzCompletionContributor currentContributor = this;
 
         DataManager
                 .getInstance()
