@@ -45,8 +45,6 @@ public class Completion extends LookupElement
     @Override
     public void handleInsert(InsertionContext context)
     {
-//        context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
-
         if (keepQuotes) {
             return;
         }

@@ -53,5 +53,25 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar:///Applications/PhpStorm.app/Contents/plugins/yaml/lib/yaml.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Library/Application Support/WebIde100/symfony2-plugin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../idea-php-symfony2-plugin/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

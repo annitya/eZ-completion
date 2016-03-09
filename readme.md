@@ -48,15 +48,27 @@ Known issues:
 You might need to clear the cache before refreshing completions.
 Rename-refactoring does not work for @ContentType doc-blocks.
 
+Done:
+-----
+Added dependence on Symfony2-plugin.
+Yaml-completions for:
+    - Controllers
+    - Views
+    - Matchers
+
 Current:
 --------
-Begin work on 1.0.4.
+Add completions for keys: controller, template, match.
+Value completion for matchers.
+Improve ux when inserting a matcher.
 
 Roadmap 1.0.4:
 --------------
 
-* Yml-completions for controllers, matchers, views, etc...
-    - Might also make it possible to guess ContentTypes in templates.
+// context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
+This one needs to get smarter. Check all completions and take parameters into consideration.
+* Make use of completion-confidence for auto-completion when applicable.
+* Guess content-type in twig by using matchers in yml-files.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Donut?
 * Automatic eZDoc if possible.
