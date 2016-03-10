@@ -3,6 +3,7 @@ package Completions.Yaml;
 import Completions.Repository.Completion;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.project.Project;
+import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -19,7 +20,7 @@ public class MatchTypesCompletionProvider extends YamlCompletionProvider
     protected static final String CONST_FIELD_NAME = "MATCHER_RELATIVE_NAMESPACE";
 
     @Override
-    protected Collection<LookupElement> getLookupElements(Project project)
+    protected Collection<LookupElement> getLookupElements(Project project, ProcessingContext context)
     {
         Collection<PhpClass> matchers = PhpIndex.getInstance(project).getAllSubclasses(MATCHER_INTERFACE);
         matchers.removeIf(phpClass -> phpClass.isAbstract() || phpClass.isInterface() || phpClass.isTrait());

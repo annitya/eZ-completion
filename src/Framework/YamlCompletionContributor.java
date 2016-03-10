@@ -1,9 +1,6 @@
 package Framework;
 
-import Completions.Yaml.ControllerCompletionProvider;
-import Completions.Yaml.MatchTypesCompletionProvider;
-import Completions.Yaml.TemplateCompletionProvider;
-import Completions.Yaml.SiblingMatcher;
+import Completions.Yaml.*;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.PlatformPatterns;
@@ -23,6 +20,9 @@ public class YamlCompletionContributor extends CompletionContributor
 
         PsiElementPattern.Capture<PsiElement> matchElementPattern = getViewElementMatcher("match");
         extend(CompletionType.BASIC, matchElementPattern, new MatchTypesCompletionProvider());
+
+        PsiElementPattern.Capture<PsiElement> keyNamesMatcher = PlatformPatterns.psiElement().with(new KeyNamesMatcher());
+        extend(CompletionType.BASIC, keyNamesMatcher, new KeyNamesCompletionProvider());
     }
 
     protected PsiElementPattern.Capture<PsiElement> getViewElementMatcher(String name)

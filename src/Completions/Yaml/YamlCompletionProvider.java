@@ -12,7 +12,7 @@ import java.util.Collection;
 
 abstract public class YamlCompletionProvider extends CompletionProvider<CompletionParameters>
 {
-    abstract protected Collection<LookupElement> getLookupElements(Project project);
+    abstract protected Collection<LookupElement> getLookupElements(Project project, ProcessingContext context);
 
     @Override
     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result)
@@ -22,6 +22,6 @@ abstract public class YamlCompletionProvider extends CompletionProvider<Completi
             return;
         }
 
-        result.addAllElements(getLookupElements(project));
+        result.addAllElements(getLookupElements(project, context));
     }
 }

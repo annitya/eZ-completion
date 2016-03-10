@@ -55,10 +55,10 @@ Yaml-completions for:
     - Controllers
     - Views
     - Matchers
+    - Keys for the above.
 
 Current:
 --------
-Add completions for keys: controller, template, match.
 Value completion for matchers.
 Improve ux when inserting a matcher.
 
