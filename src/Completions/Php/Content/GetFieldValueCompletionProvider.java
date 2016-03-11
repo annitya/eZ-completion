@@ -1,6 +1,6 @@
-package Completions.Content;
+package Completions.Php.Content;
 
-import Completions.Repository.MethodMatcher;
+import Completions.Php.Repository.MethodMatcher;
 import Framework.Util;
 import TypeProviders.Abstract.TypeKeys;
 import com.intellij.patterns.PlatformPatterns;

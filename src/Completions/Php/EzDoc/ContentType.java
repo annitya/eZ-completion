@@ -1,4 +1,4 @@
-package Completions.EzDoc;
+package Completions.Php.EzDoc;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import org.jetbrains.annotations.NotNull;

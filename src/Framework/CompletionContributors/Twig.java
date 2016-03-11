@@ -1,4 +1,4 @@
-package Framework;
+package Framework.CompletionContributors;
 
 import Completions.Twig.EzDocMatcher;
 import Completions.Twig.TwigCompletionProvider;
@@ -9,9 +9,9 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.PsiElement;
 
-public class TwigCompletionContributor extends CompletionContributor
+public class Twig extends CompletionContributor
 {
-    public TwigCompletionContributor()
+    public Twig()
     {
         PsiElementPattern.Capture<PsiElement> eZFieldHelperMatcher = PlatformPatterns.psiElement().with(new EzFieldHelperMatcher());
         extend(CompletionType.BASIC, eZFieldHelperMatcher, new TwigCompletionProvider());

@@ -1,5 +1,6 @@
 package Framework;
 
+import Framework.CompletionContributors.Php;
 import Framework.Console.Command;
 import Framework.Console.ConsoleCommandFactory;
 import Framework.Console.ConsoleService;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class CompletionPreloader implements ProjectComponent
 {
     protected Project project;
-    protected EzCompletionContributor currentContributor;
+    protected Php currentContributor;
     protected CompletionContainer completions;
 
     public CompletionPreloader(Project project)
@@ -35,7 +36,7 @@ public class CompletionPreloader implements ProjectComponent
         return "Framework.CompletionPreloader";
     }
 
-    public void attachContributor(EzCompletionContributor contributor)
+    public void attachContributor(Php contributor)
     {
         currentContributor = contributor;
         // Completions are not yet registered, but they are available.
@@ -76,7 +77,7 @@ public class CompletionPreloader implements ProjectComponent
         }
         /**
          * Contributor hasn't been requested yet, lets store completions for later use.
-         * See {@link Framework.CompletionPreloader#attachContributor(EzCompletionContributor)}
+         * See {@link Framework.CompletionPreloader#attachContributor(Php)}
          */
         completions = completionContainer;
     }

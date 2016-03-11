@@ -1,6 +1,6 @@
-package Completions.Content;
+package Completions.Php.Content;
 
-import Completions.Repository.Completion;
+import Completions.Php.Repository.Completion;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.TypeKeys;
@@ -45,7 +45,5 @@ public class FieldArrayCompletionProvider extends CompletionProvider<CompletionP
         for (final String fieldIdentifier : fieldIdentifiers) {
             result.addElement(new Completion().initalizeSimpleCompletion(fieldIdentifier));
         }
-
-//        result.stopHere();
     }
 }

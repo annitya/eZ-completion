@@ -1,12 +1,14 @@
-package Framework;
+package Framework.CompletionContributors;
 
-import Completions.Content.FieldArrayCompletionProvider;
-import Completions.Content.GetFieldValueCompletionProvider;
-import Completions.Content.IsFieldEmptyCompletionProvider;
-import Completions.Content.TranslationCompletionProvider;
-import Completions.EzCompletionProvider;
-import Completions.EzDoc.ContentTypeCompletion;
-import Completions.EzDoc.EzDocCompletion;
+import Completions.Php.Content.FieldArrayCompletionProvider;
+import Completions.Php.Content.GetFieldValueCompletionProvider;
+import Completions.Php.Content.IsFieldEmptyCompletionProvider;
+import Completions.Php.Content.TranslationCompletionProvider;
+import Completions.Php.EzCompletionProvider;
+import Completions.Php.EzDoc.ContentTypeCompletion;
+import Completions.Php.EzDoc.EzDocCompletion;
+import Framework.CompletionContainer;
+import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -14,13 +16,13 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.AsynchConsumer;
 
-public class EzCompletionContributor extends CompletionContributor
+public class Php extends CompletionContributor
 {
     protected CompletionContainer completions;
 
-    public EzCompletionContributor()
+    public Php()
     {
-        EzCompletionContributor currentContributor = this;
+        Php currentContributor = this;
 
         DataManager
                 .getInstance()

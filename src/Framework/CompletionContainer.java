@@ -1,8 +1,8 @@
 package Framework;
 
-import Completions.Content.Field;
-import Completions.EzDoc.ContentType;
-import Completions.EzCompletionProvider;
+import Completions.Php.Content.Field;
+import Completions.Php.EzDoc.ContentType;
+import Completions.Php.EzCompletionProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;

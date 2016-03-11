@@ -1,11 +1,10 @@
-package Completions.Repository;
+package Completions.Php.Repository;
 
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiUtilBase;
-import com.intellij.util.keyFMap.KeyFMap;
 import org.jetbrains.annotations.NotNull;
 
 public class Completion extends LookupElement

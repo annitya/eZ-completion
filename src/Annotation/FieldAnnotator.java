@@ -1,6 +1,6 @@
 package Annotation;
 
-import Completions.Content.Field;
+import Completions.Php.Content.Field;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import TypeProviders.Abstract.TypeKeys;

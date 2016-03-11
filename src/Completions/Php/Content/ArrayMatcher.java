@@ -1,4 +1,4 @@
-package Completions.Content;
+package Completions.Php.Content;
 
 import Framework.Util;
 import TypeProviders.Abstract.TypeKeys;

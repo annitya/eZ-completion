@@ -1,13 +1,13 @@
-package Completions.Yaml;
+package Completions.Yaml.Providers;
 
-import Completions.Repository.Completion;
+import Completions.Yaml.YamlCompletion;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ProcessingContext;
 
 import java.util.*;
 
-public class KeyNamesCompletionProvider extends YamlCompletionProvider
+public class KeyNames extends YamlCompletionProvider
 {
     @Override
     protected Collection<LookupElement> getLookupElements(Project project, ProcessingContext context)
@@ -24,7 +24,7 @@ public class KeyNamesCompletionProvider extends YamlCompletionProvider
 
         List<LookupElement> completions = new ArrayList<>();
         for (String completion : availableCompletions) {
-            completions.add(new Completion().initalizeSimpleCompletion(completion));
+            completions.add(new YamlCompletion(completion, false));
         }
 
         return completions;

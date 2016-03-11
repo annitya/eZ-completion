@@ -1,8 +1,8 @@
-package Completions.Content;
+package Completions.Php.Content;
 
-import Completions.EzCompletionProvider;
-import Completions.Repository.Completion;
-import Completions.Repository.MethodMatcher;
+import Completions.Php.EzCompletionProvider;
+import Completions.Php.Repository.Completion;
+import Completions.Php.Repository.MethodMatcher;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import Framework.Util;

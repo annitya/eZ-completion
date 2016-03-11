@@ -56,17 +56,20 @@ Yaml-completions for:
     - Views
     - Matchers
     - Keys for the above.
+Improved UX for Yaml-Completions
+Value completions for:
+    Identifier\ContentType
 
 Current:
 --------
 Value completion for matchers.
-Improve ux when inserting a matcher.
+    - Is it even remotely possible to provide completions for custom-matchers?
 
 Roadmap 1.0.4:
 --------------
 
-// context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
-This one needs to get smarter. Check all completions and take parameters into consideration.
+* context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
+    - This one needs to get smarter. Check all completions and take parameters into consideration.
 * Make use of completion-confidence for auto-completion when applicable.
 * Guess content-type in twig by using matchers in yml-files.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)

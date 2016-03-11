@@ -1,4 +1,4 @@
-package Completions.Yaml;
+package Completions.Yaml.Matchers;
 
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
@@ -10,9 +10,9 @@ import org.jetbrains.yaml.psi.YAMLKeyValue;
 import java.util.List;
 import java.util.Set;
 
-public class KeyNamesMatcher extends PatternCondition<PsiElement>
+public class KeyNames extends PatternCondition<PsiElement>
 {
-    public KeyNamesMatcher()
+    public KeyNames()
     {
         super("Controllers and templates, and matchers, oh my!");
     }
@@ -33,7 +33,10 @@ public class KeyNamesMatcher extends PatternCondition<PsiElement>
         YAMLKeyValue parent;
         try {
             parent = (YAMLKeyValue)psiElement.getParent().getParent();
-            // Thanks again.
+            if (parent == null) {
+                return false;
+            }
+            // What crawled up the .... of this one? $%&$% cannot be applied to...
             Set<String> existingKeys = YamlHelper.getKeySet(parent);
             if (existingKeys != null) {
                 context.put("existingKeys", existingKeys.toArray(new String[0]));

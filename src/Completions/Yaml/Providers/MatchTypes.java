@@ -1,6 +1,6 @@
-package Completions.Yaml;
+package Completions.Yaml.Providers;
 
-import Completions.Repository.Completion;
+import Completions.Yaml.YamlCompletion;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ProcessingContext;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class MatchTypesCompletionProvider extends YamlCompletionProvider
+public class MatchTypes extends YamlCompletionProvider
 {
     protected static final String MATCHER_FACTORY_CLASS = "eZ\\Publish\\Core\\MVC\\Symfony\\Matcher\\AbstractMatcherFactory";
     protected static final String MATCHER_INTERFACE = "eZ\\Publish\\Core\\MVC\\Symfony\\Matcher\\MatcherInterface";
@@ -33,7 +33,7 @@ public class MatchTypesCompletionProvider extends YamlCompletionProvider
                 fqn = fqn.replace(relativeNamespace, "");
             }
 
-            matcherElements.add(new Completion().initalizeSimpleCompletion(fqn));
+            matcherElements.add(new YamlCompletion(fqn, true));
         }
 
         return matcherElements;

@@ -1,4 +1,4 @@
-package Completions.Repository;
+package Completions.Php.Repository;
 
 import Framework.Util;
 import com.intellij.patterns.PatternCondition;

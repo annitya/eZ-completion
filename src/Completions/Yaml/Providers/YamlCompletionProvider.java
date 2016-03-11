@@ -1,6 +1,5 @@
-package Completions.Yaml;
+package Completions.Yaml.Providers;
 
-import Completions.Repository.Completion;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;

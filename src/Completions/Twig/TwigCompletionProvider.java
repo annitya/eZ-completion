@@ -1,6 +1,6 @@
 package Completions.Twig;
 
-import Completions.Repository.Completion;
+import Completions.Php.Repository.Completion;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import com.intellij.codeInsight.completion.CompletionParameters;

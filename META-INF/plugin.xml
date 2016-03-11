@@ -65,11 +65,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!--suppress PluginXmlValidity -->
-        <completion.contributor language="PHP" implementationClass="Framework.EzCompletionContributor" order="first"/>
+        <completion.contributor language="PHP" implementationClass="Framework.CompletionContributors.Php" order="first"/>
         <!--suppress PluginXmlValidity -->
-        <completion.contributor language="Twig" implementationClass="Framework.TwigCompletionContributor" order="first" />
+        <completion.contributor language="Twig" implementationClass="Framework.CompletionContributors.Twig" order="first" />
         <!--suppress PluginXmlValidity -->
-        <completion.contributor language="yaml" implementationClass="Framework.YamlCompletionContributor" order="first" />
+        <completion.contributor language="yaml" implementationClass="Framework.CompletionContributors.Yaml" order="first" />
 
         <!-- Type providers for Content. -->
         <php.typeProvider2 implementation="TypeProviders.Content.ContentVariableTypeProvider" />

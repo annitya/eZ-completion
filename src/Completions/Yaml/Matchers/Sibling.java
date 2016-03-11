@@ -1,6 +1,7 @@
-package Completions.Yaml;
+package Completions.Yaml.Matchers;
 
 import com.intellij.patterns.PatternCondition;
+import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
@@ -10,9 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.YAMLTokenTypes;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
 
-public class SiblingMatcher extends PatternCondition<PsiElement>
+public class Sibling extends PatternCondition<PsiElement>
 {
-    public SiblingMatcher()
+    public Sibling()
     {
         super("Verify previous sibling.");
     }
@@ -20,6 +21,10 @@ public class SiblingMatcher extends PatternCondition<PsiElement>
     @Override
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext processingContext)
     {
+        if (psiElement instanceof PsiComment) {
+            return false;
+        }
+
         YAMLKeyValue keyValue;
         LeafPsiElement previous;
         try {

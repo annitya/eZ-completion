@@ -1,9 +1,9 @@
-package Completions;
+package Completions.Php;
 
 import java.util.ArrayList;
 
-import Completions.Repository.Completion;
-import Completions.Repository.MethodMatcher;
+import Completions.Php.Repository.Completion;
+import Completions.Php.Repository.MethodMatcher;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;

@@ -1,4 +1,4 @@
-package Completions.EzDoc;
+package Completions.Php.EzDoc;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
