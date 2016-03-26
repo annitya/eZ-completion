@@ -28,8 +28,8 @@ public class Sibling extends PatternCondition<PsiElement>
         YAMLKeyValue keyValue;
         LeafPsiElement previous;
         try {
-            keyValue = (YAMLKeyValue)psiElement.getParent();
-            previous = (LeafPsiElement)psiElement.getPrevSibling();
+            keyValue = (YAMLKeyValue)psiElement.getParent().getParent();
+            previous = (LeafPsiElement)psiElement.getParent().getPrevSibling();
         }
         catch (Exception e) {
             return false;
@@ -51,6 +51,11 @@ public class Sibling extends PatternCondition<PsiElement>
             }
 
             return elementType == YAMLTokenTypes.INDENT;
+        }
+
+        // Previous key already has a value.
+        if (psiElement.getPrevSibling() != null) {
+            return false;
         }
 
         return elementType == PhpElementTypes.WHITE_SPACE;

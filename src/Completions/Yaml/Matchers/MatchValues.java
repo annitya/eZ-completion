@@ -33,7 +33,7 @@ public class MatchValues extends PatternCondition<PsiElement>
             return false;
         }
 
-        PsiElement previous = leaf.getPrevSibling();
+        PsiElement previous = leaf.getParent().getPrevSibling();
         if (!(previous instanceof PsiWhiteSpace)) {
             return false;
         }

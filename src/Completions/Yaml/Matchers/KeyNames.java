@@ -3,9 +3,11 @@ package Completions.Yaml.Matchers;
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+import com.intellij.util.containers.HashSet;
 import fr.adrienbrault.idea.symfony2plugin.util.yaml.YamlHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
+import org.jetbrains.yaml.psi.impl.YAMLBlockMappingImpl;
 
 import java.util.List;
 import java.util.Set;
@@ -30,17 +32,15 @@ public class KeyNames extends PatternCondition<PsiElement>
             return false;
         }
 
-        YAMLKeyValue parent;
         try {
-            parent = (YAMLKeyValue)psiElement.getParent().getParent();
-            if (parent == null) {
-                return false;
+            YAMLBlockMappingImpl yamlBlockMapping;
+            yamlBlockMapping = (YAMLBlockMappingImpl)psiElement.getParent().getParent();
+            Set<String> existingKeys = new HashSet<>();
+            for (YAMLKeyValue keyValue : yamlBlockMapping.getKeyValues()) {
+                existingKeys.add(keyValue.getKeyText());
             }
-            // What crawled up the .... of this one? $%&$% cannot be applied to...
-            Set<String> existingKeys = YamlHelper.getKeySet(parent);
-            if (existingKeys != null) {
-                context.put("existingKeys", existingKeys.toArray(new String[0]));
-            }
+
+            context.put("existingKeys", existingKeys.toArray(new String[0]));
         }
         catch (Exception ignored) {}
 

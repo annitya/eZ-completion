@@ -1,5 +1,6 @@
 package Framework.CompletionContributors;
 
+import Completions.Yaml.Matchers.ParentKey;
 import Completions.Yaml.Matchers.Sibling;
 import Completions.Yaml.Providers.*;
 import com.intellij.codeInsight.completion.CompletionContributor;
@@ -7,7 +8,6 @@ import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.PsiElement;
-import org.jetbrains.yaml.psi.YAMLKeyValue;
 
 public class Yaml extends CompletionContributor
 {
@@ -33,10 +33,7 @@ public class Yaml extends CompletionContributor
     {
         return PlatformPatterns
                 .psiElement()
-                .withParent(PlatformPatterns
-                    .psiElement(YAMLKeyValue.class)
-                    .withName(name)
-                )
+                .with(new ParentKey(name))
                 .with(new Sibling());
     }
 }

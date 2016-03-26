@@ -63,11 +63,12 @@ Value completions for:
 Current:
 --------
 Value completion for matchers.
-    - Is it even remotely possible to provide completions for custom-matchers?
+    - Is it even remotely possible to provide value-completions for custom-matchers?
 
 Roadmap 1.0.4:
 --------------
-
+* Walk through initial-install and see if the UX can be improved.
+* Add better error-message if Bundle is missing.
 * context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
     - This one needs to get smarter. Check all completions and take parameters into consideration.
 * Make use of completion-confidence for auto-completion when applicable.
@@ -88,14 +89,13 @@ Roadmap 1.0.4:
 * Data-duplication in the completion-bundle is getting ridiculous.
 * Provide better progress-indicators for commands
     - Time based (beware of yml-changes)
-    - Acitivity-indicator for watch.
+    - Activity-indicator for watch.
 * Make better use of processingContext.
 * Type providers for fields in twig.
 
 Roadmap 1.0.5:
 --------------
 * Provide an ad-hoc way to search for ContentTypes and Fields.
-* Make more use of PlatformPatterns.
 * Execute SearchService-query:
     - Add support for services.
     - Ask for unresolved criteria-values.
