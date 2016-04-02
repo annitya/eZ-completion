@@ -1,5 +1,6 @@
 package Completions.Yaml.Providers;
 
+import Completions.Php.Repository.Completion;
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
 import com.intellij.codeInsight.lookup.LookupElement;
@@ -23,13 +24,21 @@ public class MatchValues extends YamlCompletionProvider
             return null;
         }
 
-        if  (!value.equals("Identifier")) {
-            return null;
-        }
-
         CompletionPreloader preloader = CompletionPreloader.getInstance(project);
         CompletionContainer completions = preloader.getCurrentCompletions();
 
-        return new ArrayList<>(completions.getContentTypes());
+        ArrayList<Completion> valueCompletions = null;
+        if (value.equals(("Id"))) {
+             valueCompletions = completions.getContentTypeIdCompletions();
+        }
+        else if (value.equals("Identifier")) {
+            valueCompletions = completions.getContentTypeIdentifierCompletions();
+        }
+
+        if  (valueCompletions == null) {
+            return null;
+        }
+
+        return new ArrayList<>(valueCompletions);
     }
 }

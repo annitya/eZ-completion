@@ -58,36 +58,34 @@ Yaml-completions for:
     - Keys for the above.
 Improved UX for Yaml-Completions
 Value completions for:
-    Identifier\ContentType
-    Identifier\ParentContentType
+    - Identifier\ContentType
+    - Identifier\ParentContentType
+    - Id\ContentType
+    - Id\ParentContentType
 
 Current:
 --------
 Value completion for matchers.
     - remaining:
-        - Id\ContentType: ""
-        - Id\ParentContentType: ""
-        - Id\Section: ""
-        - Identifier\Section: ""
-        - Id\ContentTypeGroup: ""
-
-    - Is it even remotely possible to provide value-completions for custom-matchers?
+        - Id\Section
+        - Identifier\Section
+        - Id\ContentTypeGroup
 
 Roadmap 1.0.4:
 --------------
-* Walk through initial-install and see if the UX can be improved.
+* Guess content-type in twig by using matchers in yml-files.
+* Test all completions.
+
+Roadmap 1.0.5:
+--------------
+* Donut?
+* Make use of completion-confidence for auto-completion when applicable.
 * Add better error-message if Bundle is missing.
 * context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
     - This one needs to get smarter. Check all completions and take parameters into consideration.
-* Make use of completion-confidence for auto-completion when applicable.
-* Guess content-type in twig by using matchers in yml-files.
+* Walk through initial-install and see if the UX can be improved.
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
-* Donut?
-* Automatic eZDoc if possible.
-    - Direct sql-access through plugin.
-        - loadContent => resolve content-type.
-    - Does database access yield other possibilities as well?
-        - Database is being difficult, postponed for now.
+* Goto definitions for yaml-classes/definitions.
 * Inspections for field-accessors.
 * Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
 * Streamline insertion of completions.
@@ -100,9 +98,11 @@ Roadmap 1.0.4:
     - Activity-indicator for watch.
 * Make better use of processingContext.
 * Type providers for fields in twig.
-
-Roadmap 1.0.5:
---------------
+* Automatic eZDoc if possible.
+    - Direct sql-access through plugin.
+        - loadContent => resolve content-type.
+    - Does database access yield other possibilities as well?
+        - Database is being difficult, postponed for now.
 * Provide an ad-hoc way to search for ContentTypes and Fields.
 * Execute SearchService-query:
     - Add support for services.

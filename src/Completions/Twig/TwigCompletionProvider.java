@@ -26,7 +26,7 @@ public class TwigCompletionProvider extends CompletionProvider<CompletionParamet
 
         Boolean contentTypeCompletion = (Boolean)context.get("contentTypeCompletion");
         if (contentTypeCompletion != null && contentTypeCompletion) {
-            result.addAllElements(completions.getContentTypes());
+            result.addAllElements(completions.getContentTypeIdentifierCompletions());
             return;
         }
 

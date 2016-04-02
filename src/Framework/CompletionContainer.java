@@ -1,11 +1,13 @@
 package Framework;
 
 import Completions.Php.Content.Field;
-import Completions.Php.EzDoc.ContentType;
 import Completions.Php.EzCompletionProvider;
+import Completions.Php.Repository.Completion;
+import Framework.Entities.ContentType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CompletionContainer
 {
@@ -26,7 +28,23 @@ public class CompletionContainer
 
     public ArrayList<String> getContentLanguages() { return contentLanguages; }
 
-    public ArrayList<ContentType> getContentTypes() { return contentTypes; }
+    public ArrayList<Completion> getContentTypeIdentifierCompletions()
+    {
+        return contentTypes
+                .stream()
+                .map(contentType -> new Completion()
+                        .initializeSimpleCompletion(contentType.getName(), contentType.getIdentifier(), true))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Completion> getContentTypeIdCompletions()
+    {
+        return contentTypes
+                .stream()
+                .map(contentType -> new Completion()
+                        .initializeSimpleCompletion(contentType.getName(), contentType.getId(), false))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 
     public HashMap<String, HashMap<String, Field>> getContentTypeFields() { return contentTypeFields; }
 

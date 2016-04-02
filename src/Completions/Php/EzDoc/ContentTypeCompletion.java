@@ -1,5 +1,6 @@
 package Completions.Php.EzDoc;
 
+import Completions.Php.Repository.Completion;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
@@ -13,9 +14,9 @@ import java.util.ArrayList;
 
 public class ContentTypeCompletion extends CompletionProvider<CompletionParameters>
 {
-    protected ArrayList<ContentType> contentTypes;
+    protected ArrayList<Completion> contentTypes;
 
-    public ContentTypeCompletion(ArrayList<ContentType> contentTypes)
+    public ContentTypeCompletion(ArrayList<Completion> contentTypes)
     {
         this.contentTypes = contentTypes;
     }

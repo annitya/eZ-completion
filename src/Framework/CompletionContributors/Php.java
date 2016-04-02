@@ -65,7 +65,7 @@ public class Php extends CompletionContributor
         EzDocCompletion annotationCompletion = new EzDocCompletion();
         extend(CompletionType.BASIC, annotationCompletion.getMatcher(), annotationCompletion);
 
-        ContentTypeCompletion contentTypeCompletion = new ContentTypeCompletion(completions.getContentTypes());
+        ContentTypeCompletion contentTypeCompletion = new ContentTypeCompletion(completions.getContentTypeIdentifierCompletions());
         extend(CompletionType.BASIC, contentTypeCompletion.getMatcher(), contentTypeCompletion);
 
         TranslationCompletionProvider translationCompletion = new TranslationCompletionProvider();
