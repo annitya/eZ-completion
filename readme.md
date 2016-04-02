@@ -8,14 +8,12 @@ Installation:
 
 Requirements:
 -------------
-PhpStorm 10 or IntelliJ IDEA equivalent.
+PhpStorm 11 or IntelliJ IDEA equivalent.
 Bundle: https://github.com/whitefire/ez-completion-bundle
+Symfony2-plugin
 Remote interpreter support:
  - Remote Php Interpreters
  - SSH Remote-run.
-
-While the Symfony2-plugin is not a hard requirement, it is highly recommended.
-Much of the provided functionality will be unavailable without it.
 
 What does it do?
 ----------------
@@ -37,6 +35,7 @@ Usage:
 ------
 Configure a PHP-interpreter (local or remote).
 Request completions from within literals.
+Completions are cached, so remember to refresh completions when necessary.
 
 Troubleshooting:
 ----------------
@@ -62,19 +61,18 @@ Value completions for:
     - Identifier\ParentContentType
     - Id\ContentType
     - Id\ParentContentType
+    - Id\Section
+    - Identifier\Section
+    - Id\ContentTypeGroup
 
 Current:
 --------
-Value completion for matchers.
-    - remaining:
-        - Id\Section
-        - Identifier\Section
-        - Id\ContentTypeGroup
+* Guess content-type in twig by using matchers in yml-files.
 
 Roadmap 1.0.4:
 --------------
-* Guess content-type in twig by using matchers in yml-files.
 * Test all completions.
+* Update changelist.
 
 Roadmap 1.0.5:
 --------------

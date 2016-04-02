@@ -20,19 +20,34 @@ public class MatchValues extends YamlCompletionProvider
             return null;
         }
 
-        if (!type.equals("ContentType") && !type.equals("ParentContentType")) {
-            return null;
-        }
-
         CompletionPreloader preloader = CompletionPreloader.getInstance(project);
         CompletionContainer completions = preloader.getCurrentCompletions();
-
         ArrayList<Completion> valueCompletions = null;
-        if (value.equals(("Id"))) {
-             valueCompletions = completions.getContentTypeIdCompletions();
+
+        if (value.equals("Id")) {
+            switch (type) {
+                case "ContentType":
+                case "ParentContentType":
+                    valueCompletions = completions.getContentTypeIdCompletions();
+                break;
+                case "ContentTypeGroup":
+                    valueCompletions = completions.getContentTypeGroupIdCompletions();
+                break;
+                case "Section":
+                    valueCompletions = completions.getSectionIdCompletions();
+                break;
+            }
         }
         else if (value.equals("Identifier")) {
-            valueCompletions = completions.getContentTypeIdentifierCompletions();
+            switch (type) {
+                case "ContentType":
+                case "ParentContentType":
+                    valueCompletions = completions.getContentTypeIdentifierCompletions();
+                break;
+                case "Section":
+                    valueCompletions = completions.getSectionIdentifierCompletions();
+                break;
+            }
         }
 
         if  (valueCompletions == null) {

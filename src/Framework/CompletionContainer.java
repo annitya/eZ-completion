@@ -4,6 +4,8 @@ import Completions.Php.Content.Field;
 import Completions.Php.EzCompletionProvider;
 import Completions.Php.Repository.Completion;
 import Framework.Entities.ContentType;
+import Framework.Entities.IdentifiedEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -13,6 +15,8 @@ public class CompletionContainer
 {
     protected ArrayList<EzCompletionProvider> list;
     protected ArrayList<ContentType> contentTypes;
+    protected ArrayList<IdentifiedEntity> contentTypeGroups;
+    protected ArrayList<IdentifiedEntity> sections;
     protected HashMap<String, HashMap<String, Field>> contentTypeFields;
     protected ArrayList<String> contentLanguages;
 
@@ -20,6 +24,8 @@ public class CompletionContainer
     {
         list = new ArrayList<>();
         contentTypes = new ArrayList<>();
+        contentTypeGroups = new ArrayList<>();
+        sections = new ArrayList<>();
         contentLanguages = new ArrayList<>();
         contentTypeFields = new HashMap<>();
     }
@@ -33,7 +39,7 @@ public class CompletionContainer
         return contentTypes
                 .stream()
                 .map(contentType -> new Completion()
-                        .initializeSimpleCompletion(contentType.getName(), contentType.getIdentifier(), true))
+                        .initalizeSimpleCompletion(contentType.getName(), contentType.getIdentifier(), true))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -42,7 +48,35 @@ public class CompletionContainer
         return contentTypes
                 .stream()
                 .map(contentType -> new Completion()
-                        .initializeSimpleCompletion(contentType.getName(), contentType.getId(), false))
+                        .initalizeSimpleCompletion(contentType.getName(), contentType.getId(), false))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Completion> getSectionIdentifierCompletions()
+    {
+        return sections
+                .stream()
+                .map(section -> new Completion()
+                        .initalizeSimpleCompletion(section.getIdentifier()))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<Completion> getSectionIdCompletions()
+    {
+        return buildIdCompletions(sections);
+    }
+
+    public ArrayList<Completion> getContentTypeGroupIdCompletions()
+    {
+        return buildIdCompletions(contentTypeGroups);
+    }
+
+    protected ArrayList<Completion> buildIdCompletions(ArrayList<IdentifiedEntity> source)
+    {
+        return source
+                .stream()
+                .map(identifiedEntity -> new Completion()
+                        .initalizeSimpleCompletion(identifiedEntity.getIdentifier(), identifiedEntity.getId(), false))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 

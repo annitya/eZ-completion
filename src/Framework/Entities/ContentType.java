@@ -1,12 +1,8 @@
 package Framework.Entities;
 
-public class ContentType
+public class ContentType extends IdentifiedEntity
 {
-    protected String id;
-    protected String identifier;
     protected String name;
 
-    public String getId() { return id; }
-    public String getIdentifier() { return identifier; }
     public String getName() { return name; }
 }

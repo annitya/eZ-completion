@@ -28,7 +28,7 @@ public class Completion extends LookupElement
         return this;
     }
 
-    public Completion initializeSimpleCompletion(String lookupValue, String returnValue, Boolean keepQuotes)
+    public Completion initalizeSimpleCompletion(String lookupValue, String returnValue, Boolean keepQuotes)
     {
         this.lookupValue = lookupValue;
         this.returnValue = returnValue;
