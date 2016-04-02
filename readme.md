@@ -59,10 +59,18 @@ Yaml-completions for:
 Improved UX for Yaml-Completions
 Value completions for:
     Identifier\ContentType
+    Identifier\ParentContentType
 
 Current:
 --------
 Value completion for matchers.
+    - remaining:
+        - Id\ContentType: ""
+        - Id\ParentContentType: ""
+        - Id\Section: ""
+        - Identifier\Section: ""
+        - Id\ContentTypeGroup: ""
+
     - Is it even remotely possible to provide value-completions for custom-matchers?
 
 Roadmap 1.0.4:

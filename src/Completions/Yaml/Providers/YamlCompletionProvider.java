@@ -21,6 +21,11 @@ abstract public class YamlCompletionProvider extends CompletionProvider<Completi
             return;
         }
 
-        result.addAllElements(getLookupElements(project, context));
+        Collection<LookupElement> lookupElements = getLookupElements(project, context);
+        if (lookupElements == null) {
+            return;
+        }
+
+        result.addAllElements(lookupElements);
     }
 }

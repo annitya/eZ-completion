@@ -19,13 +19,17 @@ public class MatchValues extends YamlCompletionProvider
             return null;
         }
 
-        if (type.equals("ContentType") && value.equals("Identifier")) {
-            CompletionPreloader preloader = CompletionPreloader.getInstance(project);
-            CompletionContainer completions = preloader.getCurrentCompletions();
-
-            return new ArrayList<>(completions.getContentTypes());
+        if (!type.equals("ContentType") && !type.equals("ParentContentType")) {
+            return null;
         }
 
-        return null;
+        if  (!value.equals("Identifier")) {
+            return null;
+        }
+
+        CompletionPreloader preloader = CompletionPreloader.getInstance(project);
+        CompletionContainer completions = preloader.getCurrentCompletions();
+
+        return new ArrayList<>(completions.getContentTypes());
     }
 }
