@@ -1,12 +1,12 @@
 <idea-plugin version="2">
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <vendor email="henning.kvinnesland@gmail.com" url="https://github.com/whitefire/eZ-completion">Flageolett</vendor>
 
     <description><![CDATA[
         Unofficial eZ-plugin.
-        Provides completion for contentclasses and attributes in eZ Publish.
+        Provides completion for contentclasses and attributes in eZ Publish 5.x / Platform.
     ]]></description>
 
     <change-notes><![CDATA[
