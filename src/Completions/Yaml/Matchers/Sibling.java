@@ -5,6 +5,7 @@ import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.parser.PhpElementTypes;
 import org.jetbrains.annotations.NotNull;
@@ -28,10 +29,14 @@ public class Sibling extends PatternCondition<PsiElement>
         YAMLKeyValue keyValue;
         LeafPsiElement previous;
         try {
-            keyValue = (YAMLKeyValue)psiElement.getParent().getParent();
+            keyValue = PsiTreeUtil.getParentOfType(psiElement, YAMLKeyValue.class);
             previous = (LeafPsiElement)psiElement.getParent().getPrevSibling();
         }
         catch (Exception e) {
+            return false;
+        }
+
+        if (keyValue == null) {
             return false;
         }
 

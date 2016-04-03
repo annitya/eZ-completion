@@ -17,7 +17,7 @@ public class YamlCompletion extends LookupElement
     }
 
     @Override
-    public boolean isCaseSensitive() { return false; }
+    public boolean isCaseSensitive() { return true; }
 
     @NotNull
     @Override

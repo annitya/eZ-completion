@@ -67,15 +67,19 @@ Value completions for:
 
 Current:
 --------
-* Guess content-type in twig by using matchers in yml-files.
+* Skip automatic quote-insertions for matchers which there are no completions for.
 
 Roadmap 1.0.4:
 --------------
+* Guess content-type in twig by using matchers in yml-files.
+* Support multiple values for matchers.
+* Verify behaviour if one or more optional dependencies are missing.
 * Test all completions.
 * Update changelist.
 
 Roadmap 1.0.5:
 --------------
+* Completions for supported template-scopes (global, sitaccess etc...)
 * Donut?
 * Make use of completion-confidence for auto-completion when applicable.
 * Add better error-message if Bundle is missing.
