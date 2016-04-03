@@ -64,15 +64,14 @@ Value completions for:
     - Id\Section
     - Identifier\Section
     - Id\ContentTypeGroup
+Support multiple values for matchers.
 
 Current:
 --------
-* Skip automatic quote-insertions for matchers which there are no completions for.
+* Guess content-type in twig by using matchers in yml-files.
 
 Roadmap 1.0.4:
 --------------
-* Guess content-type in twig by using matchers in yml-files.
-* Support multiple values for matchers.
 * Verify behaviour if one or more optional dependencies are missing.
 * Test all completions.
 * Update changelist.

@@ -5,9 +5,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.YAMLTokenTypes;
+import org.jetbrains.yaml.psi.YAMLKeyValue;
+import org.jetbrains.yaml.psi.YAMLSequence;
+import org.jetbrains.yaml.psi.YAMLSequenceItem;
 
 public class MatchValues extends PatternCondition<PsiElement>
 {
@@ -33,12 +37,26 @@ public class MatchValues extends PatternCondition<PsiElement>
             return false;
         }
 
+        Boolean isSingleValue, isMultiValue;
+
         PsiElement previous = leaf.getParent().getPrevSibling();
-        if (!(previous instanceof PsiWhiteSpace)) {
+        isSingleValue = previous instanceof PsiWhiteSpace;
+        isMultiValue = leaf.getParent().getParent() instanceof YAMLSequenceItem;
+
+        if (!isSingleValue && !isMultiValue) {
             return false;
         }
 
-        String[] parts = previous.getPrevSibling().getText().replace(":", "").split("\\\\");
+        PsiElement parent = PsiTreeUtil.getParentOfType(leaf, YAMLKeyValue.class);
+        if (parent == null) {
+            return false;
+        }
+        PsiElement matcherFqn = parent.getFirstChild();
+        if (matcherFqn == null) {
+            return false;
+        }
+
+        String[] parts = matcherFqn.getText().replace(":", "").split("\\\\");
         if (parts.length != 2) {
             return false;
         }

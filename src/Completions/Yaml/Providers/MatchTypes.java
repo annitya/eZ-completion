@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
@@ -18,6 +19,21 @@ public class MatchTypes extends YamlCompletionProvider
     protected static final String MATCHER_FACTORY_CLASS = "eZ\\Publish\\Core\\MVC\\Symfony\\Matcher\\AbstractMatcherFactory";
     protected static final String MATCHER_INTERFACE = "eZ\\Publish\\Core\\MVC\\Symfony\\Matcher\\MatcherInterface";
     protected static final String CONST_FIELD_NAME = "MATCHER_RELATIVE_NAMESPACE";
+
+    protected Boolean insertQuotes(String fqn)
+    {
+        ArrayList<String> hasValueCompletions = new ArrayList<>(Arrays.asList(
+            "Id\\ContentType",
+            "Id\\ParentContentType",
+            "Id\\ContentTypeGroup",
+            "Id\\Section",
+            "Identifier\\ContentType",
+            "Identifier\\ParentContentType",
+            "Identifier\\Section"
+        ));
+
+        return hasValueCompletions.contains(fqn);
+    }
 
     @Override
     protected Collection<LookupElement> getLookupElements(Project project, ProcessingContext context)
@@ -33,7 +49,7 @@ public class MatchTypes extends YamlCompletionProvider
                 fqn = fqn.replace(relativeNamespace, "");
             }
 
-            matcherElements.add(new YamlCompletion(fqn, true));
+            matcherElements.add(new YamlCompletion(fqn, insertQuotes(fqn)));
         }
 
         return matcherElements;
