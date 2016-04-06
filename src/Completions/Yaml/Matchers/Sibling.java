@@ -10,6 +10,7 @@ import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.parser.PhpElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.YAMLTokenTypes;
+import org.jetbrains.yaml.YAMLUtil;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
 
 public class Sibling extends PatternCondition<PsiElement>
@@ -48,8 +49,8 @@ public class Sibling extends PatternCondition<PsiElement>
         IElementType elementType = previous.getElementType();
 
         if (keyName.equals("match")) {
-            Integer parentTabLength = keyValue.getPrevSibling().getTextLength();
-            Integer currentTabLength = previous.getTextLength();
+            Integer parentTabLength = YAMLUtil.getIndentInThisLine(keyValue.getPrevSibling());
+            Integer currentTabLength = YAMLUtil.getIndentInThisLine(previous);
 
             if (currentTabLength <= parentTabLength) {
                 return false;
