@@ -8,9 +8,9 @@ import fr.adrienbrault.idea.symfony2plugin.util.yaml.YamlHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
 import org.jetbrains.yaml.psi.impl.YAMLBlockMappingImpl;
-
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class KeyNames extends PatternCondition<PsiElement>
 {
@@ -35,10 +35,10 @@ public class KeyNames extends PatternCondition<PsiElement>
         try {
             YAMLBlockMappingImpl yamlBlockMapping;
             yamlBlockMapping = (YAMLBlockMappingImpl)psiElement.getParent().getParent();
-            Set<String> existingKeys = new HashSet<>();
-            for (YAMLKeyValue keyValue : yamlBlockMapping.getKeyValues()) {
-                existingKeys.add(keyValue.getKeyText());
-            }
+            Set<String> existingKeys = yamlBlockMapping
+                .getKeyValues()
+                .stream()
+                .map(YAMLKeyValue::getKeyText).collect(Collectors.toCollection(HashSet::new));
 
             context.put("existingKeys", existingKeys.toArray(new String[0]));
         }
