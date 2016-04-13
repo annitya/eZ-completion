@@ -29,7 +29,8 @@ For a complete list take a look in the "Examples" directory within the bundle-re
 Commands:
 
 * Clear cache from IDE.
-* Toggle assetic-watch
+* Toggle assetic-watch.
+* Refresh completions.
 
 Usage:
 ------
@@ -69,15 +70,18 @@ Support multiple values for matchers.
 Current:
 --------
 * Guess content-type in twig by using matchers in yml-files.
+    - Add support for ContentType-ids as well.
 
 Roadmap 1.0.4:
 --------------
+* The Symfony2-plugin is evolving rather quickly. Reconsider dependencies.
 * Verify behaviour if one or more optional dependencies are missing.
 * Test all completions.
 * Update changelist.
 
 Roadmap 1.0.5:
 --------------
+* Allow user to select ContentType if multiple are detected.
 * Completions for supported template-scopes (global, sitaccess etc...)
 * Donut?
 * Make use of completion-confidence for auto-completion when applicable.
