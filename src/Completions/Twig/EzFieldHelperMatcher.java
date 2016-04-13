@@ -9,11 +9,13 @@ import com.intellij.util.ProcessingContext;
 import com.jetbrains.twig.TwigTokenTypes;
 import com.jetbrains.twig.elements.TwigElementTypes;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Attempts to match the ContentType by using twig-comments.
+ */
 public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
 {
     protected static List<String> allowedTypes = new ArrayList<>(Arrays.asList(
@@ -71,16 +73,23 @@ public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
             return false;
         }
 
-        CommentMatcher commentMatcher = new CommentMatcher(variable.getText());
+        return matchContentType(psiElement, variable.getText(), processingContext);
+    }
+
+    protected Boolean matchContentType(PsiElement psiElement, String variableName, ProcessingContext context)
+    {
+        // Attempt to find comment describing type.
+        CommentMatcher commentMatcher = new CommentMatcher(variableName);
         psiElement.getContainingFile().accept(commentMatcher);
         String contentTypeIdentifier = commentMatcher.getMatch();
         if (contentTypeIdentifier == null) {
             return false;
         }
 
-        processingContext.put("contentTypeIdentifier", contentTypeIdentifier);
+        context.put("contentTypeIdentifier", contentTypeIdentifier);
         return true;
     }
+
 
     protected boolean withinQuotes(LeafPsiElement psiElement) {
         return (

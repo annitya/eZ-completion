@@ -84,6 +84,9 @@
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.FieldHelpersTypeProvider" />
         <php.typeProvider2 implementation="TypeProviders.Content.Fields.GetFieldValueTypeProvider" />
 
+        <!-- Helper-index for guessing ContentType in twig-files. -->
+        <fileBasedIndex implementation="Index.YamlContentTypeIndex" />
+        
         <applicationConfigurable instance="Settings.EzPlugin" />
 
         <!--suppress PluginXmlValidity -->
