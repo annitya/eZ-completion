@@ -75,12 +75,17 @@ Current:
 Roadmap 1.0.4:
 --------------
 * The Symfony2-plugin is evolving rather quickly. Reconsider dependencies.
+* Altering the active documet upon insertion is screwing up quite a few things.
 * Verify behaviour if one or more optional dependencies are missing.
 * Test all completions.
 * Update changelist.
 
 Roadmap 1.0.5:
 --------------
+* Might it be possible to make completions fully searchable?
+    - Easily noticed when completing numerics.
+* Replacing numeric-completions is cumbersome.
+* Replace usages of the ContentClass-name with its correct equivalent ContentType
 * Allow user to select ContentType if multiple are detected.
 * Completions for supported template-scopes (global, sitaccess etc...)
 * Donut?

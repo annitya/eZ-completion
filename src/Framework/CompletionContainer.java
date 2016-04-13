@@ -34,6 +34,17 @@ public class CompletionContainer
 
     public ArrayList<String> getContentLanguages() { return contentLanguages; }
 
+    public String getContentTypeIdentifierById(String id)
+    {
+        for (ContentType contentType : contentTypes) {
+            if (contentType.getId().equals(id)) {
+                return contentType.getIdentifier();
+            }
+        }
+
+        return null;
+    }
+
     public ArrayList<Completion> getContentTypeIdentifierCompletions()
     {
         return contentTypes

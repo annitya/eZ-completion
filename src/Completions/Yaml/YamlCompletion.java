@@ -44,6 +44,10 @@ public class YamlCompletion extends LookupElement
             return;
         }
 
-        context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(-1, 0, false, false);
+        context
+            .getEditor()
+            .getCaretModel()
+            .getPrimaryCaret()
+            .moveCaretRelatively(-1, 0, false, false);
     }
 }

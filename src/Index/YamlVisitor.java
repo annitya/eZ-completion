@@ -1,5 +1,7 @@
 package Index;
 
+import Framework.CompletionContainer;
+import Framework.CompletionPreloader;
 import com.google.common.collect.Maps;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -12,12 +14,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class YamlVisitor extends PsiRecursiveElementWalkingVisitor
 {
-    ArrayList<String> contentTypeMatchers = new ArrayList<>(Arrays.asList(
-//        "Id\\ContentType",
-//        "Id\\ParentContentType",
+    ArrayList<String> idMatchers = new ArrayList<>(Arrays.asList(
+        "Id\\ContentType",
+        "Id\\ParentContentType"
+    ));
+
+    ArrayList<String> identifierMatchers = new ArrayList<>(Arrays.asList(
         "Identifier\\ContentType",
         "Identifier\\ParentContentType"
     ));
@@ -49,7 +56,12 @@ public class YamlVisitor extends PsiRecursiveElementWalkingVisitor
             return;
         }
 
-        if (!contentTypeMatchers.contains(keyName)) {
+        Boolean validMatcher = Stream
+                .concat(idMatchers.stream(), identifierMatchers.stream())
+                .collect(Collectors.toList())
+                .contains(keyName);
+
+        if (!validMatcher) {
             super.visitElement(element);
             return;
         }
@@ -61,6 +73,16 @@ public class YamlVisitor extends PsiRecursiveElementWalkingVisitor
 
         String twigFileIdentifier = getTwigFileIdentifier(element);
         if (twigFileIdentifier == null) {
+            return;
+        }
+
+        if (idMatchers.contains(keyName)) {
+            CompletionPreloader preloader = CompletionPreloader.getInstance(element.getProject());
+            CompletionContainer completions = preloader.getCurrentCompletions();
+            identifier = completions.getContentTypeIdentifierById(identifier);
+        }
+
+        if (identifier == null) {
             return;
         }
 

@@ -1,6 +1,7 @@
 package Index;
 
 import com.google.common.collect.Maps;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.util.indexing.*;
 import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
@@ -32,6 +33,10 @@ public class YamlContentTypeIndex extends FileBasedIndexExtension<String, String
     @NotNull
     protected Map<String, String> getTemplateMatches(FileContent fileContent)
     {
+        if (DumbService.isDumb(fileContent.getProject())) {
+            return Maps.newHashMap();
+        }
+
         YAMLFile yamlFile;
         try {
             yamlFile = (YAMLFile)fileContent.getPsiFile();
