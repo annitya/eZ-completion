@@ -69,6 +69,9 @@ public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
         }
 
         PsiElement twigHelper = findPreviousSibling(identifierStart, TwigTokenTypes.IDENTIFIER, null);
+        if (twigHelper == null) {
+            return false;
+        }
         if (!allowedTypes.contains(twigHelper.getText())) {
             return false;
         }
