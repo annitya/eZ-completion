@@ -1,16 +1,13 @@
 package Completions.Yaml.Matchers;
 
+import Framework.Util;
 import com.intellij.patterns.PatternCondition;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.yaml.YAMLTokenTypes;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
-import org.jetbrains.yaml.psi.YAMLSequence;
 import org.jetbrains.yaml.psi.YAMLSequenceItem;
 
 public class MatchValues extends PatternCondition<PsiElement>
@@ -31,16 +28,15 @@ public class MatchValues extends PatternCondition<PsiElement>
             return false;
         }
 
-        IElementType elementType = leaf.getElementType();
-        // WithinQuotes ftw!
-        if (elementType != YAMLTokenTypes.SCALAR_STRING && elementType != YAMLTokenTypes.SCALAR_DSTRING) {
-            return false;
-        }
-
         Boolean isSingleValue, isMultiValue;
 
-        PsiElement previous = leaf.getParent().getPrevSibling();
-        isSingleValue = previous instanceof PsiWhiteSpace;
+        isSingleValue = leaf
+            .getText()
+            .replace("\"", "")
+            .replace("'", "")
+            .trim()
+            .equals(Util.INTELLIJ_RULES);
+
         isMultiValue = leaf.getParent().getParent() instanceof YAMLSequenceItem;
 
         if (!isSingleValue && !isMultiValue) {

@@ -4,11 +4,8 @@ import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementPresentation;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiUtilBase;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.yaml.YAMLLanguage;
-import org.jetbrains.yaml.psi.YAMLQuotedText;
 
 public class Completion extends LookupElement
 {
@@ -61,17 +58,7 @@ public class Completion extends LookupElement
         }
 
         PsiElement rightSingleQuote = PsiUtilBase.getElementAtCaret(context.getEditor());
-        if (rightSingleQuote == null) {
-            return;
-        }
-
-        // Special handling for YAML-quotes.
-        if (rightSingleQuote.getLanguage() instanceof YAMLLanguage) {
-            handleYamlInsert(rightSingleQuote);
-            return;
-        }
-
-        if (!isQuote(rightSingleQuote)) {
+        if (rightSingleQuote == null || !isQuote(rightSingleQuote)) {
             return;
         }
 
@@ -87,18 +74,6 @@ public class Completion extends LookupElement
 
         leftSingleQuote.delete();
         rightSingleQuote.delete();
-    }
-
-    protected void handleYamlInsert(PsiElement current)
-    {
-        LeafPsiElement leafPsiElement;
-        YAMLQuotedText quotedText;
-        try {
-            leafPsiElement = (LeafPsiElement)current;
-            quotedText = (YAMLQuotedText)current.getParent();
-            leafPsiElement.replaceWithText(quotedText.getTextValue());
-        }
-        catch (Exception ignored) {}
     }
 
     protected boolean isQuote(PsiElement element)

@@ -24,7 +24,7 @@ public class KeyNames extends YamlCompletionProvider
 
         List<LookupElement> completions = new ArrayList<>();
         for (String completion : availableCompletions) {
-            completions.add(new YamlCompletion(completion, false));
+            completions.add(new YamlCompletion(completion));
         }
 
         return completions;

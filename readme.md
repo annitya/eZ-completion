@@ -66,22 +66,21 @@ Value completions for:
     - Identifier\Section
     - Id\ContentTypeGroup
 Support multiple values for matchers.
+Guess content-type in twig by using matchers in yml-files.
 
 Current:
 --------
-* Guess content-type in twig by using matchers in yml-files.
-    - Add support for ContentType-ids as well.
+* The Symfony2-plugin is evolving rather quickly. Reconsider dependencies.
 
 Roadmap 1.0.4:
 --------------
-* The Symfony2-plugin is evolving rather quickly. Reconsider dependencies.
-* Altering the active documet upon insertion is screwing up quite a few things.
 * Verify behaviour if one or more optional dependencies are missing.
 * Test all completions.
 * Update changelist.
 
 Roadmap 1.0.5:
 --------------
+* Look into handleElementRename(...) and see if it might solve refactoring.
 * Might it be possible to make completions fully searchable?
     - Easily noticed when completing numerics.
 * Replacing numeric-completions is cumbersome.
