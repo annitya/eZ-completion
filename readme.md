@@ -57,7 +57,7 @@ Yaml-completions for:
     - Matchers
     - Keys for the above.
 Improved UX for Yaml-Completions
-Value completions for:
+Value-completions for:
     - Identifier\ContentType
     - Identifier\ParentContentType
     - Id\ContentType
@@ -83,6 +83,7 @@ Roadmap 1.0.5:
 * Look into handleElementRename(...) and see if it might solve refactoring.
 * Might it be possible to make completions fully searchable?
     - Easily noticed when completing numerics.
+    - Seems like some magic is needed for this to work.
 * Replacing numeric-completions is cumbersome.
 * Replace usages of the ContentClass-name with its correct equivalent ContentType
 * Allow user to select ContentType if multiple are detected.
@@ -99,7 +100,7 @@ Roadmap 1.0.5:
 * Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
 * Streamline insertion of completions.
 * Support completions for multiple-values for criteria.
-* Display FieldType in field-completion lookup.
+* Display FieldType in field-completion lookup. (setTypeText)
 * Make data-provider for completions abstract.
 * Data-duplication in the completion-bundle is getting ridiculous.
 * Provide better progress-indicators for commands
@@ -118,3 +119,4 @@ Roadmap 1.0.5:
     - Ask for unresolved criteria-values.
     - Modify method to return eval'd data.
     - Present the results in an easily browsible manner.
+    - Perhaps ezsh could be of service?
