@@ -80,6 +80,8 @@ Roadmap 1.0.4:
 
 Roadmap 1.0.5:
 --------------
+* Completions for getFields(...) needs to be reworked.
+    - Return value is on the format: ['eng-GB']['identifier']
 * Look into handleElementRename(...) and see if it might solve refactoring.
 * Might it be possible to make completions fully searchable?
     - Easily noticed when completing numerics.

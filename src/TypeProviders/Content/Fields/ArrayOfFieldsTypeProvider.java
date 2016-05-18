@@ -42,7 +42,7 @@ public class ArrayOfFieldsTypeProvider extends DumbAwareTypeProvider
         if (methodName == null) {
             return null;
         }
-        if (!methodName.equals("getFields") && !methodName.equals("getFieldsByLanguage")) {
+        if (/**!methodName.equals("getFields") &&*/ !methodName.equals("getFieldsByLanguage")) {
             return null;
         }
 
