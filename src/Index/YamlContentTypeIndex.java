@@ -69,7 +69,7 @@ public class YamlContentTypeIndex extends FileBasedIndexExtension<String, String
     public FileBasedIndex.InputFilter getInputFilter()
     {
         try {
-            Class.forName("org.jetbrains.yaml.YAMLFileType.YML");
+            Class.forName("org.jetbrains.yaml.YAMLFileType");
         }
         catch (Exception e) {
             return file -> false;
