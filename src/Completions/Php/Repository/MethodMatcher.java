@@ -30,9 +30,6 @@ public class MethodMatcher extends PatternCondition<PsiElement>
     public boolean accepts(@NotNull PsiElement psiElement, ProcessingContext context)
     {
         PsiElement methodReference = Util.getMethodFromVariable(psiElement);
-        if (method != null) {
-            System.out.println(method);
-        }
 
         return
                 methodReference != null &&
