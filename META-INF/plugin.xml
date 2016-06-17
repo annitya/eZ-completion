@@ -10,6 +10,13 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.4</h2>
+        <ul>
+            <li>Yaml-completions for: controllers, views, matchers and their available values.</li>
+            <li>Automatic content-type detection based on yml-configuration.</li>
+            <li>ContentType-completions in twig.</li>
+        </ul>
+
         <h2>1.0.3</h2>
         <ul>
             <li>Plugin is now disabled by default. Be sure to enable! :)</li>
