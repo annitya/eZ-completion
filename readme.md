@@ -10,8 +10,13 @@ Requirements:
 -------------
 PhpStorm 11 or IntelliJ IDEA equivalent.
 Bundle: https://github.com/whitefire/ez-completion-bundle
-Symfony2-plugin
-Remote interpreter support:
+
+For best results you should also enable:
+ - Symfony2-plugin
+ - Yaml-plugin
+ - Twig-plugin
+
+If you need to fetch completions from a remote installation:
  - Remote Php Interpreters
  - SSH Remote-run.
 
@@ -45,44 +50,19 @@ Any errors in the console?
 
 Known issues:
 -------------
-You might need to clear the cache before refreshing completions.
+You might need to clear the symfony-cache before refreshing completions.
 Rename-refactoring does not work for @ContentType doc-blocks.
-
-Done:
------
-Added dependence on Symfony2-plugin.
-Yaml-completions for:
-    - Controllers
-    - Views
-    - Matchers
-    - Keys for the above.
-Improved UX for Yaml-Completions
-Value-completions for:
-    - Identifier\ContentType
-    - Identifier\ParentContentType
-    - Id\ContentType
-    - Id\ParentContentType
-    - Id\Section
-    - Identifier\Section
-    - Id\ContentTypeGroup
-Support multiple values for matchers.
-Guess content-type in twig by using matchers in yml-files.
 
 Current:
 --------
-* The Symfony2-plugin is evolving rather quickly. Reconsider dependencies.
-
-Roadmap 1.0.4:
---------------
-* Verify behaviour if one or more optional dependencies are missing.
-* Test all completions.
-* Update changelist.
+* Write blog-post
 
 Roadmap 1.0.5:
 --------------
+* Move settings to Frameworks-section.
 * Completions for getFields(...) needs to be reworked.
     - Return value is on the format: ['eng-GB']['identifier']
-* Look into handleElementRename(...) and see if it might solve refactoring.
+* Look into handleElementRename(...) and see if it might solve the refactoring-issue.
 * Might it be possible to make completions fully searchable?
     - Easily noticed when completing numerics.
     - Seems like some magic is needed for this to work.
@@ -92,6 +72,7 @@ Roadmap 1.0.5:
 * Completions for supported template-scopes (global, sitaccess etc...)
 * Donut?
 * Make use of completion-confidence for auto-completion when applicable.
+    - Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
 * Add better error-message if Bundle is missing.
 * context.getEditor().getCaretModel().getPrimaryCaret().moveCaretRelatively(2, 0, false, false);
     - This one needs to get smarter. Check all completions and take parameters into consideration.
@@ -99,15 +80,11 @@ Roadmap 1.0.5:
 * Goto definitions for ezsettings. (gotoSymbolContributor?)
 * Goto definitions for yaml-classes/definitions.
 * Inspections for field-accessors.
-* Add CompletionConfidence (order="before javaSkipAutopopupInStrings")
 * Streamline insertion of completions.
 * Support completions for multiple-values for criteria.
 * Display FieldType in field-completion lookup. (setTypeText)
 * Make data-provider for completions abstract.
 * Data-duplication in the completion-bundle is getting ridiculous.
-* Provide better progress-indicators for commands
-    - Time based (beware of yml-changes)
-    - Activity-indicator for watch.
 * Make better use of processingContext.
 * Type providers for fields in twig.
 * Automatic eZDoc if possible.
@@ -116,6 +93,12 @@ Roadmap 1.0.5:
     - Does database access yield other possibilities as well?
         - Database is being difficult, postponed for now.
 * Provide an ad-hoc way to search for ContentTypes and Fields.
+
+Roadmap 1.0.6:
+--------------
+* Provide better progress-indicators for commands
+    - Time based (beware of yml-changes)
+    - Activity-indicator for watch.
 * Execute SearchService-query:
     - Add support for services.
     - Ask for unresolved criteria-values.
