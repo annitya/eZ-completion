@@ -7,7 +7,6 @@ import com.intellij.util.io.DataExternalizer;
 import com.intellij.util.io.EnumeratorStringDescriptor;
 import com.intellij.util.io.KeyDescriptor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.yaml.YAMLFileType;
 import org.jetbrains.yaml.psi.YAMLFile;
 import java.util.Map;
 
@@ -69,7 +68,14 @@ public class YamlContentTypeIndex extends FileBasedIndexExtension<String, String
     @Override
     public FileBasedIndex.InputFilter getInputFilter()
     {
-        return file -> file.getFileType() == YAMLFileType.YML || "yml".equalsIgnoreCase(file.getExtension());
+        try {
+            Class.forName("org.jetbrains.yaml.YAMLFileType.YML");
+        }
+        catch (Exception e) {
+            return file -> false;
+        }
+
+        return  file -> file.getFileType() == org.jetbrains.yaml.YAMLFileType.YML || "yml".equalsIgnoreCase(file.getExtension());
     }
 
     @Override
