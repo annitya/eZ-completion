@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
  * Provides type for field-helpers:
  *
  * $translationHelper->getTranslatedField($content, 'identifier')->|
- * fieldHelper->isFieldEmpty($content, 'identifier')->|
  */
 public class FieldHelpersTypeProvider extends FieldTypeProvider
 {
@@ -29,7 +28,7 @@ public class FieldHelpersTypeProvider extends FieldTypeProvider
             return null;
         }
         // Slightly weak match.
-        if (!methodName.equals("isFieldEmpty") && !methodName.equals("getTranslatedField")) {
+        if (!methodName.equals("getTranslatedField")) {
             return null;
         }
 
