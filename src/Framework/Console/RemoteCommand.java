@@ -5,10 +5,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.remote.RemoteSdkAdditionalData;
 import com.intellij.remote.RemoteSdkCredentials;
 import com.jetbrains.php.config.commandLine.PhpCommandSettings;
-import com.jetbrains.php.remote.PhpRemoteProcessUtil;
 import com.jetbrains.plugins.remotesdk.RemoteSdkUtil;
 import com.jetbrains.plugins.remotesdk.transport.SshRemoteSession;
-
 
 public class RemoteCommand
 {

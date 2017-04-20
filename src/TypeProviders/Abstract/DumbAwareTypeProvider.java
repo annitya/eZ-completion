@@ -3,7 +3,6 @@ package TypeProviders.Abstract;
 import Framework.CompletionPreloader;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.PsiElement;
-import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
 
