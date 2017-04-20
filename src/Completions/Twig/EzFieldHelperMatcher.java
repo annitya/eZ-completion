@@ -27,6 +27,13 @@ public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
         "ez_field"
     ));
 
+    protected static List<String> allowContentMethods = new ArrayList<>(Arrays.asList(
+        "getField",
+            "field",
+            "getFieldValue",
+            "fieldValue"
+    ));
+
     public EzFieldHelperMatcher() { super("EzFieldHelper"); }
 
     @Override
@@ -72,11 +79,15 @@ public class EzFieldHelperMatcher extends PatternCondition<PsiElement>
         if (twigHelper == null) {
             return false;
         }
-        if (!allowedTypes.contains(twigHelper.getText())) {
-            return false;
+
+        if (allowedTypes.contains(twigHelper.getText())) {
+            return matchContentType(psiElement, variable.getText(), processingContext);
+        }
+        else if (allowContentMethods.contains(variable.getText())) {
+            return matchContentType(psiElement, twigHelper.getText(), processingContext);
         }
 
-        return matchContentType(psiElement, variable.getText(), processingContext);
+        return false;
     }
 
     protected Boolean matchContentType(PsiElement psiElement, String variableName, ProcessingContext context)

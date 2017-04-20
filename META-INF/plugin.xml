@@ -10,6 +10,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.4.2</h2>
+        <ul>
+            <li>Completions added for getField and getFieldValue in twig (and their twig-shortcuts: field and fieldValue)</li>
+        </ul>
+
         <h2>1.0.4.1</h2>
         <ul>
             <li>Cached-completions are now cleared if the bundle returns an invalid result.</li>
