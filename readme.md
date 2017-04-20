@@ -59,6 +59,7 @@ Current:
 
 Roadmap 1.0.5:
 --------------
+* Migrate from PhpTypeProvider2 to PhpTypeProvider3
 * Move settings to Frameworks-section.
 * Completions for getFields(...) needs to be reworked.
     - Return value is on the format: ['eng-GB']['identifier']
