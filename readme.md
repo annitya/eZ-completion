@@ -47,6 +47,7 @@ Troubleshooting:
 ----------------
 Run the ezcode:completion-command and make sure that it does not output anything other than valid JSON.
 Any errors in the console?
+If all is good, click the "refresh-completions icon" and try again.
 
 Known issues:
 -------------
