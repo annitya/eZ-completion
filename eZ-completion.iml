@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PLUGIN_MODULE" version="4">
   <component name="DevKit.ModuleBuildProperties" url="file://$MODULE_DIR$/META-INF/plugin.xml" />
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/out/production/eZ-completion" />
     <output-test url="file://$MODULE_DIR$/out/test/eZ-completion" />
     <exclude-output />
@@ -9,7 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="jdk" jdkName="PhpStorm PS-162.917.12" jdkType="IDEA JDK" />
+    <orderEntry type="jdk" jdkName="PhpStorm PS-171.4249.3" jdkType="IDEA JDK" />
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
