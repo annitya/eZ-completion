@@ -10,6 +10,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h2>1.0.4.1</h2>
+        <ul>
+            <li>Cached-completions are now cleared if the bundle returns an invalid result.</li>
+        </ul>
+
         <h2>1.0.4</h2>
         <ul>
             <li>Yaml-completions for: controllers, views, matchers and their available values.</li>
