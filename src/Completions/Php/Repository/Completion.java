@@ -58,7 +58,7 @@ public class Completion extends LookupElement
         }
 
         PsiElement rightSingleQuote = PsiUtilBase.getElementAtCaret(context.getEditor());
-        if (rightSingleQuote == null || !isQuote(rightSingleQuote)) {
+        if (rightSingleQuote == null || isNotQuote(rightSingleQuote)) {
             return;
         }
 
@@ -68,7 +68,7 @@ public class Completion extends LookupElement
         }
 
         PsiElement leftSingleQuote = previousSibling.getPrevSibling();
-        if (leftSingleQuote == null || !isQuote(leftSingleQuote)) {
+        if (leftSingleQuote == null || isNotQuote(leftSingleQuote)) {
             return;
         }
 
@@ -76,10 +76,10 @@ public class Completion extends LookupElement
         rightSingleQuote.delete();
     }
 
-    protected boolean isQuote(PsiElement element)
+    protected boolean isNotQuote(PsiElement element)
     {
         String text = element.getText();
-        return text.equals("\'") || text.equals("\"");
+        return !text.equals("\'") && !text.equals("\"");
     }
 }
 
