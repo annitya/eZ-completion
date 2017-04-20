@@ -10,7 +10,9 @@ import com.jetbrains.php.config.commandLine.PhpCommandSettingsBuilder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 abstract public class Command
@@ -215,6 +217,15 @@ abstract public class Command
             out.close();
         }
         catch (Exception ignored) {}
+    }
+
+    protected void clearCache() throws IOException {
+        String filename = buildFileName();
+        Path path = FileSystems
+                .getDefault()
+                .getPath(filename);
+
+        Files.delete(path);
     }
 
     protected Boolean ensureDirectory()

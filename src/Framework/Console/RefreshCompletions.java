@@ -34,7 +34,13 @@ public class RefreshCompletions extends Command
     {
         super.execute();
 
-        Gson gson = new GsonBuilder().create();
-        completions = gson.fromJson(result, CompletionContainer.class);
+        try {
+            Gson gson = new GsonBuilder().create();
+            completions = gson.fromJson(result, CompletionContainer.class);
+        }
+        catch (Exception e) {
+            clearCache();
+            throw e;
+        }
     }
 }
