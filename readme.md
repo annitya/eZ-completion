@@ -56,7 +56,7 @@ Rename-refactoring does not work for @ContentType doc-blocks.
 
 Current:
 --------
-* Write blog-post
+* Remove bundle.
 
 Roadmap 1.0.5:
 --------------

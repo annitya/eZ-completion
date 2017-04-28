@@ -10,7 +10,7 @@ public class Service implements ProjectComponent
 {
     public static final String DEFAULT_ENV = "dev";
     public static final String DEFAULT_EXECUTABLE = "ezpublish/console";
-    public static final String LANGUAGE_UNAVAILABLE = "N/A";
+    public static final String UNAVAILABLE = "N/A";
 
     Project project;
 
@@ -60,12 +60,16 @@ public class Service implements ProjectComponent
 
     public void setLanguage(String language)
     {
-        if (language.equals(LANGUAGE_UNAVAILABLE)) {
+        if (language.equals(UNAVAILABLE)) {
             return;
         }
 
         setSetting("language", language);
     }
+
+    public void setDatabaseConnection(String connectionId) { setSetting("connection", connectionId); }
+
+    public String getDatabaseConnectionId() { return getSetting("connection"); }
 
     protected void setSetting(String name, String value)
     {

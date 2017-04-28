@@ -2,6 +2,8 @@ package Settings;
 
 import Framework.CompletionContainer;
 import Framework.CompletionPreloader;
+import Framework.Database.EzConnection;
+import Framework.Entities.DataSource;
 import Framework.Util;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
@@ -17,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 public class EzPlugin implements Configurable
 {
@@ -30,6 +33,7 @@ public class EzPlugin implements Configurable
     protected TextFieldWithBrowseButton executable;
     protected JLabel disableLabel;
     protected JCheckBox disablePlugin;
+    private JComboBox<DataSource> database;
 
     protected Service settings;
 
@@ -38,10 +42,10 @@ public class EzPlugin implements Configurable
     public JComponent createComponent()
     {
         settings = Service.getInstance(Util.currentProject());
-        DefaultComboBoxModel<String> model = createLanguageModel();
-        if (model == null || model.getSize() == 0) {
-            model = new DefaultComboBoxModel<>();
-            model.addElement(Service.LANGUAGE_UNAVAILABLE);
+        DefaultComboBoxModel<String> languageModel = createLanguageModel();
+        if (languageModel == null || languageModel.getSize() == 0) {
+            languageModel = new DefaultComboBoxModel<>();
+            languageModel.addElement(Service.UNAVAILABLE);
             language.setEnabled(false);
             languageLabel.setEnabled(false);
             language.setEditable(false);
@@ -50,11 +54,12 @@ public class EzPlugin implements Configurable
         else {
             String selectedLanguage = settings.getLanguage();
             if (selectedLanguage != null) {
-                model.setSelectedItem(selectedLanguage);
+                languageModel.setSelectedItem(selectedLanguage);
             }
         }
 
-        language.setModel(model);
+        database.setModel(createDatabaseModel());
+        language.setModel(languageModel);
         environment.setText(settings.getEnvironment());
         executable.setText(settings.getExecutable());
         disablePlugin.setSelected(settings.getDisabled());
@@ -82,6 +87,31 @@ public class EzPlugin implements Configurable
         return model;
     }
 
+    protected DefaultComboBoxModel<DataSource> createDatabaseModel()
+    {
+        DefaultComboBoxModel<DataSource> databaseModel = new DefaultComboBoxModel<>();
+        List<DataSource> dataSources = EzConnection.getDataSources(Util.currentProject());
+
+        if (dataSources.size() == 0) {
+            dataSources.add(new DataSource(Service.UNAVAILABLE, Service.UNAVAILABLE));
+            database.setEnabled(false);
+            database.setToolTipText("You need to configure a datasource first.");
+        }
+        else {
+            String selectedDatabase = settings.getDatabaseConnectionId();
+
+            dataSources
+                    .stream()
+                    .filter(d -> d.getId().equals(selectedDatabase))
+                    .findFirst()
+                    .ifPresent(databaseModel::setSelectedItem);
+        }
+
+        dataSources.forEach(databaseModel::addElement);
+
+        return databaseModel;
+    }
+
     @Override
     public boolean isModified()
     {
@@ -91,6 +121,16 @@ public class EzPlugin implements Configurable
             String storedLanguage = settings.getLanguage();
 
             if (storedLanguage == null || !selectedLanguage.equals(storedLanguage)) {
+                return true;
+            }
+        }
+
+        Object selectedDatabaseItem = database.getSelectedItem();
+        if (selectedDatabaseItem != null && database.isEnabled()) {
+            DataSource dataSource = (DataSource)selectedDatabaseItem;
+            String storedDataSource = settings.getDatabaseConnectionId();
+
+            if (storedDataSource == null || !storedDataSource.equals(dataSource.getId())) {
                 return true;
             }
         }
@@ -113,6 +153,9 @@ public class EzPlugin implements Configurable
     {
         String selectedLanguage = language.getSelectedItem().toString();
         settings.setLanguage(selectedLanguage);
+
+        DataSource selectedDataSource = (DataSource)database.getSelectedItem();
+        settings.setDatabaseConnection(selectedDataSource.getId());
 
         String selectedEnvironment = environment.getText();
         settings.setEnvironment(selectedEnvironment);

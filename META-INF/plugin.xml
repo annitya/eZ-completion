@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin>
     <id>com.flageolett.eZ.completion</id>
     <name>eZ</name>
     <version>1.0.4.2</version>
@@ -74,6 +74,7 @@
 
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.database</depends>
     <depends optional="true">org.jetbrains.plugins.phpstorm-remote-interpreter</depends>
     <depends optional="true">org.jetbrains.plugins.remote-run</depends>
     <depends optional="true">com.jetbrains.twig</depends>
